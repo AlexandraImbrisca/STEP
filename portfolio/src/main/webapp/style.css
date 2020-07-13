@@ -1,3 +1,81 @@
 #intro {
+    font-size: 45px;
+    text-align: center;
+    font-family: Freckle Face;
+}
+
+button {
+    margin: 0 auto;
+    border: none;
+    color: white;
+    font-size: 30px;
+    font-family: Alfa Slab One;
+    width: 100%;
+}
+
+#firstButton {
+    background-color: #3E92CC;
+}
+
+#secondButton {
+    background-color: #2A628F;
+}
+
+#thirdButton {
+    background-color: #13293D;
+}
+
+#fourthButton {
+    background-color: #16324F;
+}
+
+#fifthButton {
+    background-color: #18435A;
+}
+
+button, #buttonsDiv {
+    color: white;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 auto;
+}
+
+#photo {
+    width: 100%;
+    margin-top: 8px;
+    vertical-align: middle;
+}
+
+#row {
+    display: none;
+    flex-wrap: wrap;
+    padding: 0 4px;
     text-align: center;
 }
+
+.column {
+    padding: 0 4px;
+}
+
+/*
+@media (max-width: 800px) {
+    #column {
+        flex: 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 600px) {
+    #column {
+        flex: 100%;
+        max-width: 100%;
+    }
+}*/
