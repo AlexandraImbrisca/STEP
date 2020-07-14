@@ -4,34 +4,37 @@
     <meta charset="UTF-8">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Freckle+Face|Alfa+Slab+One">
-    <title>My Portfolio</title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <title>
+        My Portfolio
+    </title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js">
+    </script>
   </head>
   <body>
-    <div id="intro">
+    <div id="switchTheme">
+        <span id="switchThemeButton" onclick="switchThemeFunction()">
+        </span>
+    </div>
+
+    <div id="hello">
         <h1>Aloha</h1>
     </div>
 
-    <div id="buttonsDiv">
-        <button id="firstButton" onclick="flipFunction()">
-            Show me
-        </button>
-        <button id="secondButton" onclick="flipFunction()">
-            Show me
-        </button>
-        <button id="thirdButton" onclick="flipFunction()">
-            Show me
-        </button>
-        <button id="fourthButton" onclick="flipFunction()">
-            Show me
-        </button>
-        <button id="fifthButton" onclick="flipFunction()">
-            Show me
+    <div id="intro">
+        <p style="font-size: 35px">I'm Alex, a 2nd year computer science student and currently a STEP intern at Google</p>
+        <p style="font-size: 20px">Please feel free to contact me if you have any additional questions </p>
+    </div>
+
+    <div id="menuButtons">
+        <button class="menuButton" onclick="showGallery()">
+            Show the gallery of photos
         </button>
     </div>
 
-    <div id="row">
+    <div id="gallery">
         <div class="column">
             <img id="photo" src="/images/1.jpg">
             <img id="photo" src="/images/2.jpg">
