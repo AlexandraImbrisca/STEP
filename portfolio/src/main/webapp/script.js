@@ -13,7 +13,6 @@
 // limitations under the License.
 
 let darkModeOn = false;
-let galleryShown = false;
 
 class Theme {
   constructor(
@@ -21,17 +20,19 @@ class Theme {
       backgroundColor,
       themeButtonColor,
       menuButtonTextColor,
-      menuButtonBackgroundColor) {
+      menuButtonBackgroundColor,
+      menuButtonBorderColor) {
         this.textColor = textColor; 
         this.backgroundColor = backgroundColor;
         this.themeButtonColor = themeButtonColor;
         this.menuButtonTextColor = menuButtonTextColor;
         this.menuButtonBackgroundColor = menuButtonBackgroundColor;
+        this.menuButtonBorderColor = menuButtonBorderColor;
     }
 }
 
-const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', '#2a628f');
-const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc');
+const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', '#2a628f', 'white');
+const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc', 'black');
 
 const GALLERY_SIZE_PERCENT = 75;
 
@@ -47,6 +48,7 @@ function applyTheme(theme) {
   for (var i = 0; i < menuButtons.length; i++) { 
     menuButtons[i].style.color = theme.menuButtonTextColor;
     menuButtons[i].style.backgroundColor = theme.menuButtonBackgroundColor;
+    menuButtons[i].style.borderColor = theme.menuButtonBorderColor;
   }
 }
 
@@ -77,11 +79,12 @@ function scaleColumns(columns, columnSize) {
 
 function showGallery() {
   var gallery = document.getElementById('gallery');
+  var galleryDisplay = gallery.style.display;
+  var galleryShown = (galleryDisplay.localeCompare("flex") === 0);
+
   if (galleryShown) {
-    galleryShown = false;
     gallery.style.display = 'none';
   } else {
-    galleryShown = true;
     gallery.style.display = 'flex';
     gallery.style.justifyContent = 'center';
 
