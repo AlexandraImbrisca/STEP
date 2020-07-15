@@ -37,15 +37,14 @@ const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc', 'b
 const GALLERY_SIZE_PERCENT = 75;
 
 function applyTheme(theme) {
-  var body = document.body;
-  var menuButtons = document.getElementsByClassName('menu-button');
-  var themeButton = document.getElementById('switch-theme-button');
+  let menuButtons = document.getElementsByClassName('menu-button');
+  let themeButton = document.getElementById('switch-theme-button');
 
-  body.style.color = theme.textColor;
-  body.style.backgroundColor = theme.backgroundColor;
+  document.body.style.color = theme.textColor;
+  document.body.style.backgroundColor = theme.backgroundColor;
   themeButton.style.backgroundColor = theme.themeButtonColor;
 
-  for (var i = 0; i < menuButtons.length; i++) { 
+  for (let i = 0; i < menuButtons.length; i++) { 
     menuButtons[i].style.color = theme.menuButtonTextColor;
     menuButtons[i].style.backgroundColor = theme.menuButtonBackgroundColor;
     menuButtons[i].style.borderColor = theme.menuButtonBorderColor;
@@ -53,7 +52,7 @@ function applyTheme(theme) {
 }
 
 function computeColumnSize(columns, gallerySize) {
-  var columnSize = GALLERY_SIZE_PERCENT / columns.length;
+  let columnSize = GALLERY_SIZE_PERCENT / columns.length;
   if (gallerySize < 600) {
     columnSize *= 4;
   } else if (gallerySize < 800) {
@@ -63,24 +62,20 @@ function computeColumnSize(columns, gallerySize) {
 }
 
 function displayColumns() {
-  var gallerySize = document.getElementById('gallery').offsetWidth;
-  var columns = document.getElementsByClassName('column');
-  var columnSize = computeColumnSize(columns, gallerySize);
+  let gallerySize = document.getElementById('gallery').offsetWidth;
+  let columns = document.getElementsByClassName('column');
+  let columnSize = computeColumnSize(columns, gallerySize);
   
-  scaleColumns(columns, columnSize);
-}
-
-function scaleColumns(columns, columnSize) {
-  for (var i = 0; i < columns.length; i++) {
+  for (let i = 0; i < columns.length; i++) {
     columns[i].style.flex = columnSize;
     columns[i].style.maxWidth = columnSize;
   }
 }
 
 function showGallery() {
-  var gallery = document.getElementById('gallery');
-  var galleryDisplay = gallery.style.display;
-  var galleryShown = (galleryDisplay.localeCompare("flex") === 0);
+  let gallery = document.getElementById('gallery');
+  let galleryDisplay = gallery.style.display;
+  let galleryShown = (galleryDisplay.localeCompare("flex") === 0);
 
   if (galleryShown) {
     gallery.style.display = 'none';

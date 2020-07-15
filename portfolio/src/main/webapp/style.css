@@ -11,6 +11,30 @@ body {
   padding: 0 4px;
 }
 
+#contact-info {
+  margin-bottom: 10px;
+}
+
+.fa {
+  border-radius: 50%;
+  font-size: 25px;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  width: 25px;
+}
+
+.fa-github {
+  background-color: black;
+  color: white;
+}
+
+.fa-linkedin {
+  background: #007bb5;
+  color: white;
+  margin-right: 20px;
+}
+
 #first-paragraph {
   font-size: 35px;
 }
@@ -43,6 +67,10 @@ body {
   margin: 0 auto;
   text-align: center;
   width: 100%;
+}
+
+.menu-button:hover {
+  opacity: 75%;
 }
 
 #photo {
