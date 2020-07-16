@@ -86,6 +86,16 @@ function showGallery() {
     displayColumns();
   }
 }
+function showProjects() {
+  let projectsContainer = document.getElementById('projects');
+  let projectsDisplay = projectsContainer.style.display;
+  let projectsShown = (projectsDisplay === 'initial');
+  if (projectsShown) {
+    projectsContainer.style.display = 'none';
+  } else {
+    projectsContainer.style.display = 'initial';
+  }
+}
 
 function switchTheme() {
   if (darkModeOn) {
