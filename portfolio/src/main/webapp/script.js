@@ -22,6 +22,14 @@ let darkModeOn = false;
 class Theme {
   /**
    * Create a new theme with the given parameters.
+   * @param {string} textColor: the text color of the body
+   * @param {string} backgroundColor: the background color of the body
+   * @param {string} themeButtonColor: the text color of the theme button
+   * @param {string} menuButtonTextColor: the text color of the menu buttons
+   * @param {string} menuButtonBackgroundColor: the background color of the
+   * menu buttons
+   * @param {string} menuButtonBorderColor: the border color of the menu
+   * buttons
    */
   constructor(
       textColor,
@@ -40,9 +48,9 @@ class Theme {
 }
 
 const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', '#2a628f',
-  'white');
+    'white');
 const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc',
-  'black');
+    'black');
 
 const GALLERY_SIZE_PERCENT = 75;
 
@@ -66,11 +74,12 @@ function applyTheme(theme) {
 }
 
 /**
- * Compute the size of one column based on the size of the entire gallery 
+ * Compute the size of one column based on the size of the entire gallery
  * and the number of columns.
  * @param {array} columns: the columns whose size will be computed
  * @param {number} gallerySize: the size of the gallery that contains these
  * columns
+ * @return {string}: the size of each column as a percentage 
  */
 function computeColumnSize(columns, gallerySize) {
   let columnSize = GALLERY_SIZE_PERCENT / columns.length;
