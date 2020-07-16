@@ -1,5 +1,5 @@
 body {
-  font-family: Freckle Face;
+  font-family: Freckle Face, sans-serif;
   margin: 0 auto;
   text-align: center;
 }
@@ -59,7 +59,7 @@ body {
   background-color: #3e92cc;
   border-color: black;
   color: black;
-  font-family: Alfa Slab One;
+  font-family: Alfa Slab One, sans-serif;
   font-size: 30px;
   margin: 0 auto;
   text-align: center;
@@ -70,24 +70,19 @@ body {
   opacity: 75%;
 }
 
-#photo {
+.photo {
   margin-top: 8px;
   vertical-align: middle;
   width: 100%;
 }
 
-#project {
+.project {
   text-align: left;
 }
 
-#project-description,
-#project-title {
-  text-align: left;
-}
-
-#project-description {
+.project-description {
   font-size: 20px;
-  font-family: Hammersmith One;
+  font-family: Hammersmith One, sans-serif;
 }
 
 .project-icon {
@@ -106,7 +101,7 @@ body {
   width: 70%;
 }
 
-#project-title {
+.project-title {
   font-size: 25px;
 }
 

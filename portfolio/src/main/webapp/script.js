@@ -16,18 +16,18 @@ let darkModeOn = false;
 
 class Theme {
   constructor(
-      textColor, 
+      textColor,
       backgroundColor,
       themeButtonColor,
       menuButtonTextColor,
       menuButtonBackgroundColor,
       menuButtonBorderColor) {
-        this.textColor = textColor; 
-        this.backgroundColor = backgroundColor;
-        this.themeButtonColor = themeButtonColor;
-        this.menuButtonTextColor = menuButtonTextColor;
-        this.menuButtonBackgroundColor = menuButtonBackgroundColor;
-        this.menuButtonBorderColor = menuButtonBorderColor;
+    this.textColor = textColor;
+    this.backgroundColor = backgroundColor;
+    this.themeButtonColor = themeButtonColor;
+    this.menuButtonTextColor = menuButtonTextColor;
+    this.menuButtonBackgroundColor = menuButtonBackgroundColor;
+    this.menuButtonBorderColor = menuButtonBorderColor;
     }
 }
 
@@ -37,17 +37,17 @@ const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc', 'b
 const GALLERY_SIZE_PERCENT = 75;
 
 function applyTheme(theme) {
-  let menuButtons = document.getElementsByClassName('menu-button');
-  let themeButton = document.getElementById('switch-theme-button');
+  const MENU_BUTTONS = document.getElementsByClassName('menu-button');
+  let THEME_BUTTON = document.getElementById('switch-theme-button');
 
   document.body.style.color = theme.textColor;
   document.body.style.backgroundColor = theme.backgroundColor;
-  themeButton.style.backgroundColor = theme.themeButtonColor;
+  THEME_BUTTON.style.backgroundColor = theme.themeButtonColor;
 
-  for (let i = 0; i < menuButtons.length; i++) { 
-    menuButtons[i].style.color = theme.menuButtonTextColor;
-    menuButtons[i].style.backgroundColor = theme.menuButtonBackgroundColor;
-    menuButtons[i].style.borderColor = theme.menuButtonBorderColor;
+  for (let i = 0; i < MENU_BUTTONS.length; i++) {
+    MENU_BUTTONS[i].style.color = theme.menuButtonTextColor;
+    MENU_BUTTONS[i].style.backgroundColor = theme.menuButtonBackgroundColor;
+    MENU_BUTTONS[i].style.borderColor = theme.menuButtonBorderColor;
   }
 }
 
@@ -62,38 +62,38 @@ function computeColumnSize(columns, gallerySize) {
 }
 
 function displayColumns() {
-  let gallerySize = document.getElementById('gallery').offsetWidth;
-  let columns = document.getElementsByClassName('column');
-  let columnSize = computeColumnSize(columns, gallerySize);
-  
-  for (let i = 0; i < columns.length; i++) {
-    columns[i].style.flex = columnSize;
-    columns[i].style.maxWidth = columnSize;
+  const GALLERY_SIZE = document.getElementById('gallery').offsetWidth;
+  const COLUMNS = document.getElementsByClassName('column');
+  const COLUMN_SIZE = computeColumnSize(COLUMNS, GALLERY_SIZE);
+
+  for (let i = 0; i < COLUMNS.length; i++) {
+    COLUMNS[i].style.flex = COLUMN_SIZE;
+    COLUMNS[i].style.maxWidth = COLUMN_SIZE;
   }
 }
 
 function showGallery() {
-  let gallery = document.getElementById('gallery');
-  let galleryDisplay = gallery.style.display;
-  let galleryShown = (galleryDisplay.localeCompare("flex") === 0);
+  const GALLERY = document.getElementById('gallery');
+  const GALLERY_DISPLAY = GALLERY.style.display;
+  const GALLERY_SHOWN = (GALLERY_DISPLAY.localeCompare('flex') === 0);
 
-  if (galleryShown) {
-    gallery.style.display = 'none';
+  if (GALLERY_SHOWN) {
+    GALLERY.style.display = 'none';
   } else {
-    gallery.style.display = 'flex';
-    gallery.style.justifyContent = 'center';
+    GALLERY.style.display = 'flex';
+    GALLERY.style.justifyContent = 'center';
 
     displayColumns();
   }
 }
 function showProjects() {
-  let projectsContainer = document.getElementById('projects');
-  let projectsDisplay = projectsContainer.style.display;
-  let projectsShown = (projectsDisplay === 'initial');
-  if (projectsShown) {
-    projectsContainer.style.display = 'none';
+  const PROJECTS_CONTAINER = document.getElementById('projects');
+  const PROJECTS_DISPLAY = PROJECTS_CONTAINER.style.display;
+  const PROJECTS_SHOWN = (PROJECTS_DISPLAY.localeCompare('initial') === 0);
+  if (PROJECTS_SHOWN) {
+    PROJECTS_CONTAINER.style.display = 'none';
   } else {
-    projectsContainer.style.display = 'initial';
+    PROJECTS_CONTAINER.style.display = 'initial';
   }
 }
 
