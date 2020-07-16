@@ -79,7 +79,7 @@ function applyTheme(theme) {
  * @param {array} columns: the columns whose size will be computed
  * @param {number} gallerySize: the size of the gallery that contains these
  * columns
- * @return {string}: the size of each column as a percentage 
+ * @return {string}: the size of each column as a percentage
  */
 function computeColumnSize(columns, gallerySize) {
   let columnSize = GALLERY_SIZE_PERCENT / columns.length;
