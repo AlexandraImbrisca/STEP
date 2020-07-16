@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* exported showGallery, showProjects, switchTheme */
 
 // Copyright 2019 Google LLC
