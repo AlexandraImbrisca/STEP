@@ -12,9 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/* exported showGallery, showProjects, switchTheme */
+
 let darkModeOn = false;
 
+/**
+ * Class used to define the basic characteristics of a theme.
+ */
 class Theme {
+  /**
+   * Create a new theme with the given parameters.
+   */
   constructor(
       textColor,
       backgroundColor,
@@ -28,17 +36,23 @@ class Theme {
     this.menuButtonTextColor = menuButtonTextColor;
     this.menuButtonBackgroundColor = menuButtonBackgroundColor;
     this.menuButtonBorderColor = menuButtonBorderColor;
-    }
+  }
 }
 
-const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', '#2a628f', 'white');
-const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc', 'black');
+const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', '#2a628f',
+  'white');
+const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc',
+  'black');
 
 const GALLERY_SIZE_PERCENT = 75;
 
+/**
+ * Apply the received theme to the page
+ * @param {object} theme: the theme that will be applied
+ */
 function applyTheme(theme) {
   const MENU_BUTTONS = document.getElementsByClassName('menu-button');
-  let THEME_BUTTON = document.getElementById('switch-theme-button');
+  const THEME_BUTTON = document.getElementById('switch-theme-button');
 
   document.body.style.color = theme.textColor;
   document.body.style.backgroundColor = theme.backgroundColor;
@@ -51,6 +65,13 @@ function applyTheme(theme) {
   }
 }
 
+/**
+ * Compute the size of one column based on the size of the entire gallery 
+ * and the number of columns.
+ * @param {array} columns: the columns whose size will be computed
+ * @param {number} gallerySize: the size of the gallery that contains these
+ * columns
+ */
 function computeColumnSize(columns, gallerySize) {
   let columnSize = GALLERY_SIZE_PERCENT / columns.length;
   if (gallerySize < 600) {
@@ -61,6 +82,10 @@ function computeColumnSize(columns, gallerySize) {
   return columnSize + '%';
 }
 
+/**
+ * Display each column of a size computed based on the gallery size and
+ * the number of columns.
+ */
 function displayColumns() {
   const GALLERY_SIZE = document.getElementById('gallery').offsetWidth;
   const COLUMNS = document.getElementsByClassName('column');
@@ -72,6 +97,9 @@ function displayColumns() {
   }
 }
 
+/**
+ * Show / hide the gallery based on the current status.
+ */
 function showGallery() {
   const GALLERY = document.getElementById('gallery');
   const GALLERY_DISPLAY = GALLERY.style.display;
@@ -86,6 +114,10 @@ function showGallery() {
     displayColumns();
   }
 }
+
+/**
+ * Show / hide the projects based on the current status.
+ */
 function showProjects() {
   const PROJECTS_CONTAINER = document.getElementById('projects');
   const PROJECTS_DISPLAY = PROJECTS_CONTAINER.style.display;
@@ -97,6 +129,9 @@ function showProjects() {
   }
 }
 
+/**
+ * Switch the theme (bright <-> dark).
+ */
 function switchTheme() {
   if (darkModeOn) {
     darkModeOn = false;
