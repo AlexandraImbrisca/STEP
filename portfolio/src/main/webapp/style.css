@@ -1,5 +1,18 @@
+#about-me,
+#background {
+  display: none;
+}
+
+#about-me-content,
+#background-content {
+  margin: 0 auto;
+  text-align: center;
+  width: 75%;
+}
+
 body {
   font-family: Freckle Face, sans-serif;
+  justify-content: center;
   margin: 0 auto;
   text-align: center;
 }
@@ -55,12 +68,16 @@ body {
   font-size: 45px;
 }
 
+hr {
+  width: 75%;
+}
+
 .menu-button,
 .menu-button:active {
   background-color: #3e92cc;
   border-color: black;
   color: black;
-  font-family: Alfa Slab One, sans-serif;
+  font-family: Fredoka One, sans-serif;
   font-size: 30px;
   margin: 0 auto;
   text-align: center;

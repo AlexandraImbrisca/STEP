@@ -98,8 +98,6 @@ function displayColumns() {
   const COLUMNS = document.getElementsByClassName('column');
   const COLUMN_SIZE = computeColumnSize(COLUMNS, GALLERY_SIZE);
 
-  console.log(GALLERY_SIZE);
-
   for (let i = 0; i < COLUMNS.length; i++) {
     COLUMNS[i].style.flex = COLUMN_SIZE;
     COLUMNS[i].style.maxWidth = COLUMN_SIZE;

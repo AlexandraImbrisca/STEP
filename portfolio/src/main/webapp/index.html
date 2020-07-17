@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Freckle+Face|Alfa+Slab+One|Hammersmith+One">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Freckle+Face|Fredoka+One|Hammersmith+One">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>
       My Portfolio
@@ -29,15 +29,56 @@
     </div>
 
     <div id="menu">
+      <button class="menu-button" onclick="showContent('about-me')">
+        About me
+      </button>
+
+      <div id="about-me">
+        <div id="about-me-content">
+          <p class="second-paragraph">
+            Passionate about technology, I love solving problems and 
+            discovering solutions. Aiming to prove my knowledge I’m
+            constantly looking for challenges and projects to get
+            involved in.
+          </p>
+        </div>
+      </div>
+
       <button class="menu-button" onclick="showContent('background')">
-        My background
+        Educational background
       </button>
 
       <div id="background">
+        <div id="background-content">
+          <div class="school">
+            <p class="school-name second-paragraph">
+              Politehnica University of Bucharest, Faculty of Automatic
+              Control and Computers
+            </p>
+            <p class="degree-type">
+              BS Computer Science and Information Technology
+            </p>
+            <p class="attendance-period">
+              Expected year of graduation: 2022
+            </p>
+          </div>
+          <hr>
+          <div class="school">
+            <p class="school-name second-paragraph">
+              Petru Rares National College
+            </p>
+            <p class="degree-type">
+              Mathematics and Computer Science High School
+            </p>
+            <p class="attendance-period">
+              2014 - 2018
+            </p>
+          </div>
+        </div>
       </div>
 
       <button class="menu-button" onclick="showContent('projects')">
-        My projects
+        Projects
       </button>
 
       <div id="projects">
@@ -189,7 +230,7 @@
       </div>
 
       <button class="menu-button" onclick="showContent('hobbies')">
-        My hobbies
+        Hobbies
       </button>
 
       <div id="hobbies">
