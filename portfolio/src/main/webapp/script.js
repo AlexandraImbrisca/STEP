@@ -1,4 +1,4 @@
-/* exported showGallery, showProjects, switchTheme */
+/* eslint-disable no-unused-vars */
 
 // Copyright 2019 Google LLC
 //
@@ -110,10 +110,14 @@ function displayColumns() {
  */
 function initAndHideHobbies() {
   displayColumns();
-  document.getElementById("hobbies").style.display = 'none';
+  document.getElementById('hobbies').style.display = 'none';
 }
 
-/** Show the content of a container with a given ID. */
+/**
+ * Show / hide the content of a container with a given ID.
+ * @param {string} containerID: the ID of the container that will be
+ * displayed / hidden
+ */
 function showContent(containerID) {
   const CONTAINER = document.getElementById(containerID);
   const CONTAINER_DISPLAY = CONTAINER.style.display;
@@ -137,5 +141,5 @@ function switchTheme() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", initAndHideHobbies);
+document.addEventListener('DOMContentLoaded', initAndHideHobbies);
 window.addEventListener('resize', displayColumns);
