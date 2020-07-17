@@ -38,14 +38,15 @@ body {
   margin-right: 20px;
 }
 
-#first-paragraph {
+.first-paragraph {
   font-size: 35px;
 }
 
 #gallery {
   box-sizing: border-box;
-  display: none;
+  display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   padding: 0 4px;
   text-align: center;
 }
@@ -105,7 +106,7 @@ body {
   font-size: 25px;
 }
 
-#second-paragraph {
+.second-paragraph {
   font-size: 25px;
 }
 

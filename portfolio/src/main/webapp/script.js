@@ -16,9 +16,7 @@
 
 let darkModeOn = false;
 
-/**
- * Class used to define the basic characteristics of a theme.
- */
+/** Class used to define the basic characteristics of a theme. */
 class Theme {
   /**
    * Create a new theme with the given parameters.
@@ -55,7 +53,7 @@ const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc',
 const GALLERY_SIZE_PERCENT = 75;
 
 /**
- * Apply the received theme to the page
+ * Apply the given theme to the page.
  * @param {object} theme: the theme that will be applied
  */
 function applyTheme(theme) {
@@ -79,7 +77,7 @@ function applyTheme(theme) {
  * @param {array} columns: the columns whose size will be computed
  * @param {number} gallerySize: the size of the gallery that contains these
  * columns
- * @return {string}: the size of each column as a percentage 
+ * @return {string}: the size of each column as a percentage
  */
 function computeColumnSize(columns, gallerySize) {
   let columnSize = GALLERY_SIZE_PERCENT / columns.length;
@@ -100,6 +98,8 @@ function displayColumns() {
   const COLUMNS = document.getElementsByClassName('column');
   const COLUMN_SIZE = computeColumnSize(COLUMNS, GALLERY_SIZE);
 
+  console.log(GALLERY_SIZE);
+
   for (let i = 0; i < COLUMNS.length; i++) {
     COLUMNS[i].style.flex = COLUMN_SIZE;
     COLUMNS[i].style.maxWidth = COLUMN_SIZE;
@@ -107,40 +107,28 @@ function displayColumns() {
 }
 
 /**
- * Show / hide the gallery based on the current status.
+ * Display the columns of the gallery and then hide the whole content
+ * of the hobbies container.
  */
-function showGallery() {
-  const GALLERY = document.getElementById('gallery');
-  const GALLERY_DISPLAY = GALLERY.style.display;
-  const GALLERY_SHOWN = (GALLERY_DISPLAY.localeCompare('flex') === 0);
+function initAndHideHobbies() {
+  displayColumns();
+  document.getElementById("hobbies").style.display = 'none';
+}
 
-  if (GALLERY_SHOWN) {
-    GALLERY.style.display = 'none';
+/** Show the content of a container with a given ID. */
+function showContent(containerID) {
+  const CONTAINER = document.getElementById(containerID);
+  const CONTAINER_DISPLAY = CONTAINER.style.display;
+  const CONTAINER_SHOWN = (CONTAINER_DISPLAY.localeCompare('initial') === 0);
+
+  if (CONTAINER_SHOWN) {
+    CONTAINER.style.display = 'none';
   } else {
-    GALLERY.style.display = 'flex';
-    GALLERY.style.justifyContent = 'center';
-
-    displayColumns();
+    CONTAINER.style.display = 'initial';
   }
 }
 
-/**
- * Show / hide the projects based on the current status.
- */
-function showProjects() {
-  const PROJECTS_CONTAINER = document.getElementById('projects');
-  const PROJECTS_DISPLAY = PROJECTS_CONTAINER.style.display;
-  const PROJECTS_SHOWN = (PROJECTS_DISPLAY.localeCompare('initial') === 0);
-  if (PROJECTS_SHOWN) {
-    PROJECTS_CONTAINER.style.display = 'none';
-  } else {
-    PROJECTS_CONTAINER.style.display = 'initial';
-  }
-}
-
-/**
- * Switch the theme (bright <-> dark).
- */
+/** Switch the theme (bright <-> dark). */
 function switchTheme() {
   if (darkModeOn) {
     darkModeOn = false;
@@ -151,4 +139,5 @@ function switchTheme() {
   }
 }
 
+document.addEventListener("DOMContentLoaded", initAndHideHobbies);
 window.addEventListener('resize', displayColumns);

@@ -22,31 +22,21 @@
     </div>
 
     <div id="intro">
-      <p id="first-paragraph">
+      <p class="first-paragraph">
         I'm Alex, a 2nd year computer science student and currently a STEP
         intern at Google.
       </p>
-      <p id="second-paragraph">
-        Please feel free to contact me if you have any additional questions.
-      </p>
-    </div>
-
-    <div id="contact-info">
-      <a href="https://www.linkedin.com/in/alexandra-andreea-i-6194ab114" class="contact-icon fa fa-linkedin">
-      </a>
-      <a href="https://github.com/AlexandraImbrisca" class="contact-icon fa fa-github">
-      </a>
     </div>
 
     <div id="menu">
-      <button class="menu-button" onclick="showBackground()">
+      <button class="menu-button" onclick="showContent('background')">
         My background
       </button>
 
       <div id="background">
       </div>
 
-      <button class="menu-button" onclick="showProjects()">
+      <button class="menu-button" onclick="showContent('projects')">
         My projects
       </button>
 
@@ -198,36 +188,57 @@
         </table>
       </div>
 
-      <button class="menu-button" onclick="showGallery()">
-        Show the gallery
+      <button class="menu-button" onclick="showContent('hobbies')">
+        My hobbies
       </button>
 
-      <div id="gallery">
-        <div class="column">
-          <img alt="Motel One Glasgow" class="photo" src="/images/1.jpg">
-          <img alt="Airplane sight" class="photo" src="/images/2.jpg">
-          <img alt="Street view in Glasgow" class="photo" src="/images/3.jpg">
-          <img alt="Red Lighthouse near Riga" class="photo" src="/images/4.jpg">
+      <div id="hobbies">
+        <div id="hobbies-intro">
+          <p class="second-paragraph">
+            I recently discovered my passion to travel
+          </p>
+          <p class="second-paragraph">
+            Below you can see a series a photos that I captured in my last
+            trips
+          </p>
         </div>
-        <div class="column">
-          <img alt="Gallery of Modern Art, Glasgow" class="photo" src="/images/5.jpg">
-          <img alt="Street view in Glasgow" class="photo" src="/images/6.jpg">
-          <img alt="Medieval building in Riga" class="photo" src="/images/7.jpg">
-          <img alt="MacSorley's Glasgow" class="photo" src="/images/8.jpg">
-        </div>
-        <div class="column">
-          <img alt="Street view in Glasgow" class="photo" src="/images/9.jpg">
-          <img alt="Sea sight near Red Lighthouse" class="photo" src="/images/10.jpg">
-          <img alt="Princes Square Glasgow" class="photo" src="/images/11.jpg">
-          <img alt="Shop in Glasgow" class="photo" src="/images/12.jpg">
-        </div>
-        <div class="column">
-          <img alt="View from Riga tower" class="photo" src="/images/13.jpg">
-          <img alt="Street view in Glasgow" class="photo" src="/images/14.jpg">
-          <img alt="Rock themed shop in Glasgow" class="photo" src="/images/15.jpg">
-          <img alt="Baltic Sea" class="photo" src="/images/16.jpg">
+        <div id="gallery">
+          <div class="column">
+            <img alt="Motel One Glasgow" class="photo" src="/images/1.jpg">
+            <img alt="Airplane sight" class="photo" src="/images/2.jpg">
+            <img alt="Street view in Glasgow" class="photo" src="/images/3.jpg">
+            <img alt="Red Lighthouse near Riga" class="photo" src="/images/4.jpg">
+          </div>
+          <div class="column">
+            <img alt="Gallery of Modern Art, Glasgow" class="photo" src="/images/5.jpg">
+            <img alt="Street view in Glasgow" class="photo" src="/images/6.jpg">
+            <img alt="Medieval building in Riga" class="photo" src="/images/7.jpg">
+            <img alt="MacSorley's Glasgow" class="photo" src="/images/8.jpg">
+          </div>
+          <div class="column">
+            <img alt="Street view in Glasgow" class="photo" src="/images/9.jpg">
+            <img alt="Sea sight near Red Lighthouse" class="photo" src="/images/10.jpg">
+            <img alt="Princes Square Glasgow" class="photo" src="/images/11.jpg">
+            <img alt="Shop in Glasgow" class="photo" src="/images/12.jpg">
+          </div>
+          <div class="column">
+            <img alt="View from Riga tower" class="photo" src="/images/13.jpg">
+            <img alt="Street view in Glasgow" class="photo" src="/images/14.jpg">
+            <img alt="Rock themed shop in Glasgow" class="photo" src="/images/15.jpg">
+            <img alt="Baltic Sea" class="photo" src="/images/16.jpg">
+          </div>
         </div>
       </div>
+    </div>
+
+    <div id="contact-info">
+      <p class="second-paragraph">
+        Please feel free to contact me if you have any additional questions.
+      </p>
+      <a href="https://www.linkedin.com/in/alexandra-andreea-i-6194ab114" class="contact-icon fa fa-linkedin">
+      </a>
+      <a href="https://github.com/AlexandraImbrisca" class="contact-icon fa fa-github">
+      </a>
     </div>
   </body>
 </html>
