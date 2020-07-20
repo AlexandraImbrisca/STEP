@@ -1,58 +1,130 @@
+#about-me,
+#background {
+  display: none;
+}
+
+.about-me-content,
+.background-content {
+  margin: 0 auto;
+  text-align: center;
+  width: 75%;
+}
+
 body {
-  font-family: Freckle Face;
+  font-family: Freckle Face, sans-serif;
+  justify-content: center;
   margin: 0 auto;
   text-align: center;
 }
 
-.column {
+.contact-icon {
+  border-radius: 50%;
+  font-size: 25px;
+  padding: 5px;
+  width: 25px;
+}
+
+.contact-info {
+  margin-bottom: 10px;
+}
+
+.fa {
+  text-align: center;
+  text-decoration: none;
+}
+
+.fa-github {
+  background-color: black;
+  color: white;
+}
+
+.fa-linkedin {
+  background: #007bb5;
+  color: white;
+  margin-right: 20px;
+}
+
+.first-paragraph {
+  font-size: 35px;
+}
+
+#gallery {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 4px;
+  text-align: center;
+}
+
+.gallery-column {
   background-color: white;
   box-sizing: border-box;
   margin: 0;
   padding: 0 4px;
 }
 
-#first-paragraph {
-  font-size: 35px;
-}
-
-#gallery {
-  box-sizing: border-box;
-  display: none;
-  flex-wrap: wrap;
-  padding: 0 4px;
-  text-align: center;
-}
-
-#greeting-container {
+.greeting-container {
   font-size: 45px;
 }
 
-#menu {
-  display: block;
-  margin: 0 auto;
+hr {
   width: 75%;
 }
 
 .menu-button,
 .menu-button:active {
   background-color: #3e92cc;
-  border: none;
+  border-color: black;
   color: black;
-  font-family: Alfa Slab One;
+  font-family: Fredoka One, sans-serif;
   font-size: 30px;
   margin: 0 auto;
   text-align: center;
-  width: 100%;
+  width: 75%;
 }
 
-#photo {
+.menu-button:hover {
+  opacity: 75%;
+}
+
+.photo {
   margin-top: 8px;
   vertical-align: middle;
   width: 100%;
 }
 
-#second-paragraph {
+.project {
+  text-align: left;
+}
+
+.project-description {
+  font-family: Hammersmith One, sans-serif;
   font-size: 20px;
+}
+
+.project-icon {
+  font-size: 30px;
+}
+
+#projects {
+  display: none;
+}
+
+.projects-table {
+  border-collapse: separate;
+  border-spacing: 20px 5px;
+  margin-left: 15%;
+  margin-right: 15%;
+  width: 70%;
+}
+
+.project-title {
+  font-size: 25px;
+}
+
+.second-paragraph {
+  font-size: 25px;
 }
 
 #switch-theme-button {

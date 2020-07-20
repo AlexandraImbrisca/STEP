@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 // Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,45 +15,72 @@
 // limitations under the License.
 
 let darkModeOn = false;
-let galleryShown = false;
 
+/** Class used to define the basic characteristics of a theme. */
 class Theme {
+  /**
+   * Create a new theme with the given parameters.
+   * @param {string} textColor: The text color of the body.
+   * @param {string} backgroundColor: The background color of the body.
+   * @param {string} themeButtonColor: The text color of the theme button.
+   * @param {string} menuButtonTextColor: The text color of the menu buttons.
+   * @param {string} menuButtonBackgroundColor: The background color of the
+   * menu buttons.
+   * @param {string} menuButtonBorderColor: The border color of the menu
+   * buttons.
+   */
   constructor(
-      textColor, 
+      textColor,
       backgroundColor,
       themeButtonColor,
       menuButtonTextColor,
-      menuButtonBackgroundColor) {
-        this.textColor = textColor; 
-        this.backgroundColor = backgroundColor;
-        this.themeButtonColor = themeButtonColor;
-        this.menuButtonTextColor = menuButtonTextColor;
-        this.menuButtonBackgroundColor = menuButtonBackgroundColor;
-    }
-}
-
-const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', '#2a628f');
-const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc');
-
-const GALLERY_SIZE_PERCENT = 75;
-
-function applyTheme(theme) {
-  var body = document.body;
-  var menuButtons = document.getElementsByClassName('menu-button');
-  var themeButton = document.getElementById('switch-theme-button');
-
-  body.style.color = theme.textColor;
-  body.style.backgroundColor = theme.backgroundColor;
-  themeButton.style.backgroundColor = theme.themeButtonColor;
-
-  for (var i = 0; i < menuButtons.length; i++) { 
-    menuButtons[i].style.color = theme.menuButtonTextColor;
-    menuButtons[i].style.backgroundColor = theme.menuButtonBackgroundColor;
+      menuButtonBackgroundColor,
+      menuButtonBorderColor) {
+    this.textColor = textColor;
+    this.backgroundColor = backgroundColor;
+    this.themeButtonColor = themeButtonColor;
+    this.menuButtonTextColor = menuButtonTextColor;
+    this.menuButtonBackgroundColor = menuButtonBackgroundColor;
+    this.menuButtonBorderColor = menuButtonBorderColor;
   }
 }
 
+const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', '#2a628f',
+    'white');
+const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc',
+    'black');
+
+const GALLERY_SIZE_PERCENT = 75;
+
+/**
+ * Apply the given theme to the page.
+ * @param {object} theme: The theme that will be applied.
+ */
+function applyTheme(theme) {
+  const MENU_BUTTONS = document.getElementsByClassName('menu-button');
+  const THEME_BUTTON = document.getElementById('switch-theme-button');
+
+  document.body.style.color = theme.textColor;
+  document.body.style.backgroundColor = theme.backgroundColor;
+  THEME_BUTTON.style.backgroundColor = theme.themeButtonColor;
+
+  for (let i = 0; i < MENU_BUTTONS.length; i++) {
+    MENU_BUTTONS[i].style.color = theme.menuButtonTextColor;
+    MENU_BUTTONS[i].style.backgroundColor = theme.menuButtonBackgroundColor;
+    MENU_BUTTONS[i].style.borderColor = theme.menuButtonBorderColor;
+  }
+}
+
+/**
+ * Compute the size of one column based on the size of the entire gallery
+ * and the number of columns.
+ * @param {array} columns: The columns whose size will be computed.
+ * @param {number} gallerySize: The size of the gallery that contains these
+ * columns.
+ * @return {string}: The size of each column as a percentage.
+ */
 function computeColumnSize(columns, gallerySize) {
-  var columnSize = GALLERY_SIZE_PERCENT / columns.length;
+  let columnSize = GALLERY_SIZE_PERCENT / columns.length;
   if (gallerySize < 600) {
     columnSize *= 4;
   } else if (gallerySize < 800) {
@@ -60,35 +89,46 @@ function computeColumnSize(columns, gallerySize) {
   return columnSize + '%';
 }
 
+/**
+ * Display each column of a size computed based on the gallery size and
+ * the number of columns.
+ */
 function displayColumns() {
-  var gallerySize = document.getElementById('gallery').offsetWidth;
-  var columns = document.getElementsByClassName('column');
-  var columnSize = computeColumnSize(columns, gallerySize);
-  
-  scaleColumns(columns, columnSize);
-}
+  const GALLERY_SIZE = document.getElementById('gallery').offsetWidth;
+  const COLUMNS = document.getElementsByClassName('gallery-column');
+  const COLUMN_SIZE = computeColumnSize(COLUMNS, GALLERY_SIZE);
 
-function scaleColumns(columns, columnSize) {
-  for (var i = 0; i < columns.length; i++) {
-    columns[i].style.flex = columnSize;
-    columns[i].style.maxWidth = columnSize;
+  for (let i = 0; i < COLUMNS.length; i++) {
+    COLUMNS[i].style.flex = COLUMN_SIZE;
+    COLUMNS[i].style.maxWidth = COLUMN_SIZE;
   }
 }
 
-function showGallery() {
-  var gallery = document.getElementById('gallery');
-  if (galleryShown) {
-    galleryShown = false;
-    gallery.style.display = 'none';
+/**
+ * Display the columns of the gallery and then hide the whole content
+ * of the hobbies container.
+ */
+function initAndHideHobbies() {
+  displayColumns();
+  document.getElementById('hobbies').style.display = 'none';
+}
+
+/**
+ * Show / hide the content of a container with a given ID.
+ * @param {string} containerID: The ID of the container that will be
+ * displayed / hidden.
+ */
+function showContent(containerID) {
+  const CONTAINER = document.getElementById(containerID);
+
+  if (CONTAINER.style.display === 'initial') {
+    CONTAINER.style.display = 'none';
   } else {
-    galleryShown = true;
-    gallery.style.display = 'flex';
-    gallery.style.justifyContent = 'center';
-
-    displayColumns();
+    CONTAINER.style.display = 'initial';
   }
 }
 
+/** Switch the theme (bright <-> dark). */
 function switchTheme() {
   if (darkModeOn) {
     darkModeOn = false;
@@ -99,4 +139,5 @@ function switchTheme() {
   }
 }
 
+document.addEventListener('DOMContentLoaded', initAndHideHobbies);
 window.addEventListener('resize', displayColumns);

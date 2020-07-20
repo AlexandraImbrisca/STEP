@@ -3,66 +3,285 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Freckle+Face|Alfa+Slab+One">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <title>
+      href="https://fonts.googleapis.com/css?family=Freckle+Face|Fredoka+One|Hammersmith+One">
+        <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>
       My Portfolio
     </title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js">
     </script>
   </head>
-  <body>
-    <div id="switch-theme">
+  <body onload="loadServletContainer()">
+    <div>
       <span id="switch-theme-button" onclick="switchTheme()">
       </span>
     </div>
 
-    <div id="greeting-container">
+    <div class="greeting-container">
       <h1>Aloha</h1>
     </div>
 
-    <div id="intro">
-      <p id="first-paragraph">
-        I'm Alex, a 2nd year computer science student and currently a STEP intern at Google
-      </p>
-      <p id="second-paragraph">
-        Please feel free to contact me if you have any additional questions
+    <div>
+      <p class="first-paragraph">
+        I'm Alex, a 2nd year computer science student and currently a STEP
+        intern at Google.
       </p>
     </div>
 
-    <div id="menu">
-      <button class="menu-button" onclick="showGallery()">
-        Show the gallery of photos
+    <div>
+      <button class="menu-button" onclick="showContent('about-me')">
+        About me
       </button>
+
+      <div id="about-me">
+        <div class="about-me-content">
+          <p class="second-paragraph">
+            Passionate about technology, I love solving problems and
+            discovering solutions. Aiming to prove my knowledge I’m
+            constantly looking for challenges and projects to get
+            involved in.
+          </p>
+        </div>
+      </div>
+
+      <button class="menu-button" onclick="showContent('background')">
+        Educational background
+      </button>
+
+      <div id="background">
+        <div class="background-content">
+          <div>
+            <p class="second-paragraph">
+              Politehnica University of Bucharest, Faculty of Automatic
+              Control and Computers
+            </p>
+            <p>
+              BS Computer Science and Information Technology
+            </p>
+            <p>
+              Expected year of graduation: 2022
+            </p>
+          </div>
+          <hr>
+          <div>
+            <p class="second-paragraph">
+              Petru Rares National College
+            </p>
+            <p>
+              Mathematics and Computer Science High School
+            </p>
+            <p>
+              2014 - 2018
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <button class="menu-button" onclick="showContent('projects')">
+        Projects
+      </button>
+
+      <div id="projects">
+        <table class="projects-table">
+          <tr class="project">
+            <td>
+              <i class="project-icon fa fa-database"></i>
+            </td>
+            <td>
+              <p class="project-title">
+                Database implemented with data structures
+              </p>
+              <p class="project-description">
+                C program that performs specific operations on a database of
+                a shop with the use of a dictionary, AVL trees and doubly
+                linked lists.
+              </p>
+            </td>
+          </tr>
+          <tr class="project">
+            <td>
+              <i class="project-icon fa fa-twitter"></i>
+            </td>
+            <td>
+              <p class="project-title">
+                Flappy Bird
+              </p>
+              <p class="project-description">
+                A version of the Flappy bird game with use of the graphical
+                libraries available in Racket.
+              </p>
+            </td>
+          </tr>
+          <tr class="project">
+            <td>
+              <i class="project-icon fa fa-money"></i>
+            </td>
+            <td>
+              <p class="project-title">
+                Sheriff of Nottingham
+              </p>
+              <p class="project-description">
+                Java simulation of the game based on a set of goods, types
+                of players and strategies.
+              </p>
+            </td>
+          </tr>
+          <tr class="project">
+            <td>
+              <i class="project-icon fa fa-star"></i>
+            </td>
+            <td>
+              <p class="project-title">
+                Roll the Ball
+              </p>
+              <p class="project-description">
+                Haskell program that determines the winning moves based on
+                specific algorithms such as BFS and A* heuristics.
+              </p>
+            </td>
+          </tr>
+          <tr class="project">
+            <td>
+              <i class="project-icon fa fa-wifi"></i>
+            </td>
+            <td>
+              <p class="project-title">
+                Router implementation in C
+              </p>
+              <p class="project-description">
+                Router implementation with support for the protocols ARP and
+                ICMP. The longest prefix match is efficiently implemented
+                in constant time.
+              </p>
+            </td>
+          </tr>
+          <tr class="project">
+            <td>
+              <i class="project-icon fa fa-commenting"></i>
+            </td>
+            <td>
+              <p class="project-title">
+                Eliza
+              </p>
+              <p class="project-description">
+                Simple implementation in Prolog of a conversational agent
+                based on the ELIZA system.
+              </p>
+            </td>
+          </tr>
+          <tr class="project">
+            <td>
+              <i class="project-icon fa fa-server"></i>
+            </td>
+            <td>
+              <p class="project-title">
+                Client server application
+              </p>
+              <p class="project-description">
+                C application that uses UDP and TCP protocols to manage a
+                network of subscribers and publishers of different topics.
+              </p>
+            </td>
+          </tr>
+          <tr class="project">
+            <td>
+              <i class="project-icon fa fa-eye"></i>
+            </td>
+            <td>
+              <p class="project-title">
+                Face Recognition
+              </p>
+              <p class="project-description">
+                Program in Octave that takes a database of faces and using
+                Singular Value Decomposition determines if the face is
+                known or not.
+              </p>
+            </td>
+          </tr>
+          <tr class="project">
+            <td>
+              <i class="project-icon fa fa-cogs"></i>
+            </td>
+            <td>
+              <p class="project-title">
+                Alexa, central unit of a smart speaker
+              </p>
+              <p class="project-description">
+                Comprehensive project consisting of the functional details,
+                the logical schema and the implementation using multiplexers.
+              </p>
+            </td>
+          </tr>
+          <tr class="project">
+            <td>
+              <i class="project-icon fa fa-space-shuttle"></i>
+            </td>
+            <td>
+              <p class="project-title">
+                Space Invaders
+              </p>
+              <p class="project-description">
+                Python version of the game that uses turtle programming in
+                order to create the real time experience.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <button class="menu-button" onclick="showContent('hobbies')">
+        Hobbies
+      </button>
+
+      <div id="hobbies">
+        <div>
+          <p class="second-paragraph">
+            I recently discovered my passion to travel
+          </p>
+          <p class="second-paragraph">
+            Below you can see a series of photos that I captured in my last
+            trips
+          </p>
+        </div>
+        <div id="gallery">
+          <div class="gallery-column">
+            <img alt="Motel One Glasgow" class="photo" src="/images/1.jpg">
+            <img alt="Airplane sight" class="photo" src="/images/2.jpg">
+            <img alt="Street view in Glasgow" class="photo" src="/images/3.jpg">
+            <img alt="Red Lighthouse near Riga" class="photo" src="/images/4.jpg">
+          </div>
+          <div class="gallery-column">
+            <img alt="Gallery of Modern Art, Glasgow" class="photo" src="/images/5.jpg">
+            <img alt="Street view in Glasgow" class="photo" src="/images/6.jpg">
+            <img alt="Medieval building in Riga" class="photo" src="/images/7.jpg">
+            <img alt="MacSorley's Glasgow" class="photo" src="/images/8.jpg">
+          </div>
+          <div class="gallery-column">
+            <img alt="Street view in Glasgow" class="photo" src="/images/9.jpg">
+            <img alt="Sea sight near Red Lighthouse" class="photo" src="/images/10.jpg">
+            <img alt="Princes Square Glasgow" class="photo" src="/images/11.jpg">
+            <img alt="Shop in Glasgow" class="photo" src="/images/12.jpg">
+          </div>
+          <div class="gallery-column">
+            <img alt="View from Riga tower" class="photo" src="/images/13.jpg">
+            <img alt="Street view in Glasgow" class="photo" src="/images/14.jpg">
+            <img alt="Rock themed shop in Glasgow" class="photo" src="/images/15.jpg">
+            <img alt="Baltic Sea" class="photo" src="/images/16.jpg">
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id="gallery">
-      <div class="column">
-        <img id="photo" src="/images/1.jpg">
-        <img id="photo" src="/images/2.jpg">
-        <img id="photo" src="/images/3.jpg">
-        <img id="photo" src="/images/4.jpg">
-      </div>
-      <div class="column">
-        <img id="photo" src="/images/5.jpg">
-        <img id="photo" src="/images/6.jpg">
-        <img id="photo" src="/images/7.jpg">
-        <img id="photo" src="/images/8.jpg">
-      </div>
-      <div class="column">
-        <img id="photo" src="/images/9.jpg">
-        <img id="photo" src="/images/10.jpg">
-        <img id="photo" src="/images/11.jpg">
-        <img id="photo" src="/images/12.jpg">
-      </div>
-      <div class="column">
-        <img id="photo" src="/images/13.jpg">
-        <img id="photo" src="/images/14.jpg">
-        <img id="photo" src="/images/15.jpg">
-        <img id="photo" src="/images/16.jpg">
-      </div>
+    <div class="contact-info">
+      <p class="second-paragraph">
+        Please feel free to contact me if you have any additional questions.
+      </p>
+      <a href="https://www.linkedin.com/in/alexandra-andreea-i-6194ab114" class="contact-icon fa fa-linkedin">
+      </a>
+      <a href="https://github.com/AlexandraImbrisca" class="contact-icon fa fa-github">
+      </a>
     </div>
   </body>
 </html>
