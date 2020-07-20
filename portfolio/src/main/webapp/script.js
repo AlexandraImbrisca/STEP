@@ -139,5 +139,11 @@ function switchTheme() {
   }
 }
 
+function loadServletMessage() {
+  fetch('/data').then(response => response.text()).then((message) => {
+    document.getElementById('servlet-message').innerHTML = message;
+  });
+}
+
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);
 window.addEventListener('resize', displayColumns);
