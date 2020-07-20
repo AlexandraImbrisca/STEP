@@ -3,8 +3,8 @@
   display: none;
 }
 
-#about-me-content,
-#background-content {
+.about-me-content,
+.background-content {
   margin: 0 auto;
   text-align: center;
   width: 75%;
@@ -15,13 +15,6 @@ body {
   justify-content: center;
   margin: 0 auto;
   text-align: center;
-}
-
-.column {
-  background-color: white;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0 4px;
 }
 
 .contact-icon {
@@ -62,6 +55,13 @@ body {
   justify-content: center;
   padding: 0 4px;
   text-align: center;
+}
+
+.gallery-column {
+  background-color: white;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 4px;
 }
 
 #greeting-container {

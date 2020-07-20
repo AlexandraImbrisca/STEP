@@ -2,8 +2,10 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Freckle+Face|Fredoka+One|Hammersmith+One">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Freckle+Face|Fredoka+One|Hammersmith+One">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>
       My Portfolio
     </title>
@@ -11,7 +13,7 @@
     <script src="script.js">
     </script>
   </head>
-  <body>
+  <body onload="loadServletContainer()">
     <div id="switch-theme">
       <span id="switch-theme-button" onclick="switchTheme()">
       </span>
@@ -34,7 +36,7 @@
       </button>
 
       <div id="about-me">
-        <div id="about-me-content">
+        <div class="about-me-content">
           <p class="second-paragraph">
             Passionate about technology, I love solving problems and
             discovering solutions. Aiming to prove my knowledge I’m
@@ -49,28 +51,28 @@
       </button>
 
       <div id="background">
-        <div id="background-content">
-          <div class="school">
-            <p class="school-name second-paragraph">
+        <div class="background-content">
+          <div>
+            <p class="second-paragraph">
               Politehnica University of Bucharest, Faculty of Automatic
               Control and Computers
             </p>
-            <p class="degree-type">
+            <p>
               BS Computer Science and Information Technology
             </p>
-            <p class="attendance-period">
+            <p>
               Expected year of graduation: 2022
             </p>
           </div>
           <hr>
-          <div class="school">
-            <p class="school-name second-paragraph">
+          <div>
+            <p class="second-paragraph">
               Petru Rares National College
             </p>
-            <p class="degree-type">
+            <p>
               Mathematics and Computer Science High School
             </p>
-            <p class="attendance-period">
+            <p>
               2014 - 2018
             </p>
           </div>
@@ -239,30 +241,30 @@
             I recently discovered my passion to travel
           </p>
           <p class="second-paragraph">
-            Below you can see a series a photos that I captured in my last
+            Below you can see a series of photos that I captured in my last
             trips
           </p>
         </div>
         <div id="gallery">
-          <div class="column">
+          <div class="gallery-column">
             <img alt="Motel One Glasgow" class="photo" src="/images/1.jpg">
             <img alt="Airplane sight" class="photo" src="/images/2.jpg">
             <img alt="Street view in Glasgow" class="photo" src="/images/3.jpg">
             <img alt="Red Lighthouse near Riga" class="photo" src="/images/4.jpg">
           </div>
-          <div class="column">
+          <div class="gallery-column">
             <img alt="Gallery of Modern Art, Glasgow" class="photo" src="/images/5.jpg">
             <img alt="Street view in Glasgow" class="photo" src="/images/6.jpg">
             <img alt="Medieval building in Riga" class="photo" src="/images/7.jpg">
             <img alt="MacSorley's Glasgow" class="photo" src="/images/8.jpg">
           </div>
-          <div class="column">
+          <div class="gallery-column">
             <img alt="Street view in Glasgow" class="photo" src="/images/9.jpg">
             <img alt="Sea sight near Red Lighthouse" class="photo" src="/images/10.jpg">
             <img alt="Princes Square Glasgow" class="photo" src="/images/11.jpg">
             <img alt="Shop in Glasgow" class="photo" src="/images/12.jpg">
           </div>
-          <div class="column">
+          <div class="gallery-column">
             <img alt="View from Riga tower" class="photo" src="/images/13.jpg">
             <img alt="Street view in Glasgow" class="photo" src="/images/14.jpg">
             <img alt="Rock themed shop in Glasgow" class="photo" src="/images/15.jpg">

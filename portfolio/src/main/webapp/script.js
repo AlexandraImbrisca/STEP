@@ -20,14 +20,14 @@ let darkModeOn = false;
 class Theme {
   /**
    * Create a new theme with the given parameters.
-   * @param {string} textColor: the text color of the body
-   * @param {string} backgroundColor: the background color of the body
-   * @param {string} themeButtonColor: the text color of the theme button
-   * @param {string} menuButtonTextColor: the text color of the menu buttons
-   * @param {string} menuButtonBackgroundColor: the background color of the
-   * menu buttons
-   * @param {string} menuButtonBorderColor: the border color of the menu
-   * buttons
+   * @param {string} textColor: The text color of the body.
+   * @param {string} backgroundColor: The background color of the body.
+   * @param {string} themeButtonColor: The text color of the theme button.
+   * @param {string} menuButtonTextColor: The text color of the menu buttons.
+   * @param {string} menuButtonBackgroundColor: The background color of the
+   * menu buttons.
+   * @param {string} menuButtonBorderColor: The border color of the menu
+   * buttons.
    */
   constructor(
       textColor,
@@ -54,7 +54,7 @@ const GALLERY_SIZE_PERCENT = 75;
 
 /**
  * Apply the given theme to the page.
- * @param {object} theme: the theme that will be applied
+ * @param {object} theme: The theme that will be applied.
  */
 function applyTheme(theme) {
   const MENU_BUTTONS = document.getElementsByClassName('menu-button');
@@ -74,10 +74,10 @@ function applyTheme(theme) {
 /**
  * Compute the size of one column based on the size of the entire gallery
  * and the number of columns.
- * @param {array} columns: the columns whose size will be computed
- * @param {number} gallerySize: the size of the gallery that contains these
- * columns
- * @return {string}: the size of each column as a percentage
+ * @param {array} columns: The columns whose size will be computed.
+ * @param {number} gallerySize: The size of the gallery that contains these
+ * columns.
+ * @return {string}: The size of each column as a percentage.
  */
 function computeColumnSize(columns, gallerySize) {
   let columnSize = GALLERY_SIZE_PERCENT / columns.length;
@@ -95,7 +95,7 @@ function computeColumnSize(columns, gallerySize) {
  */
 function displayColumns() {
   const GALLERY_SIZE = document.getElementById('gallery').offsetWidth;
-  const COLUMNS = document.getElementsByClassName('column');
+  const COLUMNS = document.getElementsByClassName('gallery-column');
   const COLUMN_SIZE = computeColumnSize(COLUMNS, GALLERY_SIZE);
 
   for (let i = 0; i < COLUMNS.length; i++) {
@@ -115,15 +115,13 @@ function initAndHideHobbies() {
 
 /**
  * Show / hide the content of a container with a given ID.
- * @param {string} containerID: the ID of the container that will be
- * displayed / hidden
+ * @param {string} containerID: The ID of the container that will be
+ * displayed / hidden.
  */
 function showContent(containerID) {
   const CONTAINER = document.getElementById(containerID);
-  const CONTAINER_DISPLAY = CONTAINER.style.display;
-  const CONTAINER_SHOWN = (CONTAINER_DISPLAY.localeCompare('initial') === 0);
 
-  if (CONTAINER_SHOWN) {
+  if (CONTAINER.style.display === 'initial') {
     CONTAINER.style.display = 'none';
   } else {
     CONTAINER.style.display = 'initial';
