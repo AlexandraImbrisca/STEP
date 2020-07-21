@@ -139,9 +139,9 @@ function switchTheme() {
   }
 }
 
-function loadServletMessage() {
-  fetch('/data').then(response => response.text()).then((message) => {
-    document.getElementById('servlet-message').innerHTML = message;
+function getComments() {
+  fetch('/comments').then(response => response.text()).then((message) => {
+    document.getElementById('comments-section').innerHTML = message;
   });
 }
 
