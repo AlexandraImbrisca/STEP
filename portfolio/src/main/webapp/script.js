@@ -113,6 +113,13 @@ function initAndHideHobbies() {
   document.getElementById('hobbies').style.display = 'none';
 }
 
+function showComments() {
+  const MARGIN_TOP = document.getElementById('show-comments-button').offsetHeight + 100;
+  document.getElementById('comments').style.top = MARGIN_TOP + 'px';
+  showContent('comments');
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
 /**
  * Show / hide the content of a container with a given ID.
  * @param {string} containerID: The ID of the container that will be
@@ -120,12 +127,7 @@ function initAndHideHobbies() {
  */
 function showContent(containerID) {
   const CONTAINER = document.getElementById(containerID);
-
-  if (CONTAINER.style.display === 'initial') {
-    CONTAINER.style.display = 'none';
-  } else {
-    CONTAINER.style.display = 'initial';
-  }
+  CONTAINER.style.display = (CONTAINER.style.display === 'initial' ? 'none' : 'initial');
 }
 
 /** Switch the theme (bright <-> dark). */
@@ -139,10 +141,49 @@ function switchTheme() {
   }
 }
 
+/** Fetches comments from the server and adds them to the DOM */
 function getComments() {
-  fetch('/comments').then(response => response.text()).then((message) => {
-    document.getElementById('comments-section').innerHTML = message;
+  fetch('/list-comments').then(response => response.json()).then((comments) => {
+    const commentListElement = document.getElementById('comments-section');
+    comments.forEach((comment) => {
+      commentListElement.appendChild(createCommentElement(comment));
+    })
   });
+}
+
+/** 
+ * Function used to create a new element with a specified type, class and
+ * innerText.
+ * @param {string} elementType: The type of the element that will be created.
+ * @param {string} className: The class of the element that will be created.
+ * @param {string} innerText: The innerText of the element that will be
+ * created.
+ */
+function createElement(elementType, className, innerText) {
+  const newElement = document.createElement(elementType);
+  newElement.className = className;
+  newElement.innerText = innerText;
+
+  return newElement;
+}
+
+/** 
+ * Function used to create the element associated to a given comment.
+ * @param {object} comment: The comment for which we will create a new element.
+ */
+function createCommentElement(comment) {
+  const commentElement = createElement('div', 'comment', '');
+  const authorIconElement = createElement('i', 'fa fa-user author-icon', '');
+  const authorNameElement = createElement('p', '', comment.authorName);
+  const commentTextElement = createElement('p', '', comment.commentText);
+  const publishTimeElement = createElement('p', '', comment.publishTime);
+  
+  commentElement.appendChild(authorIconElement);
+  commentElement.appendChild(authorNameElement);
+  commentElement.appendChild(publishTimeElement);
+  commentElement.appendChild(commentTextElement);
+
+  return commentElement;
 }
 
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);

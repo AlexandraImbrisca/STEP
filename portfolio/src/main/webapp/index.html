@@ -13,7 +13,7 @@
     <script src="script.js">
     </script>
   </head>
-  <body>
+  <body onload="getComments()">
     <div>
       <span id="switch-theme-button" onclick="switchTheme()">
       </span>
@@ -283,11 +283,24 @@
       <a href="https://github.com/AlexandraImbrisca" class="contact-icon fa fa-github">
       </a>
     </div>
-    <form action="/new-comment" method="POST">
-      <input type="text" name="comment">
-      <input type="submit">
-    </form>
-    <div id="comments-section">
+
+    <div id="show-comments-button" onclick="showComments()">
+      <i class="fa fa-icon fa-comments"></i>
+    </div>
+
+    <div id="comments">
+      <div class="new-comment-sidebar">
+        <p class="first-paragraph">
+          Add a new comment
+        </p>
+        <form action="/new-comment" method="POST">
+          <input type="text" name="author-name" class="author-name-input" placeholder="Name (optional)">
+          <textarea name="comment-text" class="comment-input" rows="5" placeholder="Enter your comment here..."></textarea>
+          <input class="submit-comment-button" type="submit">
+        </form>
+      </div>
+      <ul id="comments-section">
+      </ul>
     </div>
   </body>
 </html>
