@@ -165,13 +165,13 @@ function initAndHideHobbies() {
 /** Fetches comments from the server and adds them to the DOM */
 function loadComments() {
   fetch('/list-comments')
-    .then((response) => response.json())
-    .then((comments) => {
-      const COMMENTS_LIST = document.getElementById('comments-section');
-      comments.forEach((comment) => {
-        COMMENTS_LIST.appendChild(createCommentElement(comment));
+      .then((response) => response.json())
+      .then((comments) => {
+        const COMMENTS_LIST = document.getElementById('comments-section');
+        comments.forEach((comment) => {
+          COMMENTS_LIST.appendChild(createCommentElement(comment));
+        });
       });
-    });
 }
 
 

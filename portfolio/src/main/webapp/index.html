@@ -282,7 +282,7 @@
       <a href="https://github.com/AlexandraImbrisca"
         class="contact-icon fa fa-github">
         </a>
-    </div>
+      </div>
 
     <div id="show-comments-button" onclick="showComments()">
       <i class="fa fa-icon fa-comments"></i>
@@ -295,23 +295,24 @@
             Add a new comment
           </p>
           <form autocomplete="off" action="/new-comment" method="POST">
-            <label>
+            <label for="author-name">
               <p class="input-label">
                 Name(optional)
               </p>
             </label>
             <input type="text" name="author-name" class="author-name-input"
-              placeholder="Your name...">
+              placeholder="Your name..." id="author-name">
             <label>
               <p class="input-label">
                 Comment
               </p>
             </label>
             <textarea name="comment-text" class="comment-text-input" rows="4"
-              placeholder="Enter your comment here..." required></textarea>
+              placeholder="Enter your comment here..." required
+              id="comment-text"></textarea>
               <input class="submit-comment-button" type="submit">
           </form>
-        </div>
+         </div>
         <div id="comments-section">
         </div>
       </div>
