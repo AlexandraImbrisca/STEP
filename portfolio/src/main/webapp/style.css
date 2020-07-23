@@ -11,7 +11,9 @@
 }
 
 .author-icon {
-  font-size: 50px;
+  font-size: 25px;
+  padding: 30px 20px 30px 20px;
+  vertical-align: top;
 }
 
 .author-icon,
@@ -20,36 +22,70 @@
 }
 
 .author-name-input,
-.comment-input {
-  border: solid;
+.comment-text-input,
+textarea {
   display: block;
-  line-height: 50px;
   width: 100%;
 }
 
 body {
+  -ms-overflow-style: none;
   font-family: Freckle Face, sans-serif;
   justify-content: center;
   margin: 0 auto;
   text-align: center;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 .comment {
-  border-bottom: 1px solid #ddd;
-  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
   text-align: left;
   width: 100%;
 }
 
-#comments {
-  display: flex;
+.comment-headline {
+  font-family: Merriweather, sans-serif;
+  font-size: 20px;
 }
 
-.comments-section {
-  border: 1px solid #ddd;
+.comment-text {
+  font-family: Inconsolata, sans-serif;
+  font-size: 16px;
+}
+
+#comments {
+  display: none;
+}
+
+#comments-container {
+  border-top: 6px solid black;
+  display: flex;
+  width: 100%;
+}
+
+#comments-section {
+  border-left: 6px solid black;
   font-size: 25px;
-  padding: 0;
-  width: 75%;
+  height: 60vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  width: 65%;
+}
+
+#comments-section::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+#comments-section::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: #808080;
 }
 
 .contact-icon {
@@ -100,11 +136,34 @@ body {
 }
 
 .greeting-container {
+  font-family: Freckle Face, sans-serif;
   font-size: 45px;
 }
 
 hr {
   width: 75%;
+}
+
+input, textarea {
+  border-bottom: 3px solid #c0c0c0;
+  border-top: 3px solid #c0c0c0;
+  box-sizing: border-box;
+  font-family: Inconsolata, sans-serif;
+  margin: 8px 0;
+  outline: none;
+  padding: 12px 20px;
+}
+
+input:focus, textarea:focus {
+  border-top: 3px solid #a9a9a9;
+  border-bottom: 3px solid #a9a9a9;
+}
+
+.input-label {
+  font-family: Inconsolata, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left;
 }
 
 .menu-button,
@@ -123,9 +182,17 @@ hr {
   opacity: 75%;
 }
 
+.new-comment-headline {
+  font-family: Merriweather, sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+}
+
 .new-comment-sidebar {
-  overflow-x: hidden;
-  width: 25%;
+  height: 60vh;
+  overflow: hidden;
+  position: relative;
+  width: 35%;
 }
 
 .photo {
@@ -175,19 +242,26 @@ hr {
 
 .submit-comment-button {
   background-color: #1f5f8b;
+  border: none;
+  bottom: 0;
   color: white;
-  font-size: 20px;
+  cursor: pointer;
+  font-family: Merriweather, sans-serif;
+  font-size: 25px;
+  height: 10vh;
   padding: 15px 25px;
+  position: absolute;
+  right: 0;
   text-align: center;
   width: 100%;
 }
 
-.submit-comment-button:hover {
+.submit-comment-button:hover,
+.submit-comment-button:active {
   background-color: #253b6e;
 }
 
 .submit-comment-button:active {
-  background-color: #253b6e;
   transform: translateY(4px);
 }
 

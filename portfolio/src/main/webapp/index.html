@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Freckle+Face|Fredoka+One|Hammersmith+One">
+      href="https://fonts.googleapis.com/css?family=Freckle+Face|Fredoka+One|Hammersmith+One|Inconsolata|Merriweather">
         <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>
@@ -11,6 +11,8 @@
     </title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js">
+    </script>
+    <script src="https://kit.fontawesome.com/150c4874c5.js" crossorigin="anonymous">
     </script>
   </head>
   <body onload="getComments()">
@@ -278,9 +280,11 @@
       <p class="second-paragraph">
         Please feel free to contact me if you have any additional questions.
       </p>
-      <a href="https://www.linkedin.com/in/alexandra-andreea-i-6194ab114" class="contact-icon fa fa-linkedin">
+      <a href="https://www.linkedin.com/in/alexandra-andreea-i-6194ab114"
+         class="contact-icon fa fa-linkedin">
       </a>
-      <a href="https://github.com/AlexandraImbrisca" class="contact-icon fa fa-github">
+      <a href="https://github.com/AlexandraImbrisca"
+         class="contact-icon fa fa-github">
       </a>
     </div>
 
@@ -289,18 +293,32 @@
     </div>
 
     <div id="comments">
-      <div class="new-comment-sidebar">
-        <p class="first-paragraph">
-          Add a new comment
-        </p>
-        <form action="/new-comment" method="POST">
-          <input type="text" name="author-name" class="author-name-input" placeholder="Name (optional)">
-          <textarea name="comment-text" class="comment-input" rows="5" placeholder="Enter your comment here..."></textarea>
-          <input class="submit-comment-button" type="submit">
-        </form>
+      <div id="comments-container">
+        <div class="new-comment-sidebar">
+          <p class="new-comment-headline">
+            Add a new comment
+          </p>
+          <form autocomplete="off" action="/new-comment" method="POST">
+            <label for="author-name">
+              <p class="input-label">
+                Name(optional)
+              </p>
+            </label>
+            <input type="text" name="author-name" class="author-name-input"
+               placeholder="Your name...">
+            <label for="comment-text">
+              <p class="input-label">
+                Comment
+              </p>
+            </label>
+            <textarea name="comment-text" class="comment-text-input" rows="4"
+               placeholder="Enter your comment here..." required></textarea>
+            <input class="submit-comment-button" type="submit">
+          </form>
+        </div>
+        <div id="comments-section">
+        </div>
       </div>
-      <ul id="comments-section">
-      </ul>
     </div>
   </body>
 </html>

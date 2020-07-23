@@ -23,6 +23,7 @@ class Theme {
    * @param {string} textColor: The text color of the body.
    * @param {string} backgroundColor: The background color of the body.
    * @param {string} themeButtonColor: The text color of the theme button.
+   * @param {string} borderColor: The color of the main borders in the page.
    * @param {string} menuButtonTextColor: The text color of the menu buttons.
    * @param {string} menuButtonBackgroundColor: The background color of the
    * menu buttons.
@@ -33,22 +34,24 @@ class Theme {
       textColor,
       backgroundColor,
       themeButtonColor,
+      borderColor,
       menuButtonTextColor,
       menuButtonBackgroundColor,
       menuButtonBorderColor) {
     this.textColor = textColor;
     this.backgroundColor = backgroundColor;
     this.themeButtonColor = themeButtonColor;
+    this.borderColor = borderColor;
     this.menuButtonTextColor = menuButtonTextColor;
     this.menuButtonBackgroundColor = menuButtonBackgroundColor;
     this.menuButtonBorderColor = menuButtonBorderColor;
   }
 }
 
-const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', '#2a628f',
-    'white');
-const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', '#3e92cc',
-    'black');
+const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', 'white',
+'#2a628f', 'white');
+const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
+'#3e92cc', 'black');
 
 const GALLERY_SIZE_PERCENT = 75;
 
@@ -63,6 +66,9 @@ function applyTheme(theme) {
   document.body.style.color = theme.textColor;
   document.body.style.backgroundColor = theme.backgroundColor;
   THEME_BUTTON.style.backgroundColor = theme.themeButtonColor;
+
+  document.getElementById('comments-container').style.borderTopColor = theme.borderColor;
+  document.getElementById('comments-section').style.borderLeftColor = theme.borderColor;
 
   for (let i = 0; i < MENU_BUTTONS.length; i++) {
     MENU_BUTTONS[i].style.color = theme.menuButtonTextColor;
@@ -113,9 +119,11 @@ function initAndHideHobbies() {
   document.getElementById('hobbies').style.display = 'none';
 }
 
+
+/** Show the comments region (plus automatic scroll to this area) */
 function showComments() {
-  const MARGIN_TOP = document.getElementById('show-comments-button').offsetHeight + 100;
-  document.getElementById('comments').style.top = MARGIN_TOP + 'px';
+  const MARGIN_TOP = document.getElementById('show-comments-button').offsetHeight + 25;
+  document.getElementById('comments-container').style.marginTop = MARGIN_TOP + 'px';
   showContent('comments');
   window.scrollTo(0, document.body.scrollHeight);
 }
@@ -173,15 +181,18 @@ function createElement(elementType, className, innerText) {
  */
 function createCommentElement(comment) {
   const commentElement = createElement('div', 'comment', '');
-  const authorIconElement = createElement('i', 'fa fa-user author-icon', '');
-  const authorNameElement = createElement('p', '', comment.authorName);
-  const commentTextElement = createElement('p', '', comment.commentText);
-  const publishTimeElement = createElement('p', '', comment.publishTime);
+
+  const commentDetailsElement = createElement('div', 'comment-details', '');
+  const authorIconElement = createElement('i', 'fas fa-star author-icon', '');
+  const commentHeadlineElement = createElement('p', 'comment-headline',
+      comment.authorName + ' wrote on ' + comment.publishTime + ':');
+  const commentTextElement = createElement('p', 'comment-text', comment.commentText);
   
+  commentDetailsElement.appendChild(commentHeadlineElement);
+  commentDetailsElement.appendChild(commentTextElement);
+
   commentElement.appendChild(authorIconElement);
-  commentElement.appendChild(authorNameElement);
-  commentElement.appendChild(publishTimeElement);
-  commentElement.appendChild(commentTextElement);
+  commentElement.appendChild(commentDetailsElement);
 
   return commentElement;
 }
