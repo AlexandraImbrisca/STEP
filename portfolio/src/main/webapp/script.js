@@ -164,12 +164,14 @@ function initAndHideHobbies() {
 
 /** Fetches comments from the server and adds them to the DOM */
 function loadComments() {
-  fetch('/list-comments').then((response) => response.json()).then((comments) => {
-    const COMMENTS_LIST_ELEMENT = document.getElementById('comments-section');
-    comments.forEach((comment) => {
-      COMMENTS_LIST_ELEMENT.appendChild(createCommentElement(comment));
+  fetch('/list-comments')
+    .then((response) => response.json())
+    .then((comments) => {
+      const COMMENTS_LIST = document.getElementById('comments-section');
+      comments.forEach((comment) => {
+        COMMENTS_LIST.appendChild(createCommentElement(comment));
+      });
     });
-  });
 }
 
 
