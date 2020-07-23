@@ -15,22 +15,18 @@
     <script src="https://kit.fontawesome.com/150c4874c5.js" crossorigin="anonymous">
     </script>
   </head>
-  <body onload="getComments()">
-    <div>
-      <span id="switch-theme-button" onclick="switchTheme()">
-      </span>
-    </div>
+  <body onload="loadComments()">
+    <span id="switch-theme-button" onclick="switchTheme()">
+    </span>
 
     <div class="greeting-container">
       <h1>Aloha</h1>
     </div>
 
-    <div>
-      <p class="first-paragraph">
-        I'm Alex, a 2nd year computer science student and currently a STEP
-        intern at Google.
-      </p>
-    </div>
+    <p class="first-paragraph">
+      I'm Alex, a 2nd year computer science student and currently a STEP
+      intern at Google.
+    </p>
 
     <div>
       <button class="menu-button" onclick="showContent('about-me')">
@@ -281,10 +277,10 @@
         Please feel free to contact me if you have any additional questions.
       </p>
       <a href="https://www.linkedin.com/in/alexandra-andreea-i-6194ab114"
-         class="contact-icon fa fa-linkedin">
+          class="contact-icon fa fa-linkedin">
       </a>
       <a href="https://github.com/AlexandraImbrisca"
-         class="contact-icon fa fa-github">
+          class="contact-icon fa fa-github">
       </a>
     </div>
 
@@ -299,20 +295,20 @@
             Add a new comment
           </p>
           <form autocomplete="off" action="/new-comment" method="POST">
-            <label for="author-name">
+            <label for="author-name-input">
               <p class="input-label">
                 Name(optional)
               </p>
             </label>
             <input type="text" name="author-name" class="author-name-input"
-               placeholder="Your name...">
-            <label for="comment-text">
+                placeholder="Your name...">
+            <label for="comment-text-input">
               <p class="input-label">
                 Comment
               </p>
             </label>
             <textarea name="comment-text" class="comment-text-input" rows="4"
-               placeholder="Enter your comment here..." required></textarea>
+                placeholder="Enter your comment here..." required></textarea>
             <input class="submit-comment-button" type="submit">
           </form>
         </div>

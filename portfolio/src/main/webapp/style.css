@@ -83,6 +83,7 @@ body::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 7px;
 }
+
 #comments-section::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: #808080;
@@ -144,7 +145,8 @@ hr {
   width: 75%;
 }
 
-input, textarea {
+input,
+textarea {
   border-bottom: 3px solid #c0c0c0;
   border-top: 3px solid #c0c0c0;
   box-sizing: border-box;
@@ -154,9 +156,10 @@ input, textarea {
   padding: 12px 20px;
 }
 
-input:focus, textarea:focus {
-  border-top: 3px solid #a9a9a9;
+input:focus,
+textarea:focus {
   border-bottom: 3px solid #a9a9a9;
+  border-top: 3px solid #a9a9a9;
 }
 
 .input-label {

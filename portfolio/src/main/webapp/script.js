@@ -49,9 +49,9 @@ class Theme {
 }
 
 const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', 'white',
-'#2a628f', 'white');
+    '#2a628f', 'white');
 const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
-'#3e92cc', 'black');
+    '#3e92cc', 'black');
 
 const GALLERY_SIZE_PERCENT = 75;
 
@@ -60,6 +60,8 @@ const GALLERY_SIZE_PERCENT = 75;
  * @param {object} theme: The theme that will be applied.
  */
 function applyTheme(theme) {
+  const COMMENTS_CONTAINER = document.getElementById('comments-container');
+  const COMMENTS_SECTION = document.getElementById('comments-section');
   const MENU_BUTTONS = document.getElementsByClassName('menu-button');
   const THEME_BUTTON = document.getElementById('switch-theme-button');
 
@@ -67,14 +69,55 @@ function applyTheme(theme) {
   document.body.style.backgroundColor = theme.backgroundColor;
   THEME_BUTTON.style.backgroundColor = theme.themeButtonColor;
 
-  document.getElementById('comments-container').style.borderTopColor = theme.borderColor;
-  document.getElementById('comments-section').style.borderLeftColor = theme.borderColor;
+  COMMENTS_CONTAINER.style.borderTopColor = theme.borderColor;
+  COMMENTS_SECTION.style.borderLeftColor = theme.borderColor;
 
   for (let i = 0; i < MENU_BUTTONS.length; i++) {
     MENU_BUTTONS[i].style.color = theme.menuButtonTextColor;
     MENU_BUTTONS[i].style.backgroundColor = theme.menuButtonBackgroundColor;
     MENU_BUTTONS[i].style.borderColor = theme.menuButtonBorderColor;
   }
+}
+
+/**
+ * Function used to create the element associated to a given comment.
+ * @param {object} comment: The comment for which we will create a new element.
+ * @return {element}: The element created.
+ */
+function createCommentElement(comment) {
+  const commentElement = createElement('div', 'comment', '');
+
+  const commentDetailsElement = createElement('div', 'comment-details', '');
+  const authorIconElement = createElement('i', 'fas fa-star author-icon', '');
+  const commentHeadlineElement = createElement('p', 'comment-headline',
+      comment.authorName + ' wrote on ' + comment.publishTime + ':');
+  const commentTextElement = createElement('p', 'comment-text',
+      comment.commentText);
+
+  commentDetailsElement.appendChild(commentHeadlineElement);
+  commentDetailsElement.appendChild(commentTextElement);
+
+  commentElement.appendChild(authorIconElement);
+  commentElement.appendChild(commentDetailsElement);
+
+  return commentElement;
+}
+
+/**
+ * Function used to create a new element with a specified type, class and
+ * innerText.
+ * @param {string} elementType: The type of the element that will be created.
+ * @param {string} className: The class of the element that will be created.
+ * @param {string} innerText: The innerText of the element that will be
+ * created.
+ * @return {element}: The element created.
+ */
+function createElement(elementType, className, innerText) {
+  const newElement = document.createElement(elementType);
+  newElement.className = className;
+  newElement.innerText = innerText;
+
+  return newElement;
 }
 
 /**
@@ -119,11 +162,25 @@ function initAndHideHobbies() {
   document.getElementById('hobbies').style.display = 'none';
 }
 
+/** Fetches comments from the server and adds them to the DOM */
+function loadComments() {
+  fetch('/list-comments').then((response) => response.json()).then((comments) => {
+    const COMMENTS_LIST_ELEMENT = document.getElementById('comments-section');
+    comments.forEach((comment) => {
+      COMMENTS_LIST_ELEMENT.appendChild(createCommentElement(comment));
+    });
+  });
+}
+
 
 /** Show the comments region (plus automatic scroll to this area) */
 function showComments() {
-  const MARGIN_TOP = document.getElementById('show-comments-button').offsetHeight + 25;
-  document.getElementById('comments-container').style.marginTop = MARGIN_TOP + 'px';
+  const COMMENTS_CONTAINER = document.getElementById('comments-container');
+  const SHOW_COMMENTS_BUTTON = document.getElementById('show-comments-button');
+
+  const MARGIN_TOP = SHOW_COMMENTS_BUTTON.offsetHeight + 25;
+
+  COMMENTS_CONTAINER.style.marginTop = MARGIN_TOP + 'px';
   showContent('comments');
   window.scrollTo(0, document.body.scrollHeight);
 }
@@ -135,7 +192,11 @@ function showComments() {
  */
 function showContent(containerID) {
   const CONTAINER = document.getElementById(containerID);
-  CONTAINER.style.display = (CONTAINER.style.display === 'initial' ? 'none' : 'initial');
+  if (CONTAINER.style.display === 'initial') {
+    CONTAINER.style.display = 'none';
+  } else {
+    CONTAINER.style.display = 'initial';
+  }
 }
 
 /** Switch the theme (bright <-> dark). */
@@ -147,54 +208,6 @@ function switchTheme() {
     darkModeOn = true;
     applyTheme(DARK_THEME);
   }
-}
-
-/** Fetches comments from the server and adds them to the DOM */
-function getComments() {
-  fetch('/list-comments').then(response => response.json()).then((comments) => {
-    const commentListElement = document.getElementById('comments-section');
-    comments.forEach((comment) => {
-      commentListElement.appendChild(createCommentElement(comment));
-    })
-  });
-}
-
-/** 
- * Function used to create a new element with a specified type, class and
- * innerText.
- * @param {string} elementType: The type of the element that will be created.
- * @param {string} className: The class of the element that will be created.
- * @param {string} innerText: The innerText of the element that will be
- * created.
- */
-function createElement(elementType, className, innerText) {
-  const newElement = document.createElement(elementType);
-  newElement.className = className;
-  newElement.innerText = innerText;
-
-  return newElement;
-}
-
-/** 
- * Function used to create the element associated to a given comment.
- * @param {object} comment: The comment for which we will create a new element.
- */
-function createCommentElement(comment) {
-  const commentElement = createElement('div', 'comment', '');
-
-  const commentDetailsElement = createElement('div', 'comment-details', '');
-  const authorIconElement = createElement('i', 'fas fa-star author-icon', '');
-  const commentHeadlineElement = createElement('p', 'comment-headline',
-      comment.authorName + ' wrote on ' + comment.publishTime + ':');
-  const commentTextElement = createElement('p', 'comment-text', comment.commentText);
-  
-  commentDetailsElement.appendChild(commentHeadlineElement);
-  commentDetailsElement.appendChild(commentTextElement);
-
-  commentElement.appendChild(authorIconElement);
-  commentElement.appendChild(commentDetailsElement);
-
-  return commentElement;
 }
 
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);
