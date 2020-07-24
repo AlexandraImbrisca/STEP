@@ -19,15 +19,15 @@ let darkModeOn = false;
 /** Class used to define the basic characteristics of a theme. */
 class Theme {
   /**
-   * Create a new theme with the given parameters.
-   * @param {string} textColor: The text color of the body.
-   * @param {string} backgroundColor: The background color of the body.
-   * @param {string} themeButtonColor: The text color of the theme button.
-   * @param {string} borderColor: The color of the main borders in the page.
-   * @param {string} menuButtonTextColor: The text color of the menu buttons.
-   * @param {string} menuButtonBackgroundColor: The background color of the
+   * Creates a new theme with the given parameters.
+   * @param {string} textColor The text color of the body.
+   * @param {string} backgroundColor The background color of the body.
+   * @param {string} themeButtonColor The text color of the theme button.
+   * @param {string} borderColor The color of the main borders in the page.
+   * @param {string} menuButtonTextColor The text color of the menu buttons.
+   * @param {string} menuButtonBackgroundColor The background color of the
    * menu buttons.
-   * @param {string} menuButtonBorderColor: The border color of the menu
+   * @param {string} menuButtonBorderColor The border color of the menu
    * buttons.
    */
   constructor(
@@ -56,8 +56,8 @@ const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
 const GALLERY_SIZE_PERCENT = 75;
 
 /**
- * Apply the given theme to the page.
- * @param {object} theme: The theme that will be applied.
+ * Applies the given theme to the page.
+ * @param {object} theme The theme that will be applied.
  */
 function applyTheme(theme) {
   const COMMENTS_CONTAINER = document.getElementById('comments-container');
@@ -80,53 +80,52 @@ function applyTheme(theme) {
 }
 
 /**
- * Function used to create the element associated to a given comment.
- * @param {object} comment: The comment for which we will create a new element.
- * @return {element}: The element created.
+ * Creates the element associated to a given comment.
+ * @param {object} comment The comment for which we will create a new element.
+ * @return {element} The element created.
  */
 function createCommentElement(comment) {
-  const commentElement = createElement('div', 'comment', '');
+  const COMMENT_ELEMENT = createElement('div', 'comment', '');
 
-  const commentDetailsElement = createElement('div', 'comment-details', '');
-  const authorIconElement = createElement('i', 'fas fa-star author-icon', '');
-  const commentHeadlineElement = createElement('p', 'comment-headline',
+  const AUTHOR_ICON_ELEMENT = createElement('i', 'fas fa-star author-icon', '');
+  COMMENT_ELEMENT.appendChild(AUTHOR_ICON_ELEMENT);
+
+  const COMMENT_DETAILS_ELEMENT = createElement('div', 'comment-details', '');
+  const COMMENT_HEADLINE_ELEMENT = createElement('p', 'comment-headline',
       comment.authorName + ' wrote on ' + comment.publishTime + ':');
-  const commentTextElement = createElement('p', 'comment-text',
+  const COMMENT_TEXT_ELEMENT = createElement('p', 'comment-text',
       comment.commentText);
 
-  commentDetailsElement.appendChild(commentHeadlineElement);
-  commentDetailsElement.appendChild(commentTextElement);
+  COMMENT_DETAILS_ELEMENT.appendChild(COMMENT_HEADLINE_ELEMENT);
+  COMMENT_DETAILS_ELEMENT.appendChild(COMMENT_TEXT_ELEMENT);
+  COMMENT_ELEMENT.appendChild(COMMENT_DETAILS_ELEMENT);
 
-  commentElement.appendChild(authorIconElement);
-  commentElement.appendChild(commentDetailsElement);
-
-  return commentElement;
+  return COMMENT_ELEMENT;
 }
 
 /**
- * Function used to create a new element with a specified type, class and
- * innerText.
- * @param {string} elementType: The type of the element that will be created.
- * @param {string} className: The class of the element that will be created.
- * @param {string} innerText: The innerText of the element that will be
+ * Creates a new element with a specified type, class and innerText.
+ * @param {string} elementType The type of the element that will be created.
+ * @param {string} className The class of the element that will be created.
+ * @param {string} innerText The innerText of the element that will be
  * created.
- * @return {element}: The element created.
+ * @return {element} The element created.
  */
 function createElement(elementType, className, innerText) {
-  const newElement = document.createElement(elementType);
-  newElement.className = className;
-  newElement.innerText = innerText;
+  const NEW_ELEMENT = document.createElement(elementType);
+  NEW_ELEMENT.className = className;
+  NEW_ELEMENT.innerText = innerText;
 
-  return newElement;
+  return NEW_ELEMENT;
 }
 
 /**
- * Compute the size of one column based on the size of the entire gallery
+ * Computes the size of one column based on the size of the entire gallery
  * and the number of columns.
- * @param {array} columns: The columns whose size will be computed.
- * @param {number} gallerySize: The size of the gallery that contains these
+ * @param {array} columns The columns whose size will be computed.
+ * @param {number} gallerySize The size of the gallery that contains these
  * columns.
- * @return {string}: The size of each column as a percentage.
+ * @return {string} The size of each column as a percentage.
  */
 function computeColumnSize(columns, gallerySize) {
   let columnSize = GALLERY_SIZE_PERCENT / columns.length;
@@ -139,7 +138,7 @@ function computeColumnSize(columns, gallerySize) {
 }
 
 /**
- * Display each column of a size computed based on the gallery size and
+ * Displays each column of a size computed based on the gallery size and
  * the number of columns.
  */
 function displayColumns() {
@@ -154,7 +153,7 @@ function displayColumns() {
 }
 
 /**
- * Display the columns of the gallery and then hide the whole content
+ * Displays the columns of the gallery and then hide the whole content
  * of the hobbies container.
  */
 function initAndHideHobbies() {
@@ -162,7 +161,7 @@ function initAndHideHobbies() {
   document.getElementById('hobbies').style.display = 'none';
 }
 
-/** Fetches comments from the server and adds them to the DOM */
+/** Fetches comments from the server and adds them to the DOM. */
 function loadComments() {
   fetch('/list-comments')
       .then((response) => response.json())
@@ -175,7 +174,7 @@ function loadComments() {
 }
 
 
-/** Show the comments region (plus automatic scroll to this area) */
+/** Shows the comments region (plus automatic scroll to this area). */
 function showComments() {
   const COMMENTS_CONTAINER = document.getElementById('comments-container');
   const SHOW_COMMENTS_BUTTON = document.getElementById('show-comments-button');
@@ -188,8 +187,8 @@ function showComments() {
 }
 
 /**
- * Show / hide the content of a container with a given ID.
- * @param {string} containerID: The ID of the container that will be
+ * Shows / hides the content of a container with a given ID.
+ * @param {string} containerID The ID of the container that will be
  * displayed / hidden.
  */
 function showContent(containerID) {
@@ -201,7 +200,7 @@ function showContent(containerID) {
   }
 }
 
-/** Switch the theme (bright <-> dark). */
+/** Switches the theme (bright <-> dark). */
 function switchTheme() {
   if (darkModeOn) {
     darkModeOn = false;

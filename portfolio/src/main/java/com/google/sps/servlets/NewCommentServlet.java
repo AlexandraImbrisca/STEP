@@ -17,6 +17,8 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.gson.Gson;
+import com.google.sps.data.Comment;
 import java.io.IOException;
 import java.util.Date;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +26,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that adds a new comment to the database. */
 @WebServlet("/new-comment")
 public class NewCommentServlet extends HttpServlet {
 
@@ -39,9 +41,7 @@ public class NewCommentServlet extends HttpServlet {
     commentEntity.setProperty("text", commentText);
     commentEntity.setProperty("publish-time", publishTime);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(commentEntity);
-
+    DatastoreServiceFactory.getDatastoreService().put(commentEntity);
     response.sendRedirect("/index.html");
   }
 }
