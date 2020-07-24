@@ -55,6 +55,34 @@ const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
 
 const GALLERY_SIZE_PERCENT = 75;
 
+/** 
+ * Adds the author icon to the comment.
+ * @param {Object} commentElement The comment element in which the author
+ * icon will be included.
+ */
+function addAuthorIcon(commentElement) {
+  const AUTHOR_ICON_ELEMENT = createElement('i', 'fas fa-star author-icon', '');
+  commentElement.appendChild(AUTHOR_ICON_ELEMENT);
+}
+
+/** 
+ * Adds the details (headline, comment text) to the comment.
+ * @param {Object} comment The original comment.
+ * @param {Object} commentElement The comment element in which the author
+ * icon will be included.
+ */
+function addCommentDetails(comment, commentElement) {
+  const commentDetailsElement = createElement('div', 'comment-details', '');
+  const COMMENT_HEADLINE_ELEMENT = createElement('p', 'comment-headline',
+      comment.authorName + ' wrote on ' + comment.publishTime + ':');
+  const COMMENT_TEXT_ELEMENT = createElement('p', 'comment-text',
+      comment.commentText);
+
+  commentDetailsElement.appendChild(COMMENT_HEADLINE_ELEMENT);
+  commentDetailsElement.appendChild(COMMENT_TEXT_ELEMENT);
+  commentElement.appendChild(commentDetailsElement);  
+}
+
 /** Adds a new comment to the database. */
 function addNewComment() {
   const params = new URLSearchParams();
@@ -96,20 +124,8 @@ function applyTheme(theme) {
  */
 function createCommentElement(comment) {
   const commentElement = createElement('div', 'comment', '');
-
-  const AUTHOR_ICON_ELEMENT = createElement('i', 'fas fa-star author-icon', '');
-  commentElement.appendChild(AUTHOR_ICON_ELEMENT);
-
-  const commentDetailsElement = createElement('div', 'comment-details', '');
-  const COMMENT_HEADLINE_ELEMENT = createElement('p', 'comment-headline',
-      comment.authorName + ' wrote on ' + comment.publishTime + ':');
-  const COMMENT_TEXT_ELEMENT = createElement('p', 'comment-text',
-      comment.commentText);
-
-  commentDetailsElement.appendChild(COMMENT_HEADLINE_ELEMENT);
-  commentDetailsElement.appendChild(COMMENT_TEXT_ELEMENT);
-  commentElement.appendChild(commentDetailsElement);
-
+  addAuthorIcon(commentElement);
+  addCommentDetails(comment, commentElement);
   return commentElement;
 }
 
