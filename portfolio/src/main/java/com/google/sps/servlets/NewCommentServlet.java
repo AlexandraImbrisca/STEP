@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that adds a new comment to the database. */
-@WebServlet("/data")
-public class DataServlet extends HttpServlet {
+@WebServlet("/new-comment")
+public class NewCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
