@@ -10,7 +10,8 @@
   width: 75%;
 }
 
-.author-icon {
+.author-icon,
+.delete-comment-button {
   font-size: 25px;
   padding: 30px 20px 30px 20px;
   vertical-align: top;
@@ -32,7 +33,7 @@ body {
   -ms-overflow-style: none;
   font-family: Freckle Face, sans-serif;
   justify-content: center;
-  margin: 0 auto;
+  margin: 0;
   text-align: center;
 }
 
@@ -53,6 +54,9 @@ body::-webkit-scrollbar {
 .comment-headline {
   font-family: Merriweather, sans-serif;
   font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .comment-text {

@@ -68,19 +68,50 @@ function addAuthorIcon(commentElement) {
 /** 
  * Adds the details (headline, comment text) to the comment.
  * @param {Object} comment The original comment.
- * @param {Object} commentElement The comment element in which the author
- * icon will be included.
+ * @param {Object} commentElement The comment element in which the comment
+ * details will be included.
  */
 function addCommentDetails(comment, commentElement) {
   const commentDetailsElement = createElement('div', 'comment-details', '');
-  const COMMENT_HEADLINE_ELEMENT = createElement('p', 'comment-headline',
-      comment.authorName + ' wrote on ' + comment.publishTime + ':');
+
+  addCommentHeadline(comment, commentDetailsElement);
+
   const COMMENT_TEXT_ELEMENT = createElement('p', 'comment-text',
       comment.commentText);
-
-  commentDetailsElement.appendChild(COMMENT_HEADLINE_ELEMENT);
   commentDetailsElement.appendChild(COMMENT_TEXT_ELEMENT);
   commentElement.appendChild(commentDetailsElement);  
+}
+
+/** 
+ * Adds the headline (author name, publish time) to the comment.
+ * @param {Object} comment The original comment.
+ * @param {Object} commentDetailsElement The comment details element
+ * in which the headline will be included.
+ */
+function addCommentHeadline(comment, commentDetailsElement) {
+  const AUTHOR_NAME_ELEMENT = createElement('p', 'comment-headline',
+      comment.authorName);
+  const PUBLISH_TIME_ELEMENT = createElement('p', 'comment-headline',
+      comment.publishTime);
+  commentDetailsElement.appendChild(AUTHOR_NAME_ELEMENT);
+  commentDetailsElement.appendChild(PUBLISH_TIME_ELEMENT);
+}
+
+/** 
+ * Adds a button able to delete the current comment.
+ * @param {Object} comment The comment to which the button should be
+ * attached.
+ * @param {Object} commentElement The element in which the button will be
+ * inserted.
+ */
+function addDeleteButton(comment, commentElement) {
+  const deleteButtonElement = createElement('i',
+      'fas fa-trash-alt delete-comment-button', '');
+  deleteButtonElement.addEventListener('click', () => {
+    deleteComment(comment);
+    commentElement.remove();
+  });
+  commentElement.appendChild(deleteButtonElement);
 }
 
 /** Adds a new comment to the database. */
@@ -126,6 +157,7 @@ function createCommentElement(comment) {
   const commentElement = createElement('div', 'comment', '');
   addAuthorIcon(commentElement);
   addCommentDetails(comment, commentElement);
+  addDeleteButton(comment, commentElement);
   return commentElement;
 }
 
@@ -161,6 +193,16 @@ function computeColumnSize(columns, gallerySize) {
     columnSize *= 2;
   }
   return columnSize + '%';
+}
+
+/** 
+ * Deletes the comment from the server.
+ * @param {Object} comment The comment that will be deleted.
+ */
+function deleteComment(comment) {
+  const params = new URLSearchParams();
+  params.append('id', comment.id);
+  fetch('/delete-comment', {method: 'POST', body: params});
 }
 
 /**
