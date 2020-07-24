@@ -55,6 +55,16 @@ const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
 
 const GALLERY_SIZE_PERCENT = 75;
 
+/** Adds a new comment to the database. */
+function addNewComment() {
+  const params = new URLSearchParams();
+  const AUTHOR_NAME = document.getElementById('author-name').value;
+  const COMMENT_TEXT = document.getElementById('comment-text').value;
+  params.append('author-name', AUTHOR_NAME);
+  params.append('comment-text', COMMENT_TEXT);
+  fetch('/new-comment', {method: 'POST', body: params});
+}
+
 /**
  * Applies the given theme to the page.
  * @param {object} theme The theme that will be applied.
@@ -85,22 +95,22 @@ function applyTheme(theme) {
  * @return {element} The element created.
  */
 function createCommentElement(comment) {
-  const COMMENT_ELEMENT = createElement('div', 'comment', '');
+  const commentElement = createElement('div', 'comment', '');
 
   const AUTHOR_ICON_ELEMENT = createElement('i', 'fas fa-star author-icon', '');
-  COMMENT_ELEMENT.appendChild(AUTHOR_ICON_ELEMENT);
+  commentElement.appendChild(AUTHOR_ICON_ELEMENT);
 
-  const COMMENT_DETAILS_ELEMENT = createElement('div', 'comment-details', '');
+  const commentDetailsElement = createElement('div', 'comment-details', '');
   const COMMENT_HEADLINE_ELEMENT = createElement('p', 'comment-headline',
       comment.authorName + ' wrote on ' + comment.publishTime + ':');
   const COMMENT_TEXT_ELEMENT = createElement('p', 'comment-text',
       comment.commentText);
 
-  COMMENT_DETAILS_ELEMENT.appendChild(COMMENT_HEADLINE_ELEMENT);
-  COMMENT_DETAILS_ELEMENT.appendChild(COMMENT_TEXT_ELEMENT);
-  COMMENT_ELEMENT.appendChild(COMMENT_DETAILS_ELEMENT);
+  commentDetailsElement.appendChild(COMMENT_HEADLINE_ELEMENT);
+  commentDetailsElement.appendChild(COMMENT_TEXT_ELEMENT);
+  commentElement.appendChild(commentDetailsElement);
 
-  return COMMENT_ELEMENT;
+  return commentElement;
 }
 
 /**

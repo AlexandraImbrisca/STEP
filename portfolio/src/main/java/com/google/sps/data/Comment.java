@@ -19,11 +19,14 @@ import java.util.Date;
 public final class Comment {
   private final String authorName;
   private final String commentText;
+  private final long id;
   private final Date publishTime;
 
-  public Comment(String authorName, String commentText, Date publishTime) {
+  public Comment(String authorName, String commentText, long id,
+                 Date publishTime) {
     this.authorName = authorName;
     this.commentText = commentText;
+    this.id = id;
     this.publishTime = publishTime;
   }
 
@@ -33,6 +36,10 @@ public final class Comment {
 
   public String getCommentText() {
     return commentText;
+  }
+
+  public long getId() {
+    return id;
   }
 
   public Date getPublishTime() {
