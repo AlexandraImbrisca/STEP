@@ -10,8 +10,7 @@
   width: 75%;
 }
 
-.author-icon,
-.delete-comment-button {
+.author-icon {
   font-size: 25px;
   padding: 30px 20px 30px 20px;
   vertical-align: top;
@@ -23,10 +22,17 @@
 }
 
 .author-name-input,
-.comment-text-input,
-textarea {
+.comment-text-input {
+  border-left: none;
+  border-right: none;
   display: block;
   width: 100%;
+}
+
+.author-name-input:focus,
+.comment-text-input:focus {
+  border-left: none;
+  border-right: none;
 }
 
 body {
@@ -51,11 +57,28 @@ body::-webkit-scrollbar {
   width: 100%;
 }
 
+.comment-details {
+  display: block;
+  padding-right: 20px;
+  width: 100%;
+}
+
 .comment-headline {
+  display: flex;
   font-family: Merriweather, sans-serif;
   font-size: 20px;
-  display: flex;
   justify-content: space-between;
+  width: 100%;
+}
+
+.comment-option-button {
+  font-size: 25px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+}
+
+.comment-options {
+  text-align: right;
   width: 100%;
 }
 
@@ -152,20 +175,17 @@ hr {
 input,
 textarea {
   border: 3px solid #c0c0c0;
-  border-left: none;
-  border-right: none;
   box-sizing: border-box;
   font-family: Inconsolata, sans-serif;
   margin: 8px 0;
   outline: none;
   padding: 12px 20px;
+  width: 100%;
 }
 
 input:focus,
 textarea:focus {
   border: 3px solid #a9a9a9;
-  border-left: none;
-  border-right: none;
 }
 
 .input-label {

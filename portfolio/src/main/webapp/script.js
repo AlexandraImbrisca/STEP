@@ -52,7 +52,6 @@ const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', 'white',
     '#2a628f', 'white');
 const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
     '#3e92cc', 'black');
-
 const GALLERY_SIZE_PERCENT = 75;
 
 /** 
@@ -75,11 +74,10 @@ function addCommentDetails(comment, commentElement) {
   const commentDetailsElement = createElement('div', 'comment-details', '');
 
   addCommentHeadline(comment, commentDetailsElement);
+  addCommentText(comment, commentDetailsElement);
+  addCommentOptions(comment, commentElement, commentDetailsElement);
 
-  const COMMENT_TEXT_ELEMENT = createElement('p', 'comment-text',
-      comment.commentText);
-  commentDetailsElement.appendChild(COMMENT_TEXT_ELEMENT);
-  commentElement.appendChild(commentDetailsElement);  
+  commentElement.appendChild(commentDetailsElement);
 }
 
 /** 
@@ -89,39 +87,148 @@ function addCommentDetails(comment, commentElement) {
  * in which the headline will be included.
  */
 function addCommentHeadline(comment, commentDetailsElement) {
-  const AUTHOR_NAME_ELEMENT = createElement('p', 'comment-headline',
-      comment.authorName);
-  const PUBLISH_TIME_ELEMENT = createElement('p', 'comment-headline',
+  const commentHeadlineElement = createElement('div', 'comment-headline', '');
+  let authorName = comment.authorName;
+  if (authorName === '') {
+    authorName = 'Anonymous user';
+  }
+  const AUTHOR_NAME_ELEMENT = createElement('p', 'author-name', authorName);
+  const PUBLISH_TIME_ELEMENT = createElement('p', 'publish-time',
       comment.publishTime);
-  commentDetailsElement.appendChild(AUTHOR_NAME_ELEMENT);
-  commentDetailsElement.appendChild(PUBLISH_TIME_ELEMENT);
+  commentHeadlineElement.appendChild(AUTHOR_NAME_ELEMENT);
+  commentHeadlineElement.appendChild(PUBLISH_TIME_ELEMENT);
+  commentDetailsElement.appendChild(commentHeadlineElement);
 }
 
 /** 
- * Adds a button able to delete the current comment.
+ * Adds the options to the comment.
+ * @param {Object} comment The original comment.
+ * @param {Object} commentElement The element that can be modified based
+ * on the options selected (if the user selects delete than this element
+ * will be removed from the comments section).
+ * @param {Object} commentDetailsElement The comment details element
+ * in which the options will be included.
+ */
+function addCommentOptions(comment, commentElement, commentDetailsElement) {
+  const commentOptionsElement = createElement('div', 'comment-options', '');
+
+  addDeleteButton(comment, commentElement, commentOptionsElement);
+  addEditButton(comment, commentElement, commentDetailsElement,
+      commentOptionsElement);
+
+  commentDetailsElement.appendChild(commentOptionsElement);
+}
+
+/** 
+ * Adds the comment text to the comment.
+ * @param {Object} comment The original comment.
+ * @param {Object} commentDetailsElement The comment details element
+ * in which the text will be included.
+ */
+function addCommentText(comment, commentDetailsElement) {
+  const COMMENT_TEXT_ELEMENT = createElement('p', 'comment-text',
+      comment.commentText);
+  commentDetailsElement.appendChild(COMMENT_TEXT_ELEMENT);
+}
+
+/** 
+ * Adds a new textarea element to the comment details element.
+ * @param {Object} comment The original comment.
+ * @param {Object} commentDetailsElement The comment details element
+ * in which the textarea will be included.
+ * @param {Object} initialText The text that will be initially included
+ * in the textarea element.
+ */
+function addCommentTextarea(comment, commentDetailsElement, initialText) {
+  const textareaElement = createElement('textarea', 'update-comment-input', '');
+  textareaElement.name = 'update-comment';
+  textareaElement.rows = '6';
+  textareaElement.innerText = initialText;
+  textareaElement.id = 'update-comment';
+
+  commentDetailsElement.appendChild(textareaElement);
+}
+
+/** 
+ * Adds a button able to delete the comment.
  * @param {Object} comment The comment to which the button should be
  * attached.
- * @param {Object} commentElement The element in which the button will be
- * inserted.
+ * @param {Object} commentElement The element that will be deleted if the 
+ * button will be selected.
+ * @param {Object} commentOptionsElement The element in which the button
+ * will be inserted.
  */
-function addDeleteButton(comment, commentElement) {
+function addDeleteButton(comment, commentElement, commentOptionsElement) {
   const deleteButtonElement = createElement('i',
-      'fas fa-trash-alt delete-comment-button', '');
+      'fas fa-trash-alt comment-option-button', '');
   deleteButtonElement.addEventListener('click', () => {
     deleteComment(comment);
     commentElement.remove();
   });
-  commentElement.appendChild(deleteButtonElement);
+  commentOptionsElement.appendChild(deleteButtonElement);
+}
+
+/** 
+ * Adds a button able to edit the current comment's text.
+ * @param {Object} comment The comment to which the button should be
+ * attached.
+ * @param {Object} commentElement The element that will be deleted if the 
+ * button will be selected.
+ * @param {Object} commentOptionsElement The element in which the button
+ * will be inserted.
+ */
+function addEditButton(comment, commentElement, commentDetailsElement,
+    commentOptionsElement) {
+  const editButtonElement = createElement('i',
+      'fas fa-edit comment-option-button', '');
+  editButtonElement.addEventListener('click', () => {
+    commentDetailsElement.innerHTML = '';
+    addCommentHeadline(comment, commentDetailsElement);
+    const INITIAL_TEXT = comment.commentText;
+    addCommentTextarea(comment, commentDetailsElement, INITIAL_TEXT);
+
+    commentOptionsElement.innerHTML = '';
+    addSubmitButton(comment, commentElement, commentDetailsElement,
+       commentOptionsElement);
+    commentDetailsElement.appendChild(commentOptionsElement);
+  });
+  commentOptionsElement.appendChild(editButtonElement);
 }
 
 /** Adds a new comment to the database. */
 function addNewComment() {
-  const params = new URLSearchParams();
-  const AUTHOR_NAME = document.getElementById('author-name').value;
   const COMMENT_TEXT = document.getElementById('comment-text').value;
+  if (COMMENT_TEXT === '') {
+    alert('Please fill out the comment field');
+    return;
+  }
+
+  const AUTHOR_NAME = document.getElementById('author-name').value;
+  const params = new URLSearchParams();
   params.append('author-name', AUTHOR_NAME);
   params.append('comment-text', COMMENT_TEXT);
   fetch('/new-comment', {method: 'POST', body: params});
+}
+
+/** 
+ * Adds a button able to submit the new comment's text.
+ * @param {Object} comment The comment to which the button should be
+ * attached.
+ * @param {Object} commentElement The element that will be deleted if the 
+ * button will be selected.
+ * @param {Object} commentOptionsElement The element in which the button
+ * will be inserted.
+ */
+function addSubmitButton(comment, commentElement, commentDetailsElement,
+    commentOptionsElement) {
+  const submitButtonElement = createElement('i',
+      'fas fa-paper-plane comment-option-button', '');
+  submitButtonElement.addEventListener('click', () => {
+    updateComment(comment);
+    commentDetailsElement.remove();
+    addCommentDetails(comment, commentElement);
+  });
+  commentOptionsElement.appendChild(submitButtonElement);
 }
 
 /**
@@ -157,7 +264,6 @@ function createCommentElement(comment) {
   const commentElement = createElement('div', 'comment', '');
   addAuthorIcon(commentElement);
   addCommentDetails(comment, commentElement);
-  addDeleteButton(comment, commentElement);
   return commentElement;
 }
 
@@ -277,6 +383,17 @@ function switchTheme() {
     darkModeOn = true;
     applyTheme(DARK_THEME);
   }
+}
+
+function updateComment(comment) {
+  deleteComment(comment);
+  const params = new URLSearchParams();
+  const AUTHOR_NAME = document.getElementById('author-name').value;
+  const COMMENT_TEXT = document.getElementById('update-comment').value;
+  comment.commentText = COMMENT_TEXT;
+  params.append('author-name', AUTHOR_NAME);
+  params.append('comment-text', COMMENT_TEXT);
+  fetch('/new-comment', {method: 'POST', body: params});
 }
 
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);
