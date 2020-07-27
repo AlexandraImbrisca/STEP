@@ -23,6 +23,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.google.sps.data.Constants.ENTITY_NAME;
+
 /** Servlet that adds a new comment to the database. */
 @WebServlet("/new-comment")
 public class NewCommentServlet extends HttpServlet {
@@ -33,7 +35,7 @@ public class NewCommentServlet extends HttpServlet {
     String commentText = request.getParameter("comment-text");
     Date publishTime = new Date();
 
-    Entity commentEntity = new Entity("Comment");
+    Entity commentEntity = new Entity(ENTITY_NAME);
     commentEntity.setProperty("author-name", authorName);
     commentEntity.setProperty("text", commentText);
     commentEntity.setProperty("publish-time", publishTime);

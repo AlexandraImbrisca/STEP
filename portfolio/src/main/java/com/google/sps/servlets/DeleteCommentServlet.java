@@ -23,15 +23,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.google.sps.data.Constants.ENTITY_NAME;
+
 /** Servlet that adds a comment. */
 @WebServlet("/delete-comment")
 public class DeleteCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    long id = Long.parseLong(request.getParameter("id"));
-
-    Key commentEntityKey = KeyFactory.createKey("Comment", id);
-    DatastoreServiceFactory.getDatastoreService().delete(commentEntityKey);
+    try {
+      String idString = request.getParameter("id");
+      if (idString == null || idString.isEmpty()) {
+        System.out.println("Missing id field");
+        return;
+      }
+      long id = Long.parseLong(idString);
+ 
+      Key commentEntityKey = KeyFactory.createKey(ENTITY_NAME, id);
+      DatastoreServiceFactory.getDatastoreService().delete(commentEntityKey);
+    } catch (NumberFormatException e) {
+      System.out.println(e.getMessage());
+    }
   }
 }

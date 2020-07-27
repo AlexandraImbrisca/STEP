@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-
+ 
 // Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +13,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+ 
 let darkModeOn = false;
-
+ 
 /** Class used to define the basic characteristics of a theme. */
 class Theme {
   /**
@@ -47,24 +47,24 @@ class Theme {
     this.menuButtonBorderColor = menuButtonBorderColor;
   }
 }
-
+ 
 const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', 'white',
     '#2a628f', 'white');
 const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
     '#3e92cc', 'black');
-
+ 
 const GALLERY_SIZE_PERCENT = 75;
-
+ 
 /**
  * Adds the author icon to the comment.
  * @param {Object} commentElement The comment element in which the author
  * icon will be included.
  */
 function addAuthorIcon(commentElement) {
-  const AUTHOR_ICON_ELEMENT = createElement('i', 'fas fa-star author-icon', '');
-  commentElement.appendChild(AUTHOR_ICON_ELEMENT);
+  const authorIconElement = createElement('i', 'fas fa-star author-icon', '');
+  commentElement.appendChild(authorIconElement);
 }
-
+ 
 /**
  * Adds the details (headline, text, options) to the comment.
  * @param {Object} comment The original comment.
@@ -73,14 +73,14 @@ function addAuthorIcon(commentElement) {
  */
 function addCommentDetails(comment, commentElement) {
   const commentDetailsElement = createElement('div', 'comment-details', '');
-
+ 
   addCommentHeadline(comment, commentDetailsElement);
   addCommentText(comment, commentDetailsElement);
   addCommentOptions(comment, commentElement, commentDetailsElement);
-
+ 
   commentElement.appendChild(commentDetailsElement);
 }
-
+ 
 /**
  * Adds the headline (author name, publish time) to the comment.
  * @param {Object} comment The original comment.
@@ -90,20 +90,18 @@ function addCommentDetails(comment, commentElement) {
 function addCommentHeadline(comment, commentDetailsElement) {
   const commentHeadlineElement = createElement('div', 'comment-headline', '');
   let authorName = comment.authorName;
-
+ 
   // The user is anonymous if the name was omitted
-  if (authorName === '') {
-    authorName = 'Anonymous user';
-  }
-
-  const AUTHOR_NAME_ELEMENT = createElement('p', 'author-name', authorName);
-  const PUBLISH_TIME_ELEMENT = createElement('p', 'publish-time',
+  authorName = (authorName === '') ? 'Anonymous user' : authorName;
+ 
+  const authorNameElement = createElement('p', 'author-name', authorName);
+  const publishTimeElement = createElement('p', 'publish-time',
       comment.publishTime);
-  commentHeadlineElement.appendChild(AUTHOR_NAME_ELEMENT);
-  commentHeadlineElement.appendChild(PUBLISH_TIME_ELEMENT);
+  commentHeadlineElement.appendChild(authorNameElement);
+  commentHeadlineElement.appendChild(publishTimeElement);
   commentDetailsElement.appendChild(commentHeadlineElement);
 }
-
+ 
 /**
  * Adds the options to the comment.
  * @param {Object} comment The original comment.
@@ -115,14 +113,14 @@ function addCommentHeadline(comment, commentDetailsElement) {
  */
 function addCommentOptions(comment, commentElement, commentDetailsElement) {
   const commentOptionsElement = createElement('div', 'comment-options', '');
-
+ 
   addDeleteButton(comment, commentElement, commentOptionsElement);
   addEditButton(comment, commentElement, commentDetailsElement,
       commentOptionsElement);
-
+ 
   commentDetailsElement.appendChild(commentOptionsElement);
 }
-
+ 
 /**
  * Adds the comment text to the comment.
  * @param {Object} comment The original comment.
@@ -130,11 +128,11 @@ function addCommentOptions(comment, commentElement, commentDetailsElement) {
  * in which the text will be included.
  */
 function addCommentText(comment, commentDetailsElement) {
-  const COMMENT_TEXT_ELEMENT = createElement('p', 'comment-text',
+  const commentTextElement = createElement('p', 'comment-text',
       comment.commentText);
-  commentDetailsElement.appendChild(COMMENT_TEXT_ELEMENT);
+  commentDetailsElement.appendChild(commentTextElement);
 }
-
+ 
 /**
  * Adds a new textarea element to the comment details element.
  * @param {Object} comment The original comment.
@@ -149,10 +147,10 @@ function addCommentTextarea(comment, commentDetailsElement, initialText) {
   textareaElement.rows = '6';
   textareaElement.innerText = initialText;
   textareaElement.id = 'update-comment';
-
+ 
   commentDetailsElement.appendChild(textareaElement);
 }
-
+ 
 /**
  * Adds a button able to delete the comment.
  * @param {Object} comment The comment to which the button should be
@@ -165,15 +163,15 @@ function addCommentTextarea(comment, commentDetailsElement, initialText) {
 function addDeleteButton(comment, commentElement, commentOptionsElement) {
   const deleteButtonElement = createElement('i',
       'fas fa-trash-alt comment-option-button', '');
-
+ 
   deleteButtonElement.addEventListener('click', () => {
     deleteComment(comment);
     commentElement.remove();
   });
-
+ 
   commentOptionsElement.appendChild(deleteButtonElement);
 }
-
+ 
 /**
  * Adds a button able to edit the comment text.
  * @param {Object} comment The comment to which the button should be
@@ -190,36 +188,29 @@ function addEditButton(comment, commentElement, commentDetailsElement,
     commentOptionsElement) {
   const editButtonElement = createElement('i',
       'fas fa-edit comment-option-button', '');
-
+ 
   editButtonElement.addEventListener('click', () => {
-    const INITIAL_TEXT = comment.commentText;
+    const initialText = comment.commentText;
     commentDetailsElement.innerHTML = '';
     commentOptionsElement.innerHTML = '';
     addCommentHeadline(comment, commentDetailsElement);
-    addCommentTextarea(comment, commentDetailsElement, INITIAL_TEXT);
+    addCommentTextarea(comment, commentDetailsElement, initialText);
     addSubmitButton(comment, commentElement, commentDetailsElement,
         commentOptionsElement);
     commentDetailsElement.appendChild(commentOptionsElement);
   });
-
+ 
   commentOptionsElement.appendChild(editButtonElement);
 }
-
+ 
 /** Adds a new comment to the database. */
 function addNewComment() {
-  const COMMENT_TEXT = document.getElementById('comment-text').value;
-  if (COMMENT_TEXT === '') {
-    alert('Please fill out the comment field');
-    return;
-  }
-
-  const AUTHOR_NAME = document.getElementById('author-name').value;
-  const params = new URLSearchParams();
-  params.append('author-name', AUTHOR_NAME);
-  params.append('comment-text', COMMENT_TEXT);
-  fetch('/new-comment', {method: 'POST', body: params});
+  const authorName = document.getElementById('author-name').value;
+  const commentText = document.getElementById('comment-text').value;
+ 
+  sendComment(authorName, commentText);
 }
-
+ 
 /**
  * Adds a button able to submit the new comment text.
  * @param {Object} comment The comment to which the button should be
@@ -235,40 +226,40 @@ function addSubmitButton(comment, commentElement, commentDetailsElement,
     commentOptionsElement) {
   const submitButtonElement = createElement('i',
       'fas fa-paper-plane comment-option-button', '');
-
+ 
   submitButtonElement.addEventListener('click', () => {
     updateComment(comment);
     commentDetailsElement.remove();
     addCommentDetails(comment, commentElement);
   });
-
+ 
   commentOptionsElement.appendChild(submitButtonElement);
 }
-
+ 
 /**
  * Applies the given theme to the page.
  * @param {object} theme The theme that will be applied.
  */
 function applyTheme(theme) {
-  const COMMENTS_CONTAINER = document.getElementById('comments-container');
-  const COMMENTS_SECTION = document.getElementById('comments-section');
-  const MENU_BUTTONS = document.getElementsByClassName('menu-button');
-  const THEME_BUTTON = document.getElementById('switch-theme-button');
-
+  const commentsContainer = document.getElementById('comments-container');
+  const commentsSection = document.getElementById('comments-section');
+  const menuButtons = document.getElementsByClassName('menu-button');
+  const themeButton = document.getElementById('switch-theme-button');
+ 
   document.body.style.color = theme.textColor;
   document.body.style.backgroundColor = theme.backgroundColor;
-  THEME_BUTTON.style.backgroundColor = theme.themeButtonColor;
-
-  COMMENTS_CONTAINER.style.borderTopColor = theme.borderColor;
-  COMMENTS_SECTION.style.borderLeftColor = theme.borderColor;
-
+  themeButton.style.backgroundColor = theme.themeButtonColor;
+ 
+  commentsContainer.style.borderTopColor = theme.borderColor;
+  commentsSection.style.borderLeftColor = theme.borderColor;
+ 
   for (let i = 0; i < MENU_BUTTONS.length; i++) {
-    MENU_BUTTONS[i].style.color = theme.menuButtonTextColor;
-    MENU_BUTTONS[i].style.backgroundColor = theme.menuButtonBackgroundColor;
-    MENU_BUTTONS[i].style.borderColor = theme.menuButtonBorderColor;
+    menuButtons[i].style.color = theme.menuButtonTextColor;
+    menuButtons[i].style.backgroundColor = theme.menuButtonBackgroundColor;
+    menuButtons[i].style.borderColor = theme.menuButtonBorderColor;
   }
 }
-
+ 
 /**
  * Creates the element associated to a given comment.
  * @param {object} comment The comment for which we will create a new element.
@@ -278,9 +269,10 @@ function createCommentElement(comment) {
   const commentElement = createElement('div', 'comment', '');
   addAuthorIcon(commentElement);
   addCommentDetails(comment, commentElement);
+
   return commentElement;
 }
-
+ 
 /**
  * Creates a new element with a specified type, class and innerText.
  * @param {string} elementType The type of the element that will be created.
@@ -293,10 +285,10 @@ function createElement(elementType, className, innerText) {
   const newElement = document.createElement(elementType);
   newElement.className = className;
   newElement.innerText = innerText;
-
+ 
   return newElement;
 }
-
+ 
 /**
  * Computes the size of one column based on the size of the entire gallery
  * and the number of columns.
@@ -314,7 +306,7 @@ function computeColumnSize(columns, gallerySize) {
   }
   return columnSize + '%';
 }
-
+ 
 /**
  * Deletes the comment from the database.
  * @param {Object} comment The comment that will be deleted.
@@ -324,22 +316,22 @@ function deleteComment(comment) {
   params.append('id', comment.id);
   fetch('/delete-comment', {method: 'POST', body: params});
 }
-
+ 
 /**
  * Displays each column of a size computed based on the gallery size and
  * the number of columns.
  */
 function displayColumns() {
-  const GALLERY_SIZE = document.getElementById('gallery').offsetWidth;
-  const COLUMNS = document.getElementsByClassName('gallery-column');
-  const COLUMN_SIZE = computeColumnSize(COLUMNS, GALLERY_SIZE);
-
-  for (let i = 0; i < COLUMNS.length; i++) {
-    COLUMNS[i].style.flex = COLUMN_SIZE;
-    COLUMNS[i].style.maxWidth = COLUMN_SIZE;
+  const gallerySize = document.getElementById('gallery').offsetWidth;
+  const columns = document.getElementsByClassName('gallery-column');
+  const columnSize = computeColumnSize(columns, gallerySize);
+ 
+  for (let i = 0; i < columns.length; i++) {
+    columns[i].style.flex = columnSize;
+    columns[i].style.maxWidth = columnSize;
   }
 }
-
+ 
 /**
  * Displays the columns of the gallery and then hide the whole content
  * of the hobbies container.
@@ -348,45 +340,58 @@ function initAndHideHobbies() {
   displayColumns();
   document.getElementById('hobbies').style.display = 'none';
 }
-
+ 
 /** Fetches comments from the server and adds them to the DOM. */
 function loadComments() {
   fetch('/list-comments')
       .then((response) => response.json())
       .then((comments) => {
-        const COMMENTS_LIST = document.getElementById('comments-section');
+        const commentsList = document.getElementById('comments-section');
         comments.forEach((comment) => {
-          COMMENTS_LIST.appendChild(createCommentElement(comment));
+          commentsList.appendChild(createCommentElement(comment));
         });
       });
 }
-
-
+ 
+/**
+ * Creates and uses a new URLSearchParams() object to add a new comment
+ * in the database.
+ * @param {String} authorName The name of the author of the new comment.
+ * @param {String} commentText The text of the new comment.
+ */
+function sendComment(authorName, commentText) {
+  const params = new URLSearchParams();
+  params.append('author-name', authorName);
+  params.append('comment-text', commentText);
+  fetch('/new-comment', {method: 'POST', body: params});
+}
+ 
+ 
 /** Shows the comments region (plus automatic scroll to this area). */
 function showComments() {
-  const COMMENTS_CONTAINER = document.getElementById('comments-container');
-  const SHOW_COMMENTS_BUTTON = document.getElementById('show-comments-button');
-  const MARGIN_TOP = SHOW_COMMENTS_BUTTON.offsetHeight + 25;
-
-  COMMENTS_CONTAINER.style.marginTop = MARGIN_TOP + 'px';
+  const commentsContainer = document.getElementById('comments-container');
+  const showCommentsButton = document.getElementById('show-comments-button');
+  const marginTop = showCommentsButton.offsetHeight + 25;
+ 
+  commentsContainer.style.marginTop = marginTop + 'px';
   showContent('comments');
   window.scrollTo(0, document.body.scrollHeight);
 }
-
+ 
 /**
  * Shows / hides the content of a container with a given ID.
  * @param {string} containerID The ID of the container that will be
  * displayed / hidden.
  */
 function showContent(containerID) {
-  const CONTAINER = document.getElementById(containerID);
-  if (CONTAINER.style.display === 'initial') {
-    CONTAINER.style.display = 'none';
+  const container = document.getElementById(containerID);
+  if (container.style.display === 'initial') {
+    container.style.display = 'none';
   } else {
-    CONTAINER.style.display = 'initial';
+    container.style.display = 'initial';
   }
 }
-
+ 
 /** Switches the theme (bright <-> dark). */
 function switchTheme() {
   if (darkModeOn) {
@@ -397,21 +402,19 @@ function switchTheme() {
     applyTheme(DARK_THEME);
   }
 }
-
+ 
 /**
  * Updates the comment in the database.
  * @param {Object} comment The comment that will be updated.
  */
 function updateComment(comment) {
+  const authorName = document.getElementById('author-name').value;
+  const commentText = document.getElementById('update-comment').value;
+ 
   deleteComment(comment);
-  const params = new URLSearchParams();
-  const AUTHOR_NAME = document.getElementById('author-name').value;
-  const COMMENT_TEXT = document.getElementById('update-comment').value;
-  comment.commentText = COMMENT_TEXT;
-  params.append('author-name', AUTHOR_NAME);
-  params.append('comment-text', COMMENT_TEXT);
-  fetch('/new-comment', {method: 'POST', body: params});
+  comment.commentText = commentText;
+  sendComment(authorName, commentText);
 }
-
+ 
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);
 window.addEventListener('resize', displayColumns);

@@ -29,13 +29,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.google.sps.data.Constants.ENTITY_NAME;
+
 /** Servlet that returns the comments list. */
 @WebServlet("/list-comments")
 public class ListCommentsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("publish-time", SortDirection.DESCENDING);
+    Query query = new Query(ENTITY_NAME).addSort("publish-time", SortDirection.DESCENDING);
 
     PreparedQuery results = DatastoreServiceFactory.getDatastoreService().prepare(query);
 
