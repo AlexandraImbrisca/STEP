@@ -365,7 +365,7 @@ function sendComment(authorName, commentText) {
   params.append('comment-text', commentText);
   fetch('/new-comment', {method: 'POST', body: params});
 }
- 
+
 /** Shows the comments region (plus automatic scroll to this area). */
 function showComments() {
   const commentsContainer = document.getElementById('comments-container');
