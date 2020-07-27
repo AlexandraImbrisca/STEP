@@ -51,7 +51,7 @@ public class ListCommentsServlet extends HttpServlet {
 
               Comment comment = new Comment(authorName, commentText, id, publishTime);
               comments.add(comment);
-    });
+            });
 
     Gson gson = new Gson();
 
