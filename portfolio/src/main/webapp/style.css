@@ -26,7 +26,6 @@
   border-left: none;
   border-right: none;
   display: block;
-  width: 100%;
 }
 
 .author-name-input:focus,
@@ -112,8 +111,8 @@ body::-webkit-scrollbar {
 }
 
 #comments-section::-webkit-scrollbar-thumb {
-  border-radius: 4px;
   background-color: #808080;
+  border-radius: 4px;
 }
 
 .contact-icon {
@@ -138,7 +137,7 @@ body::-webkit-scrollbar {
 }
 
 .fa-linkedin {
-  background: #007bb5;
+  background-color: #007bb5;
   color: white;
   margin-right: 20px;
 }

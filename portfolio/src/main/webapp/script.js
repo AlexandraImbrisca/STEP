@@ -52,6 +52,7 @@ const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', 'white',
     '#2a628f', 'white');
 const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
     '#3e92cc', 'black');
+
 const GALLERY_SIZE_PERCENT = 75;
 
 /** 
@@ -65,7 +66,7 @@ function addAuthorIcon(commentElement) {
 }
 
 /** 
- * Adds the details (headline, comment text) to the comment.
+ * Adds the details (headline, text, options) to the comment.
  * @param {Object} comment The original comment.
  * @param {Object} commentElement The comment element in which the comment
  * details will be included.
@@ -89,9 +90,12 @@ function addCommentDetails(comment, commentElement) {
 function addCommentHeadline(comment, commentDetailsElement) {
   const commentHeadlineElement = createElement('div', 'comment-headline', '');
   let authorName = comment.authorName;
+
+  // The user is anonymous if the name was omitted
   if (authorName === '') {
     authorName = 'Anonymous user';
   }
+
   const AUTHOR_NAME_ELEMENT = createElement('p', 'author-name', authorName);
   const PUBLISH_TIME_ELEMENT = createElement('p', 'publish-time',
       comment.publishTime);
@@ -104,7 +108,7 @@ function addCommentHeadline(comment, commentDetailsElement) {
  * Adds the options to the comment.
  * @param {Object} comment The original comment.
  * @param {Object} commentElement The element that can be modified based
- * on the options selected (if the user selects delete than this element
+ * on the options selected (e.g. if the user selects delete then this element
  * will be removed from the comments section).
  * @param {Object} commentDetailsElement The comment details element
  * in which the options will be included.
@@ -140,7 +144,7 @@ function addCommentText(comment, commentDetailsElement) {
  * in the textarea element.
  */
 function addCommentTextarea(comment, commentDetailsElement, initialText) {
-  const textareaElement = createElement('textarea', 'update-comment-input', '');
+  const textareaElement = createElement('textarea', '', '');
   textareaElement.name = 'update-comment';
   textareaElement.rows = '6';
   textareaElement.innerText = initialText;
@@ -161,19 +165,24 @@ function addCommentTextarea(comment, commentDetailsElement, initialText) {
 function addDeleteButton(comment, commentElement, commentOptionsElement) {
   const deleteButtonElement = createElement('i',
       'fas fa-trash-alt comment-option-button', '');
+
   deleteButtonElement.addEventListener('click', () => {
     deleteComment(comment);
     commentElement.remove();
   });
+
   commentOptionsElement.appendChild(deleteButtonElement);
 }
 
 /** 
- * Adds a button able to edit the current comment's text.
+ * Adds a button able to edit the comment text.
  * @param {Object} comment The comment to which the button should be
  * attached.
- * @param {Object} commentElement The element that will be deleted if the 
- * button will be selected.
+ * @param {Object} commentElement The element that will incorporate the new
+ * details of the comment after submission.
+ * @param {Object} commentDetailsElement The comment details element will be
+ * modified if the button is clicked (e.g. include the textarea used to
+ * update the comment).
  * @param {Object} commentOptionsElement The element in which the button
  * will be inserted.
  */
@@ -181,17 +190,18 @@ function addEditButton(comment, commentElement, commentDetailsElement,
     commentOptionsElement) {
   const editButtonElement = createElement('i',
       'fas fa-edit comment-option-button', '');
-  editButtonElement.addEventListener('click', () => {
-    commentDetailsElement.innerHTML = '';
-    addCommentHeadline(comment, commentDetailsElement);
-    const INITIAL_TEXT = comment.commentText;
-    addCommentTextarea(comment, commentDetailsElement, INITIAL_TEXT);
 
+  editButtonElement.addEventListener('click', () => {
+    const INITIAL_TEXT = comment.commentText;
+    commentDetailsElement.innerHTML = '';
     commentOptionsElement.innerHTML = '';
+    addCommentHeadline(comment, commentDetailsElement);
+    addCommentTextarea(comment, commentDetailsElement, INITIAL_TEXT);
     addSubmitButton(comment, commentElement, commentDetailsElement,
        commentOptionsElement);
     commentDetailsElement.appendChild(commentOptionsElement);
   });
+
   commentOptionsElement.appendChild(editButtonElement);
 }
 
@@ -211,11 +221,13 @@ function addNewComment() {
 }
 
 /** 
- * Adds a button able to submit the new comment's text.
+ * Adds a button able to submit the new comment text.
  * @param {Object} comment The comment to which the button should be
  * attached.
- * @param {Object} commentElement The element that will be deleted if the 
- * button will be selected.
+ * @param {Object} commentElement The element that will incorporate the new
+ * details of the comment after submission.
+ * @param {Object} commentDetailsElement The comment details element that
+ * will be removed if the button is clicked.
  * @param {Object} commentOptionsElement The element in which the button
  * will be inserted.
  */
@@ -223,11 +235,13 @@ function addSubmitButton(comment, commentElement, commentDetailsElement,
     commentOptionsElement) {
   const submitButtonElement = createElement('i',
       'fas fa-paper-plane comment-option-button', '');
+
   submitButtonElement.addEventListener('click', () => {
     updateComment(comment);
     commentDetailsElement.remove();
     addCommentDetails(comment, commentElement);
   });
+
   commentOptionsElement.appendChild(submitButtonElement);
 }
 
@@ -276,11 +290,11 @@ function createCommentElement(comment) {
  * @return {element} The element created.
  */
 function createElement(elementType, className, innerText) {
-  const NEW_ELEMENT = document.createElement(elementType);
-  NEW_ELEMENT.className = className;
-  NEW_ELEMENT.innerText = innerText;
+  const newElement = document.createElement(elementType);
+  newElement.className = className;
+  newElement.innerText = innerText;
 
-  return NEW_ELEMENT;
+  return newElement;
 }
 
 /**
@@ -302,7 +316,7 @@ function computeColumnSize(columns, gallerySize) {
 }
 
 /** 
- * Deletes the comment from the server.
+ * Deletes the comment from the database.
  * @param {Object} comment The comment that will be deleted.
  */
 function deleteComment(comment) {
@@ -352,7 +366,6 @@ function loadComments() {
 function showComments() {
   const COMMENTS_CONTAINER = document.getElementById('comments-container');
   const SHOW_COMMENTS_BUTTON = document.getElementById('show-comments-button');
-
   const MARGIN_TOP = SHOW_COMMENTS_BUTTON.offsetHeight + 25;
 
   COMMENTS_CONTAINER.style.marginTop = MARGIN_TOP + 'px';
@@ -385,6 +398,10 @@ function switchTheme() {
   }
 }
 
+/** 
+ * Updates the comment in the database.
+ * @param {Object} comment The comment that will be updated.
+ */
 function updateComment(comment) {
   deleteComment(comment);
   const params = new URLSearchParams();
