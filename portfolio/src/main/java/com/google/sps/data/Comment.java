@@ -22,8 +22,7 @@ public final class Comment {
   private final long id;
   private final Date publishTime;
 
-  public Comment(String authorName, String commentText, long id,
-                 Date publishTime) {
+  public Comment(String authorName, String commentText, long id, Date publishTime) {
     this.authorName = authorName;
     this.commentText = commentText;
     this.id = id;

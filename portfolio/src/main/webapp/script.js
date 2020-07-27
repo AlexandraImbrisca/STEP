@@ -55,7 +55,7 @@ const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
 
 const GALLERY_SIZE_PERCENT = 75;
 
-/** 
+/**
  * Adds the author icon to the comment.
  * @param {Object} commentElement The comment element in which the author
  * icon will be included.
@@ -65,7 +65,7 @@ function addAuthorIcon(commentElement) {
   commentElement.appendChild(AUTHOR_ICON_ELEMENT);
 }
 
-/** 
+/**
  * Adds the details (headline, text, options) to the comment.
  * @param {Object} comment The original comment.
  * @param {Object} commentElement The comment element in which the comment
@@ -81,7 +81,7 @@ function addCommentDetails(comment, commentElement) {
   commentElement.appendChild(commentDetailsElement);
 }
 
-/** 
+/**
  * Adds the headline (author name, publish time) to the comment.
  * @param {Object} comment The original comment.
  * @param {Object} commentDetailsElement The comment details element
@@ -104,7 +104,7 @@ function addCommentHeadline(comment, commentDetailsElement) {
   commentDetailsElement.appendChild(commentHeadlineElement);
 }
 
-/** 
+/**
  * Adds the options to the comment.
  * @param {Object} comment The original comment.
  * @param {Object} commentElement The element that can be modified based
@@ -123,7 +123,7 @@ function addCommentOptions(comment, commentElement, commentDetailsElement) {
   commentDetailsElement.appendChild(commentOptionsElement);
 }
 
-/** 
+/**
  * Adds the comment text to the comment.
  * @param {Object} comment The original comment.
  * @param {Object} commentDetailsElement The comment details element
@@ -135,7 +135,7 @@ function addCommentText(comment, commentDetailsElement) {
   commentDetailsElement.appendChild(COMMENT_TEXT_ELEMENT);
 }
 
-/** 
+/**
  * Adds a new textarea element to the comment details element.
  * @param {Object} comment The original comment.
  * @param {Object} commentDetailsElement The comment details element
@@ -153,11 +153,11 @@ function addCommentTextarea(comment, commentDetailsElement, initialText) {
   commentDetailsElement.appendChild(textareaElement);
 }
 
-/** 
+/**
  * Adds a button able to delete the comment.
  * @param {Object} comment The comment to which the button should be
  * attached.
- * @param {Object} commentElement The element that will be deleted if the 
+ * @param {Object} commentElement The element that will be deleted if the
  * button will be selected.
  * @param {Object} commentOptionsElement The element in which the button
  * will be inserted.
@@ -174,7 +174,7 @@ function addDeleteButton(comment, commentElement, commentOptionsElement) {
   commentOptionsElement.appendChild(deleteButtonElement);
 }
 
-/** 
+/**
  * Adds a button able to edit the comment text.
  * @param {Object} comment The comment to which the button should be
  * attached.
@@ -198,7 +198,7 @@ function addEditButton(comment, commentElement, commentDetailsElement,
     addCommentHeadline(comment, commentDetailsElement);
     addCommentTextarea(comment, commentDetailsElement, INITIAL_TEXT);
     addSubmitButton(comment, commentElement, commentDetailsElement,
-       commentOptionsElement);
+        commentOptionsElement);
     commentDetailsElement.appendChild(commentOptionsElement);
   });
 
@@ -220,7 +220,7 @@ function addNewComment() {
   fetch('/new-comment', {method: 'POST', body: params});
 }
 
-/** 
+/**
  * Adds a button able to submit the new comment text.
  * @param {Object} comment The comment to which the button should be
  * attached.
@@ -315,7 +315,7 @@ function computeColumnSize(columns, gallerySize) {
   return columnSize + '%';
 }
 
-/** 
+/**
  * Deletes the comment from the database.
  * @param {Object} comment The comment that will be deleted.
  */
@@ -398,7 +398,7 @@ function switchTheme() {
   }
 }
 
-/** 
+/**
  * Updates the comment in the database.
  * @param {Object} comment The comment that will be updated.
  */
