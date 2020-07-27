@@ -14,8 +14,6 @@
 
 package com.google.sps.data;
 
-import java.util.Date;
-
 public final class Constants {
   public static final String ENTITY_NAME = "Comment";
 
