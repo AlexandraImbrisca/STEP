@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.sps.data.LoginStatus;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,9 +37,10 @@ public class LoginStatusServlet extends HttpServlet {
       userEmail = userService.getCurrentUser().getEmail();
     }
 
+    LoginStatus loginStatus = new LoginStatus(userEmail, userService);
     Gson gson = new Gson();
 
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(userEmail));
+    response.getWriter().println(gson.toJson(loginStatus));
   }
 }

@@ -360,18 +360,27 @@ async function loadLoginStatus() {
   return loginStatus;
 }
 
-function loadLoggedInHeader(userEmail) {
-  const loginStatusContainer = document.getElementById('login-status');
-  loginStatusContainer.innerHTML = '';
-
-  loginStatusContainer.appendChild(createElement('p', '', 'Logged in as ' + userEmail));
+function loadLoggedInHeader(loginStatus, loginStatusContainer) {
+  loginStatusContainer.appendChild(createElement('p', '',
+      'Currently logged in using the following email address: '
+      + loginStatus.userEmail));
+  const logoutUrlContainer = createElement('div', '', 'Not you? Logout ');
+  const logoutUrl = createElement('a', '', 'here');
+  logoutUrl.href = loginStatus.logoutUrl;
+  logoutUrlContainer.appendChild(logoutUrl);
+  loginStatusContainer.appendChild(logoutUrlContainer);
 }
 
-function loadLoggedOutHeader() {
-  const loginStatusContainer = document.getElementById('login-status');
-  loginStatusContainer.innerHTML = '';
-
-  loginStatusContainer.appendChild(createElement('p', '', 'Not logged in'));
+function loadLoggedOutHeader(loginStatus, loginStatusContainer) {
+  const newCommentSidebar = document.getElementById('new-comment-form');
+  newCommentSidebar.style.display = 'none';
+  loginStatusContainer.appendChild(createElement('p', '',
+      'You have to be logged in order to add comments'));
+  const loginUrlContainer = createElement('div', '', 'Login ');
+  const loginUrl = createElement('a', '', 'here');
+  loginUrl.href = loginStatus.loginUrl;
+  loginUrlContainer.appendChild(loginUrl);
+  loginStatusContainer.appendChild(loginUrlContainer);
 }
 
 function loadNewCommentForm() {
@@ -400,12 +409,16 @@ async function showComments() {
   showContent('comments');
   window.scrollTo(0, document.body.scrollHeight);
 
-  const loggedIn = await loadLoginStatus();
+  const loginStatusContainer = document.getElementById('login-status');
+  loginStatusContainer.innerHTML = '';
+
+  const loginStatus = await loadLoginStatus();
+  const loggedIn = await loginStatus.loggedIn;
   if (loggedIn) {
-    loadLoggedInHeader(loggedIn);
+    loadLoggedInHeader(loginStatus, loginStatusContainer);
     loadNewCommentForm();
   } else {
-    loadLoggedOutHeader();
+    loadLoggedOutHeader(loginStatus, loginStatusContainer);
   }
 }
 
