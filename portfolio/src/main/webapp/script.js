@@ -202,7 +202,6 @@ function addEditButton(comment, commentElement, commentDetailsElement,
 /** Adds a new comment to the database. */
 function addNewComment() {
   const commentText = document.getElementById('comment-text').value;
-
   sendComment(commentText);
 }
 
@@ -256,6 +255,16 @@ function applyTheme(theme) {
 }
 
 /**
+ * Changes the display property of the container with the one received.
+ * @param {String} containerID The ID of the container.
+ * @param {String} displayType The new display value.
+ */
+function changeContainerDisplay(containerID, displayType) {
+  const container = document.getElementById(containerID);
+  container.style.display = displayType;
+}
+
+/**
  * Creates the element associated to a given comment.
  * @param {object} comment The comment for which we will create a new element.
  * @return {element} The element created.
@@ -282,6 +291,41 @@ function createElement(elementType, className, innerText) {
   newElement.innerText = innerText;
 
   return newElement;
+}
+
+/**
+ * Creates the header associated with the logged in user.
+ * @param {Object} loginStatus This object includes information such as
+ * user email and logout link
+ * @param {Object} loginStatusContainer The container that will include
+ * this header.
+ */
+function createLoggedInHeader(loginStatus, loginStatusContainer) {
+  loginStatusContainer.appendChild(createElement('p', '',
+      'Currently logged in using the following email address: '
+      + loginStatus.userEmail));
+  const logoutUrlContainer = createElement('div', '', 'Not you? Logout ');
+  const logoutUrl = createElement('a', '', 'here');
+  logoutUrl.href = loginStatus.logoutUrl;
+  logoutUrlContainer.appendChild(logoutUrl);
+  loginStatusContainer.appendChild(logoutUrlContainer);
+}
+
+/**
+ * Creates the header associated with the anonymous user.
+ * @param {Object} loginStatus This object includes information such as
+ * login link
+ * @param {Object} loginStatusContainer The container that will include
+ * this header.
+ */
+function createLoggedOutHeader(loginStatus, loginStatusContainer) {
+  loginStatusContainer.appendChild(createElement('p', '',
+      'You have to be logged in order to add comments'));
+  const loginUrlContainer = createElement('div', '', 'Login ');
+  const loginUrl = createElement('a', '', 'here');
+  loginUrl.href = loginStatus.loginUrl;
+  loginUrlContainer.appendChild(loginUrl);
+  loginStatusContainer.appendChild(loginUrlContainer);
 }
 
 /**
@@ -360,34 +404,6 @@ async function loadLoginStatus() {
   return loginStatus;
 }
 
-function loadLoggedInHeader(loginStatus, loginStatusContainer) {
-  loginStatusContainer.appendChild(createElement('p', '',
-      'Currently logged in using the following email address: '
-      + loginStatus.userEmail));
-  const logoutUrlContainer = createElement('div', '', 'Not you? Logout ');
-  const logoutUrl = createElement('a', '', 'here');
-  logoutUrl.href = loginStatus.logoutUrl;
-  logoutUrlContainer.appendChild(logoutUrl);
-  loginStatusContainer.appendChild(logoutUrlContainer);
-}
-
-function loadLoggedOutHeader(loginStatus, loginStatusContainer) {
-  const newCommentSidebar = document.getElementById('new-comment-form');
-  newCommentSidebar.style.display = 'none';
-  loginStatusContainer.appendChild(createElement('p', '',
-      'You have to be logged in order to add comments'));
-  const loginUrlContainer = createElement('div', '', 'Login ');
-  const loginUrl = createElement('a', '', 'here');
-  loginUrl.href = loginStatus.loginUrl;
-  loginUrlContainer.appendChild(loginUrl);
-  loginStatusContainer.appendChild(loginUrlContainer);
-}
-
-function loadNewCommentForm() {
-  const newCommentForm = document.getElementById('new-comment-form');
-  newCommentForm.style.display = 'initial';
-}
-
 /**
  * Creates and uses a new URLSearchParams() object to add a new comment
  * in the database.
@@ -406,7 +422,7 @@ async function showComments() {
   const marginTop = showCommentsButton.offsetHeight + 25;
 
   commentsContainer.style.marginTop = marginTop + 'px';
-  showContent('comments');
+  showHideContent('comments');
   window.scrollTo(0, document.body.scrollHeight);
 
   const loginStatusContainer = document.getElementById('login-status');
@@ -415,10 +431,11 @@ async function showComments() {
   const loginStatus = await loadLoginStatus();
   const loggedIn = await loginStatus.loggedIn;
   if (loggedIn) {
-    loadLoggedInHeader(loginStatus, loginStatusContainer);
-    loadNewCommentForm();
+    changeContainerDisplay('new-comment-form', 'initial');
+    createLoggedInHeader(loginStatus, loginStatusContainer);
   } else {
-    loadLoggedOutHeader(loginStatus, loginStatusContainer);
+    changeContainerDisplay('new-comment-form', 'none');
+    createLoggedOutHeader(loginStatus, loginStatusContainer);
   }
 }
 
@@ -427,12 +444,11 @@ async function showComments() {
  * @param {string} containerID The ID of the container that will be
  * displayed / hidden.
  */
-function showContent(containerID) {
-  const container = document.getElementById(containerID);
-  if (container.style.display === 'initial') {
-    container.style.display = 'none';
+function showHideContent(containerID) {
+  if (document.getElementById(containerID).style.display === 'initial') {
+    changeContainerDisplay(containerID, 'none');
   } else {
-    container.style.display = 'initial';
+    changeContainerDisplay(containerID, 'initial');
   }
 }
 
