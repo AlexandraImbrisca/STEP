@@ -371,7 +371,7 @@ function showComments() {
   const commentsContainer = document.getElementById('comments-container');
   const showCommentsButton = document.getElementById('show-comments-button');
   const marginTop = showCommentsButton.offsetHeight + 25;
-  
+
   commentsContainer.style.marginTop = marginTop + 'px';
   showContent('comments');
   window.scrollTo(0, document.body.scrollHeight);
