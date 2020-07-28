@@ -70,6 +70,7 @@ function addAuthorIcon(commentElement) {
  * @param {Object} comment The original comment.
  * @param {Object} commentElement The comment element in which the comment
  * details will be included.
+ * @param {String} userEmail The email address of the current user.
  */
 function addCommentDetails(comment, commentElement, userEmail) {
   const commentDetailsElement = createElement('div', 'comment-details', '');
@@ -97,6 +98,7 @@ function addCommentHeadline(comment, commentDetailsElement) {
       comment.authorEmail);
   const publishTimeElement = createElement('p', 'publish-time',
       comment.publishTime);
+
   commentHeadlineElement.appendChild(authorEmailElement);
   commentHeadlineElement.appendChild(publishTimeElement);
   commentDetailsElement.appendChild(commentHeadlineElement);
@@ -110,6 +112,7 @@ function addCommentHeadline(comment, commentDetailsElement) {
  * will be removed from the comments section).
  * @param {Object} commentDetailsElement The comment details element
  * in which the options will be included.
+ * @param {String} userEmail The email address of the current user.
  */
 function addCommentOptions(comment, commentElement, commentDetailsElement,
     userEmail) {
@@ -184,6 +187,7 @@ function addDeleteButton(comment, commentElement, commentOptionsElement) {
  * update the comment).
  * @param {Object} commentOptionsElement The element in which the button
  * will be inserted.
+ * @param {String} userEmail The email address of the current user.
  */
 function addEditButton(comment, commentElement, commentDetailsElement,
     commentOptionsElement, userEmail) {
@@ -220,6 +224,7 @@ function addNewComment() {
  * will be removed if the button is clicked.
  * @param {Object} commentOptionsElement The element in which the button
  * will be inserted.
+ * @param {String} userEmail The email address of the current user.
  */
 function addSubmitButton(comment, commentElement, commentDetailsElement,
     commentOptionsElement, userEmail) {
@@ -272,6 +277,7 @@ function changeContainerDisplay(containerID, displayType) {
 /**
  * Creates the element associated to a given comment.
  * @param {object} comment The comment for which we will create a new element.
+ * @param {String} userEmail The email address of the current user.
  * @return {element} The element created.
  */
 function createCommentElement(comment, userEmail) {
@@ -301,14 +307,13 @@ function createElement(elementType, className, innerText) {
 /**
  * Creates the header associated with the logged in user.
  * @param {Object} loginStatus This object includes information such as
- * user email and logout link
+ * user email and logout link.
  * @param {Object} loginStatusContainer The container that will include
  * this header.
  */
 function createLoggedInHeader(loginStatus, loginStatusContainer) {
   loginStatusContainer.appendChild(createElement('p', '',
-      'Logged in as '
-      + loginStatus.userEmail));
+      'Logged in as ' + loginStatus.userEmail));
   const logoutUrlContainer = createElement('div', '', 'Not you? Logout ');
   const logoutUrl = createElement('a', 'link', 'here');
   logoutUrl.href = loginStatus.logoutUrl;
@@ -319,7 +324,7 @@ function createLoggedInHeader(loginStatus, loginStatusContainer) {
 /**
  * Creates the header associated with the anonymous user.
  * @param {Object} loginStatus This object includes information such as
- * login link
+ * login link.
  * @param {Object} loginStatusContainer The container that will include
  * this header.
  */
@@ -401,8 +406,8 @@ async function loadComments() {
 
 /**
  * Gets the login status of the user.
- * @return {String} The user's email address or null if the user is not
- * logged in.
+ * @return {Object} An object that contains all the login data, such as
+ * user's email address.
  */
 async function loadLoginStatus() {
   const loginStatusData = await fetch('login-status');

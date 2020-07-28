@@ -301,10 +301,6 @@ textarea:focus {
   background-color: #253b6e;
 }
 
-.submit-comment-button:active {
-  transform: translateY(4px);
-}
-
 #switch-theme-button {
   background-color: black;
   border-radius: 50%;

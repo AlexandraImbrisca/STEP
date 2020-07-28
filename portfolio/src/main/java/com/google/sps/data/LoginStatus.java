@@ -15,7 +15,6 @@
 package com.google.sps.data;
 
 import com.google.appengine.api.users.UserService;
-import java.util.Date;
 
 public final class LoginStatus {
   private final boolean loggedIn;
