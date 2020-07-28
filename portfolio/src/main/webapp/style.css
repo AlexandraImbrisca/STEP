@@ -57,17 +57,6 @@ body::-webkit-scrollbar {
   width: 100%;
 }
 
-.comment-text-input {
-  border-left: none;
-  border-right: none;
-  display: block;
-}
-
-.comment-text-input:focus {
-  border-left: none;
-  border-right: none;
-}
-
 .comment-option-button {
   font-size: 25px;
   padding-bottom: 20px;
@@ -82,6 +71,17 @@ body::-webkit-scrollbar {
 .comment-text {
   font-family: Inconsolata, sans-serif;
   font-size: 16px;
+}
+
+.comment-text-input {
+  border-left: none;
+  border-right: none;
+  display: block;
+}
+
+.comment-text-input:focus {
+  border-left: none;
+  border-right: none;
 }
 
 #comments {
@@ -190,6 +190,16 @@ textarea:focus {
   font-size: 20px;
   font-weight: bold;
   text-align: left;
+}
+
+.link {
+  color: #32a2a8;
+}
+
+#login-status {
+  font-family: Merriweather, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .menu-button,

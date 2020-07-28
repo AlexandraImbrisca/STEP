@@ -78,7 +78,8 @@ function addCommentDetails(comment, commentElement, userEmail) {
   addCommentText(comment, commentDetailsElement);
 
   if (comment.authorEmail === userEmail) {
-    addCommentOptions(comment, commentElement, commentDetailsElement);
+    addCommentOptions(comment, commentElement, commentDetailsElement,
+        userEmail);
   }
 
   commentElement.appendChild(commentDetailsElement);
@@ -110,12 +111,13 @@ function addCommentHeadline(comment, commentDetailsElement) {
  * @param {Object} commentDetailsElement The comment details element
  * in which the options will be included.
  */
-function addCommentOptions(comment, commentElement, commentDetailsElement) {
+function addCommentOptions(comment, commentElement, commentDetailsElement,
+    userEmail) {
   const commentOptionsElement = createElement('div', 'comment-options', '');
 
-  addDeleteButton(comment, commentElement, commentOptionsElement);
   addEditButton(comment, commentElement, commentDetailsElement,
-      commentOptionsElement);
+      commentOptionsElement, userEmail);
+  addDeleteButton(comment, commentElement, commentOptionsElement);
 
   commentDetailsElement.appendChild(commentOptionsElement);
 }
@@ -184,7 +186,7 @@ function addDeleteButton(comment, commentElement, commentOptionsElement) {
  * will be inserted.
  */
 function addEditButton(comment, commentElement, commentDetailsElement,
-    commentOptionsElement) {
+    commentOptionsElement, userEmail) {
   const editButtonElement = createElement('i',
       'fas fa-edit comment-option-button', '');
 
@@ -195,7 +197,7 @@ function addEditButton(comment, commentElement, commentDetailsElement,
     addCommentHeadline(comment, commentDetailsElement);
     addCommentTextarea(comment, commentDetailsElement, initialText);
     addSubmitButton(comment, commentElement, commentDetailsElement,
-        commentOptionsElement);
+        commentOptionsElement, userEmail);
     commentDetailsElement.appendChild(commentOptionsElement);
   });
 
@@ -220,14 +222,14 @@ function addNewComment() {
  * will be inserted.
  */
 function addSubmitButton(comment, commentElement, commentDetailsElement,
-    commentOptionsElement) {
+    commentOptionsElement, userEmail) {
   const submitButtonElement = createElement('i',
       'fas fa-paper-plane comment-option-button', '');
 
   submitButtonElement.addEventListener('click', () => {
     updateComment(comment);
     commentDetailsElement.remove();
-    addCommentDetails(comment, commentElement);
+    addCommentDetails(comment, commentElement, userEmail);
   });
 
   commentOptionsElement.appendChild(submitButtonElement);
@@ -250,7 +252,7 @@ function applyTheme(theme) {
   commentsContainer.style.borderTopColor = theme.borderColor;
   commentsSection.style.borderLeftColor = theme.borderColor;
 
-  for (let i = 0; i < MENU_BUTTONS.length; i++) {
+  for (let i = 0; i < menuButtons.length; i++) {
     menuButtons[i].style.color = theme.menuButtonTextColor;
     menuButtons[i].style.backgroundColor = theme.menuButtonBackgroundColor;
     menuButtons[i].style.borderColor = theme.menuButtonBorderColor;
@@ -305,10 +307,10 @@ function createElement(elementType, className, innerText) {
  */
 function createLoggedInHeader(loginStatus, loginStatusContainer) {
   loginStatusContainer.appendChild(createElement('p', '',
-      'Currently logged in using the following email address: '
+      'Logged in as '
       + loginStatus.userEmail));
   const logoutUrlContainer = createElement('div', '', 'Not you? Logout ');
-  const logoutUrl = createElement('a', '', 'here');
+  const logoutUrl = createElement('a', 'link', 'here');
   logoutUrl.href = loginStatus.logoutUrl;
   logoutUrlContainer.appendChild(logoutUrl);
   loginStatusContainer.appendChild(logoutUrlContainer);
@@ -323,9 +325,9 @@ function createLoggedInHeader(loginStatus, loginStatusContainer) {
  */
 function createLoggedOutHeader(loginStatus, loginStatusContainer) {
   loginStatusContainer.appendChild(createElement('p', '',
-      'You have to be logged in order to add comments'));
+      'Only logged in users can add comments'));
   const loginUrlContainer = createElement('div', '', 'Login ');
-  const loginUrl = createElement('a', '', 'here');
+  const loginUrl = createElement('a', 'link', 'here');
   loginUrl.href = loginStatus.loginUrl;
   loginUrlContainer.appendChild(loginUrl);
   loginStatusContainer.appendChild(loginUrlContainer);
