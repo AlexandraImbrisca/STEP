@@ -14,6 +14,8 @@
 
 package com.google.sps.servlets;
 
+import static com.google.sps.data.Constants.ENTITY_NAME;
+
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -35,7 +37,7 @@ public class ListCommentsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("publish-time", SortDirection.DESCENDING);
+    Query query = new Query(ENTITY_NAME).addSort("publish-time", SortDirection.DESCENDING);
 
     PreparedQuery results = DatastoreServiceFactory.getDatastoreService().prepare(query);
 
@@ -46,9 +48,10 @@ public class ListCommentsServlet extends HttpServlet {
             entity -> {
               String authorName = (String) entity.getProperty("author-name");
               String commentText = (String) entity.getProperty("text");
+              long id = entity.getKey().getId();
               Date publishTime = (Date) entity.getProperty("publish-time");
 
-              Comment comment = new Comment(authorName, commentText, publishTime);
+              Comment comment = new Comment(authorName, commentText, id, publishTime);
               comments.add(comment);
             });
 

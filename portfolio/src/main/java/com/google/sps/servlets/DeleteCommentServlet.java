@@ -17,29 +17,27 @@ package com.google.sps.servlets;
 import static com.google.sps.data.Constants.ENTITY_NAME;
 
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import java.io.IOException;
-import java.util.Date;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.BadRequestException;
 
-/** Servlet that adds a new comment to the database. */
-@WebServlet("/new-comment")
-public class NewCommentServlet extends HttpServlet {
+/** Servlet that adds a comment. */
+@WebServlet("/delete-comment")
+public class DeleteCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String authorName = request.getParameter("author-name");
-    String commentText = request.getParameter("comment-text");
-    Date publishTime = new Date();
-
-    Entity commentEntity = new Entity(ENTITY_NAME);
-    commentEntity.setProperty("author-name", authorName);
-    commentEntity.setProperty("text", commentText);
-    commentEntity.setProperty("publish-time", publishTime);
-
-    DatastoreServiceFactory.getDatastoreService().put(commentEntity);
+    try {
+      long id = Long.parseLong(request.getParameter("id"));
+      Key commentEntityKey = KeyFactory.createKey(ENTITY_NAME, id);
+      DatastoreServiceFactory.getDatastoreService().delete(commentEntityKey);
+    } catch (Exception e) {
+      throw new BadRequestException(e.getMessage());
+    }
   }
 }

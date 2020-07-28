@@ -294,7 +294,7 @@
           <p class="new-comment-headline">
             Add a new comment
           </p>
-          <form autocomplete="off" action="/new-comment" method="POST">
+          <form autocomplete="off" method="POST" onsubmit="addNewComment()">
             <label for="author-name">
               <p class="input-label">
                 Name(optional)
@@ -311,9 +311,9 @@
               placeholder="Enter your comment here..." required
               id="comment-text"></textarea>
               <input class="submit-comment-button" type="submit">
-            </form>
-          </div>
-        <div id="comments-section">
+              </form>
+            </div>
+          <div id="comments-section">
         </div>
       </div>
     </div>
