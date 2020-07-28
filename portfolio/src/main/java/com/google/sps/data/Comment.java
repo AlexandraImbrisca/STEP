@@ -17,20 +17,20 @@ package com.google.sps.data;
 import java.util.Date;
 
 public final class Comment {
-  private final String authorName;
+  private final String authorEmail;
   private final String commentText;
   private final long id;
   private final Date publishTime;
 
-  public Comment(String authorName, String commentText, long id, Date publishTime) {
-    this.authorName = authorName;
+  public Comment(String authorEmail, String commentText, long id, Date publishTime) {
+    this.authorEmail = authorEmail;
     this.commentText = commentText;
     this.id = id;
     this.publishTime = publishTime;
   }
 
-  public String getAuthorName() {
-    return authorName;
+  public String getAuthorEmail() {
+    return authorEmail;
   }
 
   public String getCommentText() {

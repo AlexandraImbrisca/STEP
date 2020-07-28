@@ -294,14 +294,10 @@
           <p class="new-comment-headline">
             Add a new comment
           </p>
-          <form autocomplete="off" method="POST" onsubmit="addNewComment()">
-            <label for="author-name">
-              <p class="input-label">
-                Name(optional)
-              </p>
-            </label>
-            <input type="text" name="author-name" class="author-name-input"
-              placeholder="Your name..." id="author-name">
+          <div id="login-status">
+          </div>
+          <form autocomplete="off" method="POST" onsubmit="addNewComment()"
+            id="new-comment-form">
             <label for="comment-text">
               <p class="input-label">
                 Comment

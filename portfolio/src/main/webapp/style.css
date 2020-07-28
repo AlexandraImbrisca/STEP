@@ -21,19 +21,6 @@
   display: inline-block;
 }
 
-.author-name-input,
-.comment-text-input {
-  border-left: none;
-  border-right: none;
-  display: block;
-}
-
-.author-name-input:focus,
-.comment-text-input:focus {
-  border-left: none;
-  border-right: none;
-}
-
 body {
   -ms-overflow-style: none;
   font-family: Freckle Face, sans-serif;
@@ -68,6 +55,17 @@ body::-webkit-scrollbar {
   font-size: 20px;
   justify-content: space-between;
   width: 100%;
+}
+
+.comment-text-input {
+  border-left: none;
+  border-right: none;
+  display: block;
+}
+
+.comment-text-input:focus {
+  border-left: none;
+  border-right: none;
 }
 
 .comment-option-button {
@@ -214,6 +212,10 @@ textarea:focus {
   font-family: Merriweather, sans-serif;
   font-size: 30px;
   font-weight: bold;
+}
+
+#new-comment-form {
+  display: none;
 }
 
 .new-comment-sidebar {

@@ -89,15 +89,11 @@ function addCommentDetails(comment, commentElement) {
  */
 function addCommentHeadline(comment, commentDetailsElement) {
   const commentHeadlineElement = createElement('div', 'comment-headline', '');
-  let authorName = comment.authorName;
-
-  // The user is anonymous if the name was omitted
-  authorName = (authorName === '') ? 'Anonymous user' : authorName;
-
-  const authorNameElement = createElement('p', 'author-name', authorName);
+  const authorEmailElement = createElement('p', 'author-email',
+      comment.authorEmail);
   const publishTimeElement = createElement('p', 'publish-time',
       comment.publishTime);
-  commentHeadlineElement.appendChild(authorNameElement);
+  commentHeadlineElement.appendChild(authorEmailElement);
   commentHeadlineElement.appendChild(publishTimeElement);
   commentDetailsElement.appendChild(commentHeadlineElement);
 }
@@ -205,10 +201,9 @@ function addEditButton(comment, commentElement, commentDetailsElement,
 
 /** Adds a new comment to the database. */
 function addNewComment() {
-  const authorName = document.getElementById('author-name').value;
   const commentText = document.getElementById('comment-text').value;
 
-  sendComment(authorName, commentText);
+  sendComment(commentText);
 }
 
 /**
@@ -354,20 +349,49 @@ function loadComments() {
 }
 
 /**
+ * Gets the login status of the user.
+ * @return {String} The user's email address or null if the user is not
+ * logged in.
+ */
+async function loadLoginStatus() {
+  const loginStatusData = await fetch('login-status');
+  const loginStatus = await loginStatusData.json();
+
+  return loginStatus;
+}
+
+function loadLoggedInHeader(userEmail) {
+  const loginStatusContainer = document.getElementById('login-status');
+  loginStatusContainer.innerHTML = '';
+
+  loginStatusContainer.appendChild(createElement('p', '', 'Logged in as ' + userEmail));
+}
+
+function loadLoggedOutHeader() {
+  const loginStatusContainer = document.getElementById('login-status');
+  loginStatusContainer.innerHTML = '';
+
+  loginStatusContainer.appendChild(createElement('p', '', 'Not logged in'));
+}
+
+function loadNewCommentForm() {
+  const newCommentForm = document.getElementById('new-comment-form');
+  newCommentForm.style.display = 'initial';
+}
+
+/**
  * Creates and uses a new URLSearchParams() object to add a new comment
  * in the database.
- * @param {String} authorName The name of the author of the new comment.
  * @param {String} commentText The text of the new comment.
  */
-function sendComment(authorName, commentText) {
+function sendComment(commentText) {
   const params = new URLSearchParams();
-  params.append('author-name', authorName);
   params.append('comment-text', commentText);
   fetch('/new-comment', {method: 'POST', body: params});
 }
 
 /** Shows the comments region (plus automatic scroll to this area). */
-function showComments() {
+async function showComments() {
   const commentsContainer = document.getElementById('comments-container');
   const showCommentsButton = document.getElementById('show-comments-button');
   const marginTop = showCommentsButton.offsetHeight + 25;
@@ -375,6 +399,14 @@ function showComments() {
   commentsContainer.style.marginTop = marginTop + 'px';
   showContent('comments');
   window.scrollTo(0, document.body.scrollHeight);
+
+  const loggedIn = await loadLoginStatus();
+  if (loggedIn) {
+    loadLoggedInHeader(loggedIn);
+    loadNewCommentForm();
+  } else {
+    loadLoggedOutHeader();
+  }
 }
 
 /**
@@ -412,7 +444,7 @@ function updateComment(comment) {
 
   deleteComment(comment);
   comment.commentText = commentText;
-  sendComment(comment.authorName, commentText);
+  sendComment(commentText);
 }
 
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);

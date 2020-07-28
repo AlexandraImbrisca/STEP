@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/account")
+@WebServlet("/login-status")
 public class LoginStatusServlet extends HttpServlet {
 
   @Override
