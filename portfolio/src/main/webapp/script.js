@@ -71,12 +71,15 @@ function addAuthorIcon(commentElement) {
  * @param {Object} commentElement The comment element in which the comment
  * details will be included.
  */
-function addCommentDetails(comment, commentElement) {
+function addCommentDetails(comment, commentElement, userEmail) {
   const commentDetailsElement = createElement('div', 'comment-details', '');
 
   addCommentHeadline(comment, commentDetailsElement);
   addCommentText(comment, commentDetailsElement);
-  addCommentOptions(comment, commentElement, commentDetailsElement);
+
+  if (comment.authorEmail === userEmail) {
+    addCommentOptions(comment, commentElement, commentDetailsElement);
+  }
 
   commentElement.appendChild(commentDetailsElement);
 }
@@ -269,10 +272,10 @@ function changeContainerDisplay(containerID, displayType) {
  * @param {object} comment The comment for which we will create a new element.
  * @return {element} The element created.
  */
-function createCommentElement(comment) {
+function createCommentElement(comment, userEmail) {
   const commentElement = createElement('div', 'comment', '');
   addAuthorIcon(commentElement);
-  addCommentDetails(comment, commentElement);
+  addCommentDetails(comment, commentElement, userEmail);
 
   return commentElement;
 }
@@ -381,15 +384,17 @@ function initAndHideHobbies() {
 }
 
 /** Fetches comments from the server and adds them to the DOM. */
-function loadComments() {
-  fetch('/list-comments')
-      .then((response) => response.json())
-      .then((comments) => {
-        const commentsList = document.getElementById('comments-section');
-        comments.forEach((comment) => {
-          commentsList.appendChild(createCommentElement(comment));
-        });
-      });
+async function loadComments() {
+  const commentsData = await fetch('/list-comments');
+  const comments = await commentsData.json();
+  const commentsList = document.getElementById('comments-section');
+
+  const loginStatus = await loadLoginStatus();
+  const userEmail = await loginStatus.userEmail;
+
+  comments.forEach((comment) => {
+    commentsList.appendChild(createCommentElement(comment, userEmail));
+  });
 }
 
 /**
