@@ -24,6 +24,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.BadRequestException;
 
 /** Servlet that adds a comment. */
 @WebServlet("/delete-comment")
@@ -32,17 +33,11 @@ public class DeleteCommentServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     try {
-      String idString = request.getParameter("id");
-      if (idString == null || idString.isEmpty()) {
-        System.out.println("Missing id field");
-        return;
-      }
-      long id = Long.parseLong(idString);
-
+      long id = Long.parseLong(request.getParameter("id"));
       Key commentEntityKey = KeyFactory.createKey(ENTITY_NAME, id);
       DatastoreServiceFactory.getDatastoreService().delete(commentEntityKey);
-    } catch (NumberFormatException e) {
-      System.out.println(e.getMessage());
+    } catch (Exception e) {
+      throw new BadRequestException(e.getMessage());
     }
   }
 }

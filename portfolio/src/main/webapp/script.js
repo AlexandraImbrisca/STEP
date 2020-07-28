@@ -146,7 +146,7 @@ function addCommentTextarea(comment, commentDetailsElement, initialText) {
   textareaElement.name = 'update-comment';
   textareaElement.rows = '6';
   textareaElement.innerText = initialText;
-  textareaElement.id = 'update-comment';
+  textareaElement.id = 'update-comment' + comment.id;
 
   commentDetailsElement.appendChild(textareaElement);
 }
@@ -371,7 +371,7 @@ function showComments() {
   const commentsContainer = document.getElementById('comments-container');
   const showCommentsButton = document.getElementById('show-comments-button');
   const marginTop = showCommentsButton.offsetHeight + 25;
-
+  
   commentsContainer.style.marginTop = marginTop + 'px';
   showContent('comments');
   window.scrollTo(0, document.body.scrollHeight);
@@ -407,12 +407,12 @@ function switchTheme() {
  * @param {Object} comment The comment that will be updated.
  */
 function updateComment(comment) {
-  const authorName = document.getElementById('author-name').value;
-  const commentText = document.getElementById('update-comment').value;
+  const commentText = document.getElementById('update-comment' + comment.id)
+      .value;
 
   deleteComment(comment);
   comment.commentText = commentText;
-  sendComment(authorName, commentText);
+  sendComment(comment.authorName, commentText);
 }
 
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);
