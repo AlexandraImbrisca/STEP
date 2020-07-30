@@ -52,6 +52,7 @@ const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', 'white',
     '#2a628f', 'white');
 const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
     '#3e92cc', 'black');
+const OPTIONS_LIST = ['comments', 'map'];
 
 const GALLERY_SIZE_PERCENT = 75;
 
@@ -138,6 +139,14 @@ function displayColumns() {
   }
 }
 
+function hideCurrentlyOpenOptions(newOption) {
+  for (let i = 0; i < OPTIONS_LIST.length; i++) {
+    if (OPTIONS_LIST[i] !== newOption) {
+      changeContainerDisplay(OPTIONS_LIST[i], 'none');
+    }
+  }
+}
+
 /**
  * Displays the columns of the gallery and then hide the whole content
  * of the hobbies container.
@@ -160,6 +169,18 @@ function showHideContent(containerID) {
   }
 }
 
+async function showFooterContent(contentType) {
+  hideCurrentlyOpenOptions(contentType);
+ 
+  const commentsContainer = document.getElementById(contentType + '-container');
+  const optionsMenu = document.getElementById('options-menu');
+  const marginTop = optionsMenu.offsetHeight + 30;
+ 
+  commentsContainer.style.marginTop = marginTop + 'px';
+  showHideContent(contentType);
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
 /** Switches the theme (bright <-> dark). */
 function switchTheme() {
   if (darkModeOn) {
@@ -174,7 +195,8 @@ function switchTheme() {
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);
 window.addEventListener('resize', displayColumns);
 
-export { changeContainerDisplay, createElement, showHideContent };
+export { changeContainerDisplay, createElement, showFooterContent, showHideContent };
 
 window.switchTheme = switchTheme;
+window.showFooterContent = showFooterContent;
 window.showHideContent = showHideContent;

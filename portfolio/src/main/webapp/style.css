@@ -84,11 +84,13 @@ body::-webkit-scrollbar {
   border-right: none;
 }
 
-#comments {
+#comments,
+#map {
   display: none;
 }
 
-#comments-container {
+#comments-container,
+#map-container {
   border-top: 6px solid black;
   display: flex;
   width: 100%;
@@ -235,6 +237,19 @@ textarea:focus {
   width: 35%;
 }
 
+.option-button {
+  font-size: 35px;
+  padding-left: 20px;
+}
+ 
+#options-menu {
+  display: flex;
+  height: 25px;
+  position: absolute;
+  right: 5%;
+  text-align: right;
+}
+
 .photo {
   margin-top: 8px;
   vertical-align: middle;
@@ -272,12 +287,6 @@ textarea:focus {
 
 .second-paragraph {
   font-size: 25px;
-}
-
-#show-comments-button {
-  font-size: 35px;
-  position: absolute;
-  right: 5%;
 }
 
 .submit-comment-button {

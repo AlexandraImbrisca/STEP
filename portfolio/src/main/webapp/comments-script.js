@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { changeContainerDisplay, createElement, showHideContent } from './script.js';
+import { changeContainerDisplay, createElement, showHideContent, showFooterContent } from './script.js';
 
 /**
  * Adds the author icon to the comment.
@@ -298,17 +298,11 @@ function sendComment(commentText) {
 
 /** Shows the comments region (plus automatic scroll to this area). */
 async function showComments() {
-  const commentsContainer = document.getElementById('comments-container');
-  const showCommentsButton = document.getElementById('show-comments-button');
-  const marginTop = showCommentsButton.offsetHeight + 25;
-
-  commentsContainer.style.marginTop = marginTop + 'px';
-  showHideContent('comments');
-  window.scrollTo(0, document.body.scrollHeight);
-
+  showFooterContent('comments');
+ 
   const loginStatusContainer = document.getElementById('login-status');
   loginStatusContainer.innerHTML = '';
-
+ 
   const loginStatus = await loadLoginStatus();
   const loggedIn = await loginStatus.loggedIn;
   if (loggedIn) {
