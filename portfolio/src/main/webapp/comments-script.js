@@ -14,6 +14,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { changeContainerDisplay, createElement, showHideContent } from './script.js';
+
 /**
  * Adds the author icon to the comment.
  * @param {Object} commentElement The comment element in which the author
@@ -200,16 +202,6 @@ function addSubmitButton(comment, commentElement, commentDetailsElement,
 }
 
 /**
- * Changes the display property of the container with the one received.
- * @param {String} containerID The ID of the container.
- * @param {String} displayType The new display value.
- */
-function changeContainerDisplay(containerID, displayType) {
-  const container = document.getElementById(containerID);
-  container.style.display = displayType;
-}
-
-/**
  * Creates the element associated to a given comment.
  * @param {object} comment The comment for which we will create a new element.
  * @param {String} userEmail The email address of the current user.
@@ -221,22 +213,6 @@ function createCommentElement(comment, userEmail) {
   addCommentDetails(comment, commentElement, userEmail);
 
   return commentElement;
-}
-
-/**
- * Creates a new element with a specified type, class and innerText.
- * @param {string} elementType The type of the element that will be created.
- * @param {string} className The class of the element that will be created.
- * @param {string} innerText The innerText of the element that will be
- * created.
- * @return {element} The element created.
- */
-function createElement(elementType, className, innerText) {
-  const newElement = document.createElement(elementType);
-  newElement.className = className;
-  newElement.innerText = innerText;
-
-  return newElement;
 }
 
 /**
@@ -356,3 +332,7 @@ function updateComment(comment) {
   comment.commentText = commentText;
   sendComment(commentText);
 }
+
+window.loadComments = loadComments;
+window.showComments = showComments;
+window.addNewComment = addNewComment;

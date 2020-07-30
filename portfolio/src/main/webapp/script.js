@@ -80,6 +80,16 @@ function applyTheme(theme) {
 }
 
 /**
+ * Changes the display property of the container with the one received.
+ * @param {String} containerID The ID of the container.
+ * @param {String} displayType The new display value.
+ */
+function changeContainerDisplay(containerID, displayType) {
+  const container = document.getElementById(containerID);
+  container.style.display = displayType;
+}
+
+/**
  * Computes the size of one column based on the size of the entire gallery
  * and the number of columns.
  * @param {array} columns The columns whose size will be computed.
@@ -95,6 +105,22 @@ function computeColumnSize(columns, gallerySize) {
     columnSize *= 2;
   }
   return columnSize + '%';
+}
+
+/**
+ * Creates a new element with a specified type, class and innerText.
+ * @param {string} elementType The type of the element that will be created.
+ * @param {string} className The class of the element that will be created.
+ * @param {string} innerText The innerText of the element that will be
+ * created.
+ * @return {element} The element created.
+ */
+function createElement(elementType, className, innerText) {
+  const newElement = document.createElement(elementType);
+  newElement.className = className;
+  newElement.innerText = innerText;
+
+  return newElement;
 }
 
 /**
@@ -147,3 +173,8 @@ function switchTheme() {
 
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);
 window.addEventListener('resize', displayColumns);
+
+export { changeContainerDisplay, createElement, showHideContent };
+
+window.switchTheme = switchTheme;
+window.showHideContent = showHideContent;

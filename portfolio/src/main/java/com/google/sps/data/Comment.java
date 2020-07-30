@@ -28,20 +28,4 @@ public final class Comment {
     this.id = id;
     this.publishTime = publishTime;
   }
-
-  public String getAuthorEmail() {
-    return authorEmail;
-  }
-
-  public String getCommentText() {
-    return commentText;
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public Date getPublishTime() {
-    return publishTime;
-  }
 }
