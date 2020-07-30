@@ -93,6 +93,7 @@ body::-webkit-scrollbar {
 #map-container {
   border-top: 6px solid black;
   display: flex;
+  height: 60vh;
   width: 100%;
 }
 
@@ -204,6 +205,11 @@ textarea:focus {
   font-weight: bold;
 }
 
+#map-item {
+  height: 100%;
+  width: 100%;
+}
+
 .menu-button,
 .menu-button:active {
   background-color: #3e92cc;
@@ -241,7 +247,7 @@ textarea:focus {
   font-size: 35px;
   padding-left: 20px;
 }
- 
+
 #options-menu {
   display: flex;
   height: 25px;
@@ -297,7 +303,6 @@ textarea:focus {
   cursor: pointer;
   font-family: Merriweather, sans-serif;
   font-size: 25px;
-  height: 10vh;
   padding: 15px 25px;
   position: absolute;
   right: 0;

@@ -14,6 +14,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { loadComments } from './comments-script.js';
+import { loadMap } from './map-script.js';
+
 let darkModeOn = false;
 
 /** Class used to define the basic characteristics of a theme. */
@@ -156,6 +159,11 @@ function initAndHideHobbies() {
   document.getElementById('hobbies').style.display = 'none';
 }
 
+function loadPage() {
+  loadMap();
+  loadComments();
+}
+
 /**
  * Shows / hides the content of a container with a given ID.
  * @param {string} containerID The ID of the container that will be
@@ -197,6 +205,7 @@ window.addEventListener('resize', displayColumns);
 
 export { changeContainerDisplay, createElement, showFooterContent, showHideContent };
 
+window.loadPage = loadPage;
 window.switchTheme = switchTheme;
 window.showFooterContent = showFooterContent;
 window.showHideContent = showHideContent;

@@ -327,6 +327,7 @@ function updateComment(comment) {
   sendComment(commentText);
 }
 
-window.loadComments = loadComments;
-window.showComments = showComments;
 window.addNewComment = addNewComment;
+window.showComments = showComments;
+
+export { loadComments };
