@@ -18,6 +18,7 @@ import static com.google.sps.data.Constants.ENTITY_NAME;
 
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
 import java.util.Date;
 import javax.servlet.annotation.WebServlet;
@@ -31,12 +32,12 @@ public class NewCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String authorName = request.getParameter("author-name");
+    String authorEmail = UserServiceFactory.getUserService().getCurrentUser().getEmail();
     String commentText = request.getParameter("comment-text");
     Date publishTime = new Date();
 
     Entity commentEntity = new Entity(ENTITY_NAME);
-    commentEntity.setProperty("author-name", authorName);
+    commentEntity.setProperty("author-email", authorEmail);
     commentEntity.setProperty("text", commentText);
     commentEntity.setProperty("publish-time", publishTime);
 

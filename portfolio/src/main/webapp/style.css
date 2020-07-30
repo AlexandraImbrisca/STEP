@@ -21,19 +21,6 @@
   display: inline-block;
 }
 
-.author-name-input,
-.comment-text-input {
-  border-left: none;
-  border-right: none;
-  display: block;
-}
-
-.author-name-input:focus,
-.comment-text-input:focus {
-  border-left: none;
-  border-right: none;
-}
-
 body {
   -ms-overflow-style: none;
   font-family: Freckle Face, sans-serif;
@@ -84,6 +71,17 @@ body::-webkit-scrollbar {
 .comment-text {
   font-family: Inconsolata, sans-serif;
   font-size: 16px;
+}
+
+.comment-text-input {
+  border-left: none;
+  border-right: none;
+  display: block;
+}
+
+.comment-text-input:focus {
+  border-left: none;
+  border-right: none;
 }
 
 #comments {
@@ -194,6 +192,16 @@ textarea:focus {
   text-align: left;
 }
 
+.link {
+  color: #32a2a8;
+}
+
+#login-status {
+  font-family: Merriweather, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .menu-button,
 .menu-button:active {
   background-color: #3e92cc;
@@ -214,6 +222,10 @@ textarea:focus {
   font-family: Merriweather, sans-serif;
   font-size: 30px;
   font-weight: bold;
+}
+
+#new-comment-form {
+  display: none;
 }
 
 .new-comment-sidebar {
@@ -287,10 +299,6 @@ textarea:focus {
 .submit-comment-button:hover,
 .submit-comment-button:active {
   background-color: #253b6e;
-}
-
-.submit-comment-button:active {
-  transform: translateY(4px);
 }
 
 #switch-theme-button {

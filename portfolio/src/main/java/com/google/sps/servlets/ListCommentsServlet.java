@@ -46,12 +46,12 @@ public class ListCommentsServlet extends HttpServlet {
         .asIterable()
         .forEach(
             entity -> {
-              String authorName = (String) entity.getProperty("author-name");
+              String authorEmail = (String) entity.getProperty("author-email");
               String commentText = (String) entity.getProperty("text");
               long id = entity.getKey().getId();
               Date publishTime = (Date) entity.getProperty("publish-time");
 
-              Comment comment = new Comment(authorName, commentText, id, publishTime);
+              Comment comment = new Comment(authorEmail, commentText, id, publishTime);
               comments.add(comment);
             });
 
