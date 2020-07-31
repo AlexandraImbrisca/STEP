@@ -115,7 +115,7 @@ function createNewMarkerForm(map, markerPosition, submitMarker) {
   return newMarkerElement;
 }
 
-function loadMap(loggedIn) {
+function loadMap(loginStatus) {
   var mapCentre = new google.maps.LatLng(0, 0);
   var mapOptions = {
     zoom: 2,
@@ -125,7 +125,7 @@ function loadMap(loggedIn) {
   const map = new google.maps.Map(document.getElementById('map-item'),
       mapOptions);
 
-  if (loggedIn) {
+  if (loginStatus.loggedIn) {
     map.addListener('click', (event) => {
       const markerPosition = new Position(event.latLng.lat(),
           event.latLng.lng());
@@ -134,20 +134,22 @@ function loadMap(loggedIn) {
   }
 
   loadMarkers(map);
-  loadMapIntro(loggedIn);
+  loadMapIntro(loginStatus);
 }
 
-function loadMapIntro(loggedIn) {
+function loadMapIntro(loginStatus) {
   const mapIntroElement = document.getElementById('map-intro');
-  let textElementValue;
 
-  if (loggedIn) {
-    textElementValue = 'Get inspired or add your own travel suggestions';
+  if (loginStatus.loggedIn) {
+    mapIntroElement.appendChild(createElement('p', '',
+        'Get inspired or add your own travel suggestions'));
   } else {
-    textElementValue = 'Log in and add your own travel suggestions';
+    const loginUrl = createElement('a', 'link', 'Log in');
+    loginUrl.href = loginStatus.loginUrl;
+    mapIntroElement.appendChild(loginUrl);
+    mapIntroElement.appendChild(createElement('p', '',
+        ' and add your own travel suggestions'));
   }
-
-  mapIntroElement.appendChild(createElement('p', '', textElementValue));
 }
 
 function loadMarkers(map) {

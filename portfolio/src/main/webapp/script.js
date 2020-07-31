@@ -176,7 +176,7 @@ async function loadPage() {
   const loggedIn = await loginStatus.loggedIn;
   const userEmail = await loginStatus.userEmail;
 
-  loadMap(loggedIn);
+  loadMap(loginStatus);
   loadComments(userEmail);
 }
 
