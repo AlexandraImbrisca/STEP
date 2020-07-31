@@ -43,8 +43,8 @@ function addMarkerTextarea(position, newMarkerElement) {
 
 function addNewMarker(newMarker) {
   const params = new URLSearchParams();
-  params.append('lat', newMarker.latitude);
-  params.append('lng', newMarker.longitude);
+  params.append('latitude', newMarker.latitude);
+  params.append('longitude', newMarker.longitude);
   params.append('content', newMarker.content);
 
   fetch('/markers', {method: 'POST', body: params});
@@ -156,8 +156,8 @@ function loadMarkers(map) {
       .then((markers) => {
         markers.forEach(
           (marker) => {
-            const markerItem = new MarkerItem(marker.lat, marker.lng,
-                marker.content);
+            const markerItem = new MarkerItem(marker.latitude,
+                marker.longitude, marker.content);
             createMarkerElement(map, markerItem)});
         });
 }

@@ -15,25 +15,13 @@
 package com.google.sps.data;
 
 public final class Marker {
-  private final double lat;
-  private final double lng;
+  private final double latitude;
+  private final double longitude;
   private final String content;
 
-  public Marker(double lat, double lng, String content) {
-    this.lat = lat;
-    this.lng = lng;
+  public Marker(double latitude, double longitude, String content) {
+    this.latitude = latitude;
+    this.longitude = longitude;
     this.content = content;
-  }
-
-  public double getLat() {
-    return lat;
-  }
-
-  public double getLng() {
-    return lng;
-  }
-
-  public String getContent() {
-    return content;
   }
 }

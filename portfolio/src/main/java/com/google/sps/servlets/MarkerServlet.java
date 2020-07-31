@@ -23,13 +23,12 @@ import com.google.sps.data.Marker;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import javax.ws.rs.BadRequestException;
 
 @WebServlet("/markers")
 public class MarkerServlet extends HttpServlet {
@@ -38,48 +37,43 @@ public class MarkerServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json");
 
-    Collection<Marker> markers = getMarkers();
+    Query query = new Query("Marker");
+    PreparedQuery results = DatastoreServiceFactory.getDatastoreService().prepare(query);
+
+    List<Marker> markers = new ArrayList<>();
+    results
+        .asIterable()
+        .forEach(
+            entity -> {
+              double latitude = (double) entity.getProperty("latitude");
+              double longitude = (double) entity.getProperty("longitude");
+              String content = (String) entity.getProperty("content");
+
+              Marker marker = new Marker(latitude, longitude, content);
+              markers.add(marker);
+            });
+
     Gson gson = new Gson();
-    String json = gson.toJson(markers);
- 
-    response.getWriter().println(json);
+
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(markers));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) {
-    double lat = Double.parseDouble(request.getParameter("lat"));
-    double lng = Double.parseDouble(request.getParameter("lng"));
-    String content = Jsoup.clean(request.getParameter("content"), Whitelist.none());
+    try {
+      double latitude = Double.parseDouble(request.getParameter("latitude"));
+      double longitude = Double.parseDouble(request.getParameter("longitude"));
+      String content = request.getParameter("content");
 
-    Marker marker = new Marker(lat, lng, content);
-    storeMarker(marker);
-  }
+      Entity markerEntity = new Entity("Marker");
+      markerEntity.setProperty("latitude", latitude);
+      markerEntity.setProperty("longitude", longitude);
+      markerEntity.setProperty("content", content);
 
-  private Collection<Marker> getMarkers() {
-    Collection<Marker> markers = new ArrayList<>();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Marker");
-    PreparedQuery results = datastore.prepare(query);
-
-    for (Entity entity : results.asIterable()) {
-      double lat = (double) entity.getProperty("lat");
-      double lng = (double) entity.getProperty("lng");
-      String content = (String) entity.getProperty("content");
-
-      Marker marker = new Marker(lat, lng, content);
-      markers.add(marker);
+      DatastoreServiceFactory.getDatastoreService().put(markerEntity);
+    } catch (Exception e) {
+      throw new BadRequestException(e.getMessage());
     }
-    return markers;
-  }
-
-  public void storeMarker(Marker marker) {
-    Entity markerEntity = new Entity("Marker");
-    markerEntity.setProperty("lat", marker.getLat());
-    markerEntity.setProperty("lng", marker.getLng());
-    markerEntity.setProperty("content", marker.getContent());
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(markerEntity);
   }
 }
