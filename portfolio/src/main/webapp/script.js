@@ -142,6 +142,11 @@ function displayColumns() {
   }
 }
 
+/**
+ * Closes all the other options currently opened (without affecting the state
+ * of the option received).
+ * @param {String} newOption The option whose state shouldn't be changed.
+ */
 function hideCurrentlyOpenOptions(newOption) {
   for (let i = 0; i < OPTIONS_LIST.length; i++) {
     if (OPTIONS_LIST[i] !== newOption) {
@@ -171,9 +176,11 @@ async function loadLoginStatus() {
   return loginStatus;
 }
 
+/**
+ * Loads the content stored in the database.
+ */
 async function loadPage() {
   const loginStatus = await loadLoginStatus();
-  const loggedIn = await loginStatus.loggedIn;
   const userEmail = await loginStatus.userEmail;
 
   loadMap(loginStatus);
@@ -193,7 +200,13 @@ function showHideContent(containerID) {
   }
 }
 
-async function showFooterContent(contentType) {
+/**
+ * Shows / hides one of the footer contents (plus automatic scroll to this
+ * area).
+ * @param {String} contentType The contentType of the container that will be
+ * displayed / hidden.
+ */
+function showHideFooterContent(contentType) {
   hideCurrentlyOpenOptions(contentType);
  
   const commentsContainer = document.getElementById(contentType + '-container');
@@ -220,9 +233,9 @@ document.addEventListener('DOMContentLoaded', initAndHideHobbies);
 window.addEventListener('resize', displayColumns);
 
 window.loadPage = loadPage;
-window.switchTheme = switchTheme;
-window.showFooterContent = showFooterContent;
 window.showHideContent = showHideContent;
+window.showHideFooterContent = showHideFooterContent;
+window.switchTheme = switchTheme;
 
 export { changeContainerDisplay, createElement, loadLoginStatus,
-    showFooterContent, showHideContent };
+    showHideContent, showHideFooterContent };

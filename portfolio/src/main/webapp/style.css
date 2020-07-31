@@ -213,7 +213,7 @@ textarea:focus {
   bottom: 0;
   font-family: Merriweather, sans-serif;
   left: 50%;
-  padding: 20px;
+  padding: 5px;
   position: fixed;
   text-align: center;
   transform: translate(-50%, 0);

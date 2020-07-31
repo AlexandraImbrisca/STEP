@@ -15,7 +15,7 @@
 // limitations under the License.
 
 import { changeContainerDisplay, createElement, loadLoginStatus,
-    showHideContent, showFooterContent } from './script.js';
+    showHideContent, showHideFooterContent } from './script.js';
 
 /**
  * Adds the author icon to the comment.
@@ -284,7 +284,7 @@ function sendComment(commentText) {
 
 /** Shows the comments region (plus automatic scroll to this area). */
 async function showComments() {
-  showFooterContent('comments');
+  showHideFooterContent('comments');
  
   const loginStatusContainer = document.getElementById('login-status');
   loginStatusContainer.innerHTML = '';
