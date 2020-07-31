@@ -14,8 +14,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { changeContainerDisplay, createElement, loadLoginStatus,
-    showHideContent, showHideFooterContent } from './script.js';
+import {changeContainerDisplay, createElement, loadLoginStatus,
+  showHideContent, showHideFooterContent} from './script.js';
 
 /**
  * Adds the author icon to the comment.
@@ -260,7 +260,11 @@ function deleteComment(comment) {
   fetch('/delete-comment', {method: 'POST', body: params});
 }
 
-/** Fetches comments from the server and adds them to the DOM. */
+/** 
+ * Fetches comments from the server and adds them to the DOM.
+ * @param {String} userEmail The user's email address will be used to
+ * determine the comments for which edit options will be available.
+ */
 async function loadComments(userEmail) {
   const commentsData = await fetch('/list-comments');
   const comments = await commentsData.json();
@@ -285,10 +289,10 @@ function sendComment(commentText) {
 /** Shows the comments region (plus automatic scroll to this area). */
 async function showComments() {
   showHideFooterContent('comments');
- 
+
   const loginStatusContainer = document.getElementById('login-status');
   loginStatusContainer.innerHTML = '';
- 
+
   const loginStatus = await loadLoginStatus();
   const loggedIn = await loginStatus.loggedIn;
   if (loggedIn) {
@@ -316,4 +320,4 @@ function updateComment(comment) {
 window.addNewComment = addNewComment;
 window.showComments = showComments;
 
-export { loadComments };
+export {loadComments};

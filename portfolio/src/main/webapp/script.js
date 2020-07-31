@@ -14,8 +14,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { loadComments } from './comments-script.js';
-import { loadMap } from './map-script.js';
+import {loadComments} from './comments-script.js';
+import {loadMap} from './map-script.js';
 
 let darkModeOn = false;
 
@@ -208,11 +208,11 @@ function showHideContent(containerID) {
  */
 function showHideFooterContent(contentType) {
   hideCurrentlyOpenOptions(contentType);
- 
+
   const commentsContainer = document.getElementById(contentType + '-container');
   const optionsMenu = document.getElementById('options-menu');
   const marginTop = optionsMenu.offsetHeight + 30;
- 
+
   commentsContainer.style.marginTop = marginTop + 'px';
   showHideContent(contentType);
   window.scrollTo(0, document.body.scrollHeight);
@@ -237,5 +237,5 @@ window.showHideContent = showHideContent;
 window.showHideFooterContent = showHideFooterContent;
 window.switchTheme = switchTheme;
 
-export { changeContainerDisplay, createElement, loadLoginStatus,
-    showHideContent, showHideFooterContent };
+export {changeContainerDisplay, createElement, loadLoginStatus,
+  showHideContent, showHideFooterContent};

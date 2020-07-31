@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { createElement } from './script.js';
+import {createElement} from './script.js';
 
 /** Class used to define the coordinates of a position. */
 class Position {
@@ -47,7 +47,7 @@ class MarkerItem {
 /**
  * Adds a new textarea element to the new marker element.
  * @param {Object} markerPosition The marker's position.
- * @param {Object} newMarkerElement The element in which the textarea 
+ * @param {Object} newMarkerElement The element in which the textarea
  * will be included.
  */
 function addMarkerTextarea(markerPosition, newMarkerElement) {
@@ -60,7 +60,11 @@ function addMarkerTextarea(markerPosition, newMarkerElement) {
   newMarkerElement.appendChild(textareaElement);
 }
 
-/** Adds a new marker to the database. */
+/**
+ * Adds a new marker to the database.
+ * @param {Object} newMarker The object associated with the new comment
+ * (contains information about latitude, longitude and content).
+ */
 function addNewMarker(newMarker) {
   const params = new URLSearchParams();
   params.append('latitude', newMarker.latitude);
@@ -100,7 +104,7 @@ function addSubmitButton(map, markerPosition, newMarkerElement, submitMarker) {
  * Creates an introduction message about the map and its functionalities
  * (according to the user's login status)
  * @param {Object} loginStatus An object that determines if the user has
- * the right to add new markers or not. 
+ * the right to add new markers or not.
  */
 function createMapIntro(loginStatus) {
   const mapIntroElement = document.getElementById('map-intro');
@@ -127,14 +131,11 @@ function createMarkerElement(map, markerItem) {
   const marker = new google.maps.Marker({
     position: {
       lat: markerItem.latitude,
-      lng: markerItem.longitude
-    },
-    map: map
-  });
+      lng: markerItem.longitude},
+    map: map});
 
   const infoWindow = new google.maps.InfoWindow({
-    content: markerItem.content
-  });
+    content: markerItem.content});
 
   marker.addListener('click', () => {
     infoWindow.open(map, marker);
@@ -151,14 +152,11 @@ function createNewMarkerElement(map, markerPosition) {
   const submitMarker = new google.maps.Marker({
     position: {
       lat: markerPosition.latitude,
-      lng: markerPosition.longitude
-    },
-    map: map
-  });
+      lng: markerPosition.longitude},
+    map: map});
 
   const infoWindow = new google.maps.InfoWindow({
-    content: createNewMarkerForm(map, markerPosition, submitMarker)
-  });
+    content: createNewMarkerForm(map, markerPosition, submitMarker)});
 
   google.maps.event.addListener(infoWindow, 'closeclick', () => {
     submitMarker.setMap(null);
@@ -173,7 +171,7 @@ function createNewMarkerElement(map, markerPosition) {
  * @param {Object} markerPosition The position where the marker will be
  * inserted.
  * @param {Object} submitMarker The marker used when adding a new marker.
- * @return {Object} The element created. 
+ * @return {Object} The element created.
  */
 function createNewMarkerForm(map, markerPosition, submitMarker) {
   const newMarkerElement = createElement('div', '', '');
@@ -190,12 +188,11 @@ function createNewMarkerForm(map, markerPosition, submitMarker) {
  * user(it will be used for restricting the feature of adding a new marker).
  */
 function loadMap(loginStatus) {
-  var mapCentre = new google.maps.LatLng(0, 0);
-  var mapOptions = {
+  let mapCentre = new google.maps.LatLng(0, 0);
+  let mapOptions = {
     zoom: 2,
     center: mapCentre,
-    mapTypeId: 'hybrid'
-  };
+    mapTypeId: 'hybrid'};
   const map = new google.maps.Map(document.getElementById('map-item'),
       mapOptions);
 
@@ -216,14 +213,14 @@ function loadMap(loginStatus) {
  */
 function loadMarkers(map) {
   fetch('/markers')
-      .then(response => response.json())
+      .then((response) => response.json())
       .then((markers) => {
-        markers.forEach(
-          (marker) => {
-            const markerItem = new MarkerItem(marker.latitude,
-                marker.longitude, marker.content);
-            createMarkerElement(map, markerItem)});
+        markers.forEach((marker) => {
+          const markerItem = new MarkerItem(marker.latitude,
+              marker.longitude, marker.content);
+          createMarkerElement(map, markerItem)
         });
+      });
 }
 
-export { loadMap };
+export {loadMap};
