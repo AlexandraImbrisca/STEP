@@ -36,6 +36,7 @@ function addMarkerTextarea(position, newMarkerElement) {
   textareaElement.name = 'marker-content';
   textareaElement.rows = '3';
   textareaElement.id = 'marker-content' + JSON.stringify(position);
+  textareaElement.placeholder = 'Add a short description (optional)';
 
   newMarkerElement.appendChild(textareaElement);
 }
@@ -50,7 +51,8 @@ function addNewMarker(newMarker) {
 }
 
 function addSubmitButton(map, markerPosition, newMarkerElement, submitMarker) {
-  const submitButtonElement = createElement('i', 'fas fa-paper-plane', '');
+  const submitButtonElement = createElement('div',
+      'submit-button submit-marker-button', 'Submit');
 
   submitButtonElement.onclick = () => {
     const textareaID = 'marker-content' + JSON.stringify(markerPosition);
@@ -113,7 +115,7 @@ function createNewMarkerForm(map, markerPosition, submitMarker) {
   return newMarkerElement;
 }
 
-function loadMap() {
+function loadMap(loggedIn) {
   var mapCentre = new google.maps.LatLng(0, 0);
   var mapOptions = {
     zoom: 2,
@@ -123,11 +125,13 @@ function loadMap() {
   const map = new google.maps.Map(document.getElementById('map-item'),
       mapOptions);
 
-  map.addListener('click', (event) => {
-    const markerPosition = new Position(event.latLng.lat(),
-        event.latLng.lng());
-    createNewMarkerElement(map, markerPosition);
-  });
+  if (loggedIn) {
+    map.addListener('click', (event) => {
+      const markerPosition = new Position(event.latLng.lat(),
+          event.latLng.lng());
+      createNewMarkerElement(map, markerPosition);
+    });
+  }
 
   loadMarkers(map);
 }

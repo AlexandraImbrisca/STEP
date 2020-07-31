@@ -159,9 +159,25 @@ function initAndHideHobbies() {
   document.getElementById('hobbies').style.display = 'none';
 }
 
-function loadPage() {
-  loadMap();
-  loadComments();
+/**
+ * Gets the login status of the user.
+ * @return {Object} An object that contains all the login data, such as
+ * user's email address.
+ */
+async function loadLoginStatus() {
+  const loginStatusData = await fetch('login-status');
+  const loginStatus = await loginStatusData.json();
+
+  return loginStatus;
+}
+
+async function loadPage() {
+  const loginStatus = await loadLoginStatus();
+  const loggedIn = await loginStatus.loggedIn;
+  const userEmail = await loginStatus.userEmail;
+
+  loadMap(loggedIn);
+  loadComments(userEmail);
 }
 
 /**
@@ -203,9 +219,10 @@ function switchTheme() {
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);
 window.addEventListener('resize', displayColumns);
 
-export { changeContainerDisplay, createElement, showFooterContent, showHideContent };
-
 window.loadPage = loadPage;
 window.switchTheme = switchTheme;
 window.showFooterContent = showFooterContent;
 window.showHideContent = showHideContent;
+
+export { changeContainerDisplay, createElement, loadLoginStatus,
+    showFooterContent, showHideContent };

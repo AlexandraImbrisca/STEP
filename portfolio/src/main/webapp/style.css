@@ -295,24 +295,32 @@ textarea:focus {
   font-size: 25px;
 }
 
-.submit-comment-button {
+.submit-button {
   background-color: #1f5f8b;
   border: none;
   bottom: 0;
   color: white;
   cursor: pointer;
   font-family: Merriweather, sans-serif;
-  font-size: 25px;
-  padding: 15px 25px;
   position: absolute;
   right: 0;
   text-align: center;
   width: 100%;
 }
 
-.submit-comment-button:hover,
-.submit-comment-button:active {
+.submit-button:hover,
+.submit-button:active {
   background-color: #253b6e;
+}
+
+.submit-comment-button {
+  font-size: 25px;
+  padding: 15px 25px;
+}
+
+.submit-marker-button {
+  margin: 8px 0;
+  padding: 4px 0;
 }
 
 #switch-theme-button {

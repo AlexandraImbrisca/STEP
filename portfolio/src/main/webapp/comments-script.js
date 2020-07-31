@@ -14,7 +14,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { changeContainerDisplay, createElement, showHideContent, showFooterContent } from './script.js';
+import { changeContainerDisplay, createElement, loadLoginStatus,
+    showHideContent, showFooterContent } from './script.js';
 
 /**
  * Adds the author icon to the comment.
@@ -260,29 +261,14 @@ function deleteComment(comment) {
 }
 
 /** Fetches comments from the server and adds them to the DOM. */
-async function loadComments() {
+async function loadComments(userEmail) {
   const commentsData = await fetch('/list-comments');
   const comments = await commentsData.json();
   const commentsList = document.getElementById('comments-section');
 
-  const loginStatus = await loadLoginStatus();
-  const userEmail = await loginStatus.userEmail;
-
   comments.forEach((comment) => {
     commentsList.appendChild(createCommentElement(comment, userEmail));
   });
-}
-
-/**
- * Gets the login status of the user.
- * @return {Object} An object that contains all the login data, such as
- * user's email address.
- */
-async function loadLoginStatus() {
-  const loginStatusData = await fetch('login-status');
-  const loginStatus = await loginStatusData.json();
-
-  return loginStatus;
 }
 
 /**
