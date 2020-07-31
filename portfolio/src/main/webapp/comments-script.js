@@ -260,7 +260,7 @@ function deleteComment(comment) {
   fetch('/delete-comment', {method: 'POST', body: params});
 }
 
-/** 
+/**
  * Fetches comments from the server and adds them to the DOM.
  * @param {String} userEmail The user's email address will be used to
  * determine the comments for which edit options will be available.

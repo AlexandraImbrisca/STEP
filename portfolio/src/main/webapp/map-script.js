@@ -188,8 +188,8 @@ function createNewMarkerForm(map, markerPosition, submitMarker) {
  * user(it will be used for restricting the feature of adding a new marker).
  */
 function loadMap(loginStatus) {
-  let mapCentre = new google.maps.LatLng(0, 0);
-  let mapOptions = {
+  const mapCentre = new google.maps.LatLng(0, 0);
+  const mapOptions = {
     zoom: 2,
     center: mapCentre,
     mapTypeId: 'hybrid'};
@@ -218,7 +218,7 @@ function loadMarkers(map) {
         markers.forEach((marker) => {
           const markerItem = new MarkerItem(marker.latitude,
               marker.longitude, marker.content);
-          createMarkerElement(map, markerItem)
+          createMarkerElement(map, markerItem);
         });
       });
 }
