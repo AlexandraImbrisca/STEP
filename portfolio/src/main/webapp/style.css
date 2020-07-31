@@ -92,9 +92,12 @@ body::-webkit-scrollbar {
 #comments-container,
 #map-container {
   border-top: 6px solid black;
-  display: flex;
   height: 60vh;
   width: 100%;
+}
+
+#comments-container {
+  display: flex;
 }
 
 #comments-section {
@@ -205,6 +208,18 @@ textarea:focus {
   font-weight: bold;
 }
 
+#map-intro {
+  background-color: white;
+  bottom: 0;
+  font-family: Merriweather, sans-serif;
+  left: 50%;
+  padding: 20px;
+  position: fixed;
+  text-align: center;
+  transform: translate(-50%, 0);
+  z-index: 1;
+}
+
 #map-item {
   height: 100%;
   width: 100%;
@@ -254,6 +269,11 @@ textarea:focus {
   position: absolute;
   right: 5%;
   text-align: right;
+}
+
+#overlap {
+  position: relative;
+  right: 0;
 }
 
 .photo {

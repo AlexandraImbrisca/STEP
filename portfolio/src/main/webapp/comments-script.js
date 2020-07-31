@@ -226,7 +226,7 @@ function createCommentElement(comment, userEmail) {
 function createLoggedInHeader(loginStatus, loginStatusContainer) {
   loginStatusContainer.appendChild(createElement('p', '',
       'Logged in as ' + loginStatus.userEmail));
-  const logoutUrlContainer = createElement('div', '', 'Not you? Logout ');
+  const logoutUrlContainer = createElement('div', '', 'Not you? Log out ');
   const logoutUrl = createElement('a', 'link', 'here');
   logoutUrl.href = loginStatus.logoutUrl;
   logoutUrlContainer.appendChild(logoutUrl);
@@ -243,7 +243,7 @@ function createLoggedInHeader(loginStatus, loginStatusContainer) {
 function createLoggedOutHeader(loginStatus, loginStatusContainer) {
   loginStatusContainer.appendChild(createElement('p', '',
       'Only logged in users can add comments'));
-  const loginUrlContainer = createElement('div', '', 'Login ');
+  const loginUrlContainer = createElement('div', '', 'Log in ');
   const loginUrl = createElement('a', 'link', 'here');
   loginUrl.href = loginStatus.loginUrl;
   loginUrlContainer.appendChild(loginUrl);

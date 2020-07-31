@@ -134,6 +134,20 @@ function loadMap(loggedIn) {
   }
 
   loadMarkers(map);
+  loadMapIntro(loggedIn);
+}
+
+function loadMapIntro(loggedIn) {
+  const mapIntroElement = document.getElementById('map-intro');
+  let textElementValue;
+
+  if (loggedIn) {
+    textElementValue = 'Get inspired or add your own travel suggestions';
+  } else {
+    textElementValue = 'Log in and add your own travel suggestions';
+  }
+
+  mapIntroElement.appendChild(createElement('p', '', textElementValue));
 }
 
 function loadMarkers(map) {
