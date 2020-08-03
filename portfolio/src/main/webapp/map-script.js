@@ -213,7 +213,8 @@ function loadMarkers(map) {
       .then((response) => response.json())
       .then((markers) => {
         markers.forEach((marker) => {
-          const markerPosition = new Position(marker.latitude, marker.longitude);
+          const markerPosition = new Position(marker.latitude,
+              marker.longitude);
           const markerItem = new MarkerItem(markerPosition, marker.content);
           createMarkerElement(map, markerItem);
         });
