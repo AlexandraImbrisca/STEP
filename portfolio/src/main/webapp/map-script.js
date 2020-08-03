@@ -33,13 +33,11 @@ class Position {
 class MarkerItem {
   /**
    * Creates a new marker with the given parameters.
-   * @param {double} latitude The latitude of the marker's position.
-   * @param {double} longitude The longitude of the marker's position.
+   * @param {Object} position The marker's position on the map.
    * @param {double} content The content of the description provided.
    */
-  constructor(latitude, longitude, content) {
-    this.latitude = latitude;
-    this.longitude = longitude;
+  constructor(position, content) {
+    this.position = position;
     this.content = content;
   }
 }
@@ -62,14 +60,14 @@ function addMarkerTextarea(markerPosition, newMarkerElement) {
 
 /**
  * Adds a new marker to the database.
- * @param {Object} newMarker The object associated with the new comment
- * (contains information about latitude, longitude and content).
+ * @param {Object} newMarkerItem The marker's associated data (latitude,
+ * longitude, content).
  */
-function addNewMarker(newMarker) {
+function addNewMarker(newMarkerItem) {
   const params = new URLSearchParams();
-  params.append('latitude', newMarker.latitude);
-  params.append('longitude', newMarker.longitude);
-  params.append('content', newMarker.content);
+  params.append('latitude', newMarkerItem.position.latitude);
+  params.append('longitude', newMarkerItem.position.longitude);
+  params.append('content', newMarkerItem.content);
 
   fetch('/markers', {method: 'POST', body: params});
 }
@@ -89,11 +87,10 @@ function addSubmitButton(map, markerPosition, newMarkerElement, submitMarker) {
   submitButtonElement.onclick = () => {
     const textareaID = 'marker-content' + JSON.stringify(markerPosition);
     const content = document.getElementById(textareaID).value;
-    const marker = new MarkerItem(markerPosition.latitude,
-        markerPosition.longitude, content);
+    const markerItem = new MarkerItem(markerPosition, content);
 
-    addNewMarker(marker);
-    createMarkerElement(map, marker);
+    addNewMarker(markerItem);
+    createMarkerElement(map, markerItem);
     submitMarker.setMap(null);
   };
 
@@ -130,8 +127,8 @@ function createMapIntro(loginStatus) {
 function createMarkerElement(map, markerItem) {
   const marker = new google.maps.Marker({
     position: {
-      lat: markerItem.latitude,
-      lng: markerItem.longitude},
+      lat: markerItem.position.latitude,
+      lng: markerItem.position.longitude},
     map: map});
 
   const infoWindow = new google.maps.InfoWindow({
@@ -216,8 +213,8 @@ function loadMarkers(map) {
       .then((response) => response.json())
       .then((markers) => {
         markers.forEach((marker) => {
-          const markerItem = new MarkerItem(marker.latitude,
-              marker.longitude, marker.content);
+          const markerPosition = new Position(marker.latitude, marker.longitude);
+          const markerItem = new MarkerItem(markerPosition, marker.content);
           createMarkerElement(map, markerItem);
         });
       });
