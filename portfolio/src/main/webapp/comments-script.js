@@ -14,6 +14,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import {changeContainerDisplay, createElement, loadLoginStatus,
+  showHideContent, showHideFooterContent} from './script.js';
+
 /**
  * Adds the author icon to the comment.
  * @param {Object} commentElement The comment element in which the author
@@ -200,16 +203,6 @@ function addSubmitButton(comment, commentElement, commentDetailsElement,
 }
 
 /**
- * Changes the display property of the container with the one received.
- * @param {String} containerID The ID of the container.
- * @param {String} displayType The new display value.
- */
-function changeContainerDisplay(containerID, displayType) {
-  const container = document.getElementById(containerID);
-  container.style.display = displayType;
-}
-
-/**
  * Creates the element associated to a given comment.
  * @param {object} comment The comment for which we will create a new element.
  * @param {String} userEmail The email address of the current user.
@@ -224,22 +217,6 @@ function createCommentElement(comment, userEmail) {
 }
 
 /**
- * Creates a new element with a specified type, class and innerText.
- * @param {string} elementType The type of the element that will be created.
- * @param {string} className The class of the element that will be created.
- * @param {string} innerText The innerText of the element that will be
- * created.
- * @return {element} The element created.
- */
-function createElement(elementType, className, innerText) {
-  const newElement = document.createElement(elementType);
-  newElement.className = className;
-  newElement.innerText = innerText;
-
-  return newElement;
-}
-
-/**
  * Creates the header associated with the logged in user.
  * @param {Object} loginStatus This object includes information such as
  * user email and logout link.
@@ -249,7 +226,7 @@ function createElement(elementType, className, innerText) {
 function createLoggedInHeader(loginStatus, loginStatusContainer) {
   loginStatusContainer.appendChild(createElement('p', '',
       'Logged in as ' + loginStatus.userEmail));
-  const logoutUrlContainer = createElement('div', '', 'Not you? Logout ');
+  const logoutUrlContainer = createElement('div', '', 'Not you? Log out ');
   const logoutUrl = createElement('a', 'link', 'here');
   logoutUrl.href = loginStatus.logoutUrl;
   logoutUrlContainer.appendChild(logoutUrl);
@@ -266,7 +243,7 @@ function createLoggedInHeader(loginStatus, loginStatusContainer) {
 function createLoggedOutHeader(loginStatus, loginStatusContainer) {
   loginStatusContainer.appendChild(createElement('p', '',
       'Only logged in users can add comments'));
-  const loginUrlContainer = createElement('div', '', 'Login ');
+  const loginUrlContainer = createElement('div', '', 'Log in ');
   const loginUrl = createElement('a', 'link', 'here');
   loginUrl.href = loginStatus.loginUrl;
   loginUrlContainer.appendChild(loginUrl);
@@ -283,30 +260,19 @@ function deleteComment(comment) {
   fetch('/delete-comment', {method: 'POST', body: params});
 }
 
-/** Fetches comments from the server and adds them to the DOM. */
-async function loadComments() {
+/**
+ * Fetches comments from the server and adds them to the DOM.
+ * @param {String} userEmail The user's email address will be used to
+ * determine the comments for which edit options will be available.
+ */
+async function loadComments(userEmail) {
   const commentsData = await fetch('/list-comments');
   const comments = await commentsData.json();
   const commentsList = document.getElementById('comments-section');
 
-  const loginStatus = await loadLoginStatus();
-  const userEmail = await loginStatus.userEmail;
-
   comments.forEach((comment) => {
     commentsList.appendChild(createCommentElement(comment, userEmail));
   });
-}
-
-/**
- * Gets the login status of the user.
- * @return {Object} An object that contains all the login data, such as
- * user's email address.
- */
-async function loadLoginStatus() {
-  const loginStatusData = await fetch('login-status');
-  const loginStatus = await loginStatusData.json();
-
-  return loginStatus;
 }
 
 /**
@@ -322,13 +288,7 @@ function sendComment(commentText) {
 
 /** Shows the comments region (plus automatic scroll to this area). */
 async function showComments() {
-  const commentsContainer = document.getElementById('comments-container');
-  const showCommentsButton = document.getElementById('show-comments-button');
-  const marginTop = showCommentsButton.offsetHeight + 25;
-
-  commentsContainer.style.marginTop = marginTop + 'px';
-  showHideContent('comments');
-  window.scrollTo(0, document.body.scrollHeight);
+  showHideFooterContent('comments');
 
   const loginStatusContainer = document.getElementById('login-status');
   loginStatusContainer.innerHTML = '';
@@ -356,3 +316,8 @@ function updateComment(comment) {
   comment.commentText = commentText;
   sendComment(commentText);
 }
+
+window.addNewComment = addNewComment;
+window.showComments = showComments;
+
+export {loadComments};

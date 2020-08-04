@@ -14,6 +14,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import {loadComments} from './comments-script.js';
+import {loadMap} from './map-script.js';
+
 let darkModeOn = false;
 
 /** Class used to define the basic characteristics of a theme. */
@@ -52,6 +55,7 @@ const DARK_THEME = new Theme('white', '#13293d', 'white', 'white', 'white',
     '#2a628f', 'white');
 const BRIGHT_THEME = new Theme('black', 'white', 'black', 'black', 'black',
     '#3e92cc', 'black');
+const OPTIONS_LIST = ['comments', 'map'];
 
 const GALLERY_SIZE_PERCENT = 75;
 
@@ -80,6 +84,16 @@ function applyTheme(theme) {
 }
 
 /**
+ * Changes the display property of the container with the one received.
+ * @param {String} containerID The ID of the container.
+ * @param {String} displayType The new display value.
+ */
+function changeContainerDisplay(containerID, displayType) {
+  const container = document.getElementById(containerID);
+  container.style.display = displayType;
+}
+
+/**
  * Computes the size of one column based on the size of the entire gallery
  * and the number of columns.
  * @param {array} columns The columns whose size will be computed.
@@ -98,6 +112,22 @@ function computeColumnSize(columns, gallerySize) {
 }
 
 /**
+ * Creates a new element with a specified type, class and innerText.
+ * @param {string} elementType The type of the element that will be created.
+ * @param {string} className The class of the element that will be created.
+ * @param {string} innerText The innerText of the element that will be
+ * created.
+ * @return {element} The element created.
+ */
+function createElement(elementType, className, innerText) {
+  const newElement = document.createElement(elementType);
+  newElement.className = className;
+  newElement.innerText = innerText;
+
+  return newElement;
+}
+
+/**
  * Displays each column of a size computed based on the gallery size and
  * the number of columns.
  */
@@ -113,12 +143,48 @@ function displayColumns() {
 }
 
 /**
+ * Closes all the other options currently opened (without affecting the state
+ * of the option received).
+ * @param {String} newOption The option whose state shouldn't be changed.
+ */
+function hideCurrentlyOpenOptions(newOption) {
+  for (let i = 0; i < OPTIONS_LIST.length; i++) {
+    if (OPTIONS_LIST[i] !== newOption) {
+      changeContainerDisplay(OPTIONS_LIST[i], 'none');
+    }
+  }
+}
+
+/**
  * Displays the columns of the gallery and then hide the whole content
  * of the hobbies container.
  */
 function initAndHideHobbies() {
   displayColumns();
   document.getElementById('hobbies').style.display = 'none';
+}
+
+/**
+ * Gets the login status of the user.
+ * @return {Object} An object that contains all the login data, such as
+ * user's email address.
+ */
+async function loadLoginStatus() {
+  const loginStatusData = await fetch('login-status');
+  const loginStatus = await loginStatusData.json();
+
+  return loginStatus;
+}
+
+/**
+ * Loads the content stored in the database.
+ */
+async function loadPage() {
+  const loginStatus = await loadLoginStatus();
+  const userEmail = await loginStatus.userEmail;
+
+  loadMap(loginStatus);
+  loadComments(userEmail);
 }
 
 /**
@@ -134,6 +200,24 @@ function showHideContent(containerID) {
   }
 }
 
+/**
+ * Shows / hides one of the footer contents (plus automatic scroll to this
+ * area).
+ * @param {String} contentType The contentType of the container that will be
+ * displayed / hidden.
+ */
+function showHideFooterContent(contentType) {
+  hideCurrentlyOpenOptions(contentType);
+
+  const commentsContainer = document.getElementById(contentType + '-container');
+  const optionsMenu = document.getElementById('options-menu');
+  const marginTop = optionsMenu.offsetHeight + 30;
+
+  commentsContainer.style.marginTop = marginTop + 'px';
+  showHideContent(contentType);
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
 /** Switches the theme (bright <-> dark). */
 function switchTheme() {
   if (darkModeOn) {
@@ -147,3 +231,11 @@ function switchTheme() {
 
 document.addEventListener('DOMContentLoaded', initAndHideHobbies);
 window.addEventListener('resize', displayColumns);
+
+window.loadPage = loadPage;
+window.showHideContent = showHideContent;
+window.showHideFooterContent = showHideFooterContent;
+window.switchTheme = switchTheme;
+
+export {changeContainerDisplay, createElement, loadLoginStatus,
+  showHideContent, showHideFooterContent};

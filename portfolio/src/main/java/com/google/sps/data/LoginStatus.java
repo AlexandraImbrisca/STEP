@@ -24,30 +24,14 @@ public final class LoginStatus {
 
   public LoginStatus(String userEmail, UserService userService) {
     this.userEmail = userEmail;
-    if (userEmail == null) {
+    if (userEmail == "") {
       this.loggedIn = false;
       this.loginUrl = userService.createLoginURL("/");
-      this.logoutUrl = null;
+      this.logoutUrl = "";
     } else {
       this.loggedIn = true;
-      this.loginUrl = null;
+      this.loginUrl = "";
       this.logoutUrl = userService.createLogoutURL("/");
     }
-  }
-
-  public boolean getLoggedIn() {
-    return loggedIn;
-  }
-
-  public String getUserEmail() {
-    return userEmail;
-  }
-
-  public String getLoginUrl() {
-    return loginUrl;
-  }
-
-  public String getLogoutUrl() {
-    return logoutUrl;
   }
 }

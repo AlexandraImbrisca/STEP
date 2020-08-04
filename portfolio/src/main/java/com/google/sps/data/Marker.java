@@ -14,18 +14,18 @@
 
 package com.google.sps.data;
 
-import java.util.Date;
+// Class used to define the basic characteristics of a marker.
+public final class Marker {
+  // The latitude of the marker's position.
+  private final double latitude;
+  // The longitude of the marker's position.
+  private final double longitude;
+  // The content of the description provided.
+  private final String content;
 
-public final class Comment {
-  private final String authorEmail;
-  private final String commentText;
-  private final long id;
-  private final Date publishTime;
-
-  public Comment(String authorEmail, String commentText, long id, Date publishTime) {
-    this.authorEmail = authorEmail;
-    this.commentText = commentText;
-    this.id = id;
-    this.publishTime = publishTime;
+  public Marker(double latitude, double longitude, String content) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.content = content;
   }
 }

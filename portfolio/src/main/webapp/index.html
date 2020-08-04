@@ -10,14 +10,18 @@
       My Portfolio
     </title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js">
+    <script type="module" src="script.js">
     </script>
-    <script src="comments-script.js">
+    <script type="module" src="comments-script.js">
+    </script>
+    <script type="module" src="map-script.js">
     </script>
     <script src="https://kit.fontawesome.com/150c4874c5.js" crossorigin="anonymous">
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3ogMiqyWgGT9cjAI2ZxaNq5xSQP7Cz5E">
+    </script>
   </head>
-  <body onload="loadComments()">
+  <body onload="loadPage()">
     <span id="switch-theme-button" onclick="switchTheme()">
     </span>
 
@@ -286,8 +290,21 @@
         </a>
       </div>
 
-    <div id="show-comments-button" onclick="showComments()">
-      <i class="fa fa-icon fa-comments"></i>
+    <div id="options-menu">
+      <div class="option-button" onclick="showHideFooterContent('map')">
+        <i class="fas fa-globe"></i>
+      </div>
+      <div class="option-button" onclick="showComments()">
+        <i class="fa fa-icon fa-comments"></i>
+      </div>
+    </div>
+
+    <div id="map">
+      <div id="map-container">
+        <div id="map-intro">
+        </div>
+        <div id="map-item"></div>
+      </div>
     </div>
 
     <div id="comments">
@@ -308,7 +325,7 @@
             <textarea name="comment-text" class="comment-text-input" rows="4"
               placeholder="Enter your comment here..." required
               id="comment-text"></textarea>
-              <input class="submit-comment-button" type="submit">
+              <input class="submit-button submit-comment-button" type="submit">
               </form>
             </div>
           <div id="comments-section">

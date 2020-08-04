@@ -32,7 +32,7 @@ public class LoginStatusServlet extends HttpServlet {
     response.setContentType("text/html");
 
     UserService userService = UserServiceFactory.getUserService();
-    String userEmail = null;
+    String userEmail = "";
     if (userService.isUserLoggedIn()) {
       userEmail = userService.getCurrentUser().getEmail();
     }
