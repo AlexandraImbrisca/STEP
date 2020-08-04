@@ -63,7 +63,7 @@ public final class FindMeetingQuery {
 
   /**
    * Initialises a list of SlotAttendance associations for a given list of time slots and an
-   * attendance of noOptionalAttendees.
+     attendance of noOptionalAttendees.
    * @param slots The given list of time slots.
    * @param noOptionalAttendees The initial attendance of each time slot.
    */
@@ -98,8 +98,7 @@ public final class FindMeetingQuery {
 
   /**
    * Computes the "intersection" slot - just like the intersection of two sets, the intersection
-   * slot is the common slot of two overlapsed
-   * slots.
+   * slot is the common slot of two overlapsed slots.
    *
    * Based on how the slots are scheduled we can have one of the following cases:
    *
@@ -139,7 +138,7 @@ public final class FindMeetingQuery {
    * @param mainSlot The main slot as described above.
    * @param minorSlot The minor slot as described above.
    * @param duration The duration of the target event for filtering the resulted slots (only slots
-   * with at least the same duration will be considered)
+   *     with at least the same duration will be considered)
    * @return The filtered list of the resulted slots.
    */
   private List<TimeRange> getDifferenceSlots(
@@ -169,7 +168,7 @@ public final class FindMeetingQuery {
     // Ignore slots too short
     if (remainingRightSlotDuration >= targetDuration) {
       resultingSlots.add(
-        TimeRange.fromStartEnd(remainingRightSlotStart, remainingRightSlotEnd, false));
+          TimeRange.fromStartEnd(remainingRightSlotStart, remainingRightSlotEnd, false));
     }
 
     return resultingSlots;
