@@ -14,15 +14,20 @@
 
 package com.google.sps.data;
 
-// Class used to define the basic characteristics of a marker.
+/**
+ * Class used to define the basic characteristics of a marker.
+ */
 public final class Marker {
-  // The latitude of the marker's position.
   private final double latitude;
-  // The longitude of the marker's position.
   private final double longitude;
-  // The content of the description provided.
   private final String content;
 
+  /**
+   * Creates a new marker with provided values.
+   * @param latitude The latitude of the marker's position.
+   * @param longitude The longitude of the marker's position.
+   * @param content The content of the description provided.
+   */
   public Marker(double latitude, double longitude, String content) {
     this.latitude = latitude;
     this.longitude = longitude;
