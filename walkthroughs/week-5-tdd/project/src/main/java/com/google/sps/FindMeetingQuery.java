@@ -63,7 +63,8 @@ public final class FindMeetingQuery {
 
   /**
    * Initialises a list of SlotAttendance associations for a given list of time slots and an
-     attendance of noOptionalAttendees.
+   * attendance of noOptionalAttendees.
+   *
    * @param slots The given list of time slots.
    * @param noOptionalAttendees The initial attendance of each time slot.
    */
@@ -100,21 +101,20 @@ public final class FindMeetingQuery {
    * Computes the "intersection" slot - just like the intersection of two sets, the intersection
    * slot is the common slot of two overlapsed slots.
    *
-   * Based on how the slots are scheduled we can have one of the following cases:
-   *
-   * Case 1: |---|        |---|      - firstSlot
-   *           |---| or |---|        - secondSlot
-   *    =>     |-|        |-|
-   *
-   * Case 2: |---------|       |---|    - firstSlot
-   *            |---|    or |---------| - secondSlot
-   *    =>      |---|          |---|
-   *
    * @param firstSlot The first slot.
    * @param secondSlot The second slot.
    * @return The intersection slot.
    */
   private TimeRange getIntersectionSlot(TimeRange firstSlot, TimeRange secondSlot) {
+    // Based on how the slots are scheduled we can have one of the following cases:
+    //
+    // Case 1: |---|        |---|      - firstSlot
+    //           |---| or |---|        - secondSlot
+    //    =>     |-|        |-|
+    //
+    // Case 2: |---------|       |---|    - firstSlot
+    //            |---|    or |---------| - secondSlot
+    //    =>      |---|          |---|
     int slotStart = Math.max(firstSlot.start(), secondSlot.start());
     int slotEnd = Math.min(firstSlot.end(), secondSlot.end());
 
@@ -125,16 +125,6 @@ public final class FindMeetingQuery {
    * Computes the "difference" slots - just like the difference of two sets, the difference slots
    * represent the slots resulted after eliminating the minorSlot from the mainSlot.
    *
-   * Based on how the slots are scheduled we can have one of the following cases:
-   *
-   * Case 1: |---|          |---|      - mainSlot
-   *            |---| or |---|         - minorSlot
-   *    =>   |--|            |--|
-   *
-   * Case 2: |---------|       |---|    - mainSlot
-   *            |---|    or |---------| - minorSlot
-   *    =>   |--|   |--|    |--|   |--|
-   *
    * @param mainSlot The main slot as described above.
    * @param minorSlot The minor slot as described above.
    * @param duration The duration of the target event for filtering the resulted slots (only slots
@@ -143,6 +133,16 @@ public final class FindMeetingQuery {
    */
   private List<TimeRange> getDifferenceSlots(
       TimeRange mainSlot, TimeRange minorSlot, int targetDuration) {
+    // Based on how the slots are scheduled we can have one of the following cases:
+    //
+    // Case 1: |---|          |---|      - mainSlot
+    //            |---| or |---|         - minorSlot
+    //    =>   |--|            |--|
+    //
+    // Case 2: |---------|       |---|    - mainSlot
+    //            |---|    or |---------| - minorSlot
+    //    =>   |--|   |--|    |--|   |--|
+
     List<TimeRange> resultingSlots = new ArrayList<TimeRange>();
 
     // Determine the common interval that should be removed from the
@@ -177,6 +177,7 @@ public final class FindMeetingQuery {
   /**
    * Computes the available slots after considering all the other events to which the mandatory
    * attendees participate.
+   *
    * @param currentEvents The events already scheduled.
    * @param mandatoryAttendees The mandatory attendees of the desired event.
    * @param targetDuration The duration of the desired event.
@@ -221,6 +222,7 @@ public final class FindMeetingQuery {
 
   /**
    * Selects the slots with the biggest attendance.
+   *
    * @param slotsAttendance The associations between the time slots and the attendances.
    * @return A list consisting of the time slots with the biggest attendance.
    */
@@ -244,6 +246,7 @@ public final class FindMeetingQuery {
 
   /**
    * Filters the available slots by adding the most optional attendees that can participate.
+   *
    * @param currentEvents The events already scheduled.
    * @param optionalAttendees The optional attendees of the desired event.
    * @param availableSlots The available slots that will be filtered.
@@ -261,7 +264,7 @@ public final class FindMeetingQuery {
 
     // Assume that each time slot can be attended by all the optional
     // participants.
-    List<SlotAttendance> slotsAttendance = 
+    List<SlotAttendance> slotsAttendance =
         initSlotsAttendance(availableSlots, optionalAttendees.size());
 
     // For each of the events already scheduled.
@@ -286,7 +289,7 @@ public final class FindMeetingQuery {
 
             // Get the intersection slot.
             TimeRange intersectionSlot = getIntersectionSlot(currentSlot, currentEventSlot);
-            
+
             // If the intersection slot is long enough to hold the meeting,
             // update the slot by ignoring the optional attendees that are
             // no longer available.
