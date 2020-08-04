@@ -80,6 +80,7 @@ public final class FindMeetingQuery {
 
   /**
    * Computes the number of the target attendees that also participate to the current event.
+   *
    * @param currentEvent The event.
    * @param targetAttendees The attendees that will be searched through the attendee list of the
    *     currentEvent.
@@ -255,12 +256,12 @@ public final class FindMeetingQuery {
    */
   public List<TimeRange> includeOptionalAttendees(
       Collection<Event> currentEvents,
-      Collection<String> optionalAttendees, 
+      Collection<String> optionalAttendees,
       List<TimeRange> availableSlots,
       int targetDuration) {
     if (optionalAttendees.size() == 0 || availableSlots.size() == 0) {
       return availableSlots;
-    } 
+    }
 
     // Assume that each time slot can be attended by all the optional
     // participants.

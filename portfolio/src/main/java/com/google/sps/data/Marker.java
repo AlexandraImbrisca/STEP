@@ -22,6 +22,7 @@ public final class Marker {
 
   /**
    * Creates a new marker with provided values.
+   *
    * @param latitude The latitude of the marker's position.
    * @param longitude The longitude of the marker's position.
    * @param content The content of the description provided.
