@@ -14,9 +14,7 @@
 
 package com.google.sps.data;
 
-/**
- * Class used to define the basic characteristics of a marker.
- */
+/** Class used to define the basic characteristics of a marker. */
 public final class Marker {
   private final double latitude;
   private final double longitude;

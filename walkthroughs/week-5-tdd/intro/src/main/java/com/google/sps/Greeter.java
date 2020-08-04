@@ -1,4 +1,3 @@
-
 // Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +14,9 @@
 
 package com.google.sps;
 
-/**
- * Utility class for creating greeting messages.
- */
+/** Utility class for creating greeting messages. */
 public class Greeter {
-  /**
-   * Returns a greeting for the given name.
-   */
+  /** Returns a greeting for the given name. */
   public String greet(String name) {
     String formattedName = name.trim().replaceAll("[@#$%]", "");
     return "Hello " + formattedName;
