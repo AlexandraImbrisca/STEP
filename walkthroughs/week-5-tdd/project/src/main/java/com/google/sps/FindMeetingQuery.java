@@ -58,12 +58,12 @@ public final class FindMeetingQuery {
           //
           // Case 2: |---|          |---|      - slot
           //            |---| or |---|         - currentEventSlot
-          //    =>   |-|              |-|
+          //    =>   |--|            |--|
           //
           // Case 3: |---------|       |---|    - slot
           //            |---|    or |---------| - currentEventSlot
-          //    =>   |-|     |-|    |-|     |-|
-          
+          //    =>   |--|   |--|    |--|   |--|
+
           if (slot.overlaps(currentEventSlot)) {
             int excludeSlotStart = Math.max(slot.start(), currentEventSlot.start());
             int excludeSlotEnd = Math.min(slot.end(), currentEventSlot.end());
