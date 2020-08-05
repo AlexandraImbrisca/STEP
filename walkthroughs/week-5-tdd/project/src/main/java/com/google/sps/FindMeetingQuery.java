@@ -195,14 +195,17 @@ public final class FindMeetingQuery {
         int currentEventEnd = currentEventSlot.end();
 
         if (unavailableSlots.containsKey(currentEventStart)) {
-          unavailableSlots.put(currentEventStart, Math.max(unavailableSlots.get(currentEventStart), currentEventEnd));
+          unavailableSlots.put(
+              currentEventStart,
+              Math.max(unavailableSlots.get(currentEventStart), currentEventEnd));
         } else {
           unavailableSlots.put(currentEventStart, currentEventEnd);
         }
       }
     }
     
-    TreeMap<Integer, Integer> sortedUnavailableSlots = new TreeMap<Integer, Integer> (unavailableSlots);
+    TreeMap<Integer, Integer> sortedUnavailableSlots =
+        new TreeMap<Integer, Integer>(unavailableSlots);
     List<TimeRange> availableSlots = new ArrayList<TimeRange>();
 
     int currentSlotStart = TimeRange.START_OF_DAY;
