@@ -66,16 +66,16 @@ public final class FindMeetingQuery {
 
   /**
    * Initialises a list of SlotAttendance associations for a given list of time slots and an
-   * attendance of noOptionalAttendees.
+   * attendance of numberOfOptionalAttendees.
    *
    * @param slots The given list of time slots.
-   * @param noOptionalAttendees The initial attendance of each time slot.
+   * @param numberOfOptionalAttendees The initial attendance of each time slot.
    */
-  public List<SlotAttendance> initSlotsAttendance(List<TimeRange> slots, int noOptionalAttendees) {
+  public List<SlotAttendance> initSlotsAttendance(List<TimeRange> slots, int numberOfOptionalAttendees) {
     List<SlotAttendance> slotsAttendance = new ArrayList<SlotAttendance>();
 
     for (TimeRange slot : slots) {
-      slotsAttendance.add(new SlotAttendance(slot, noOptionalAttendees));
+      slotsAttendance.add(new SlotAttendance(slot, numberOfOptionalAttendees));
     }
 
     return slotsAttendance;
@@ -145,7 +145,7 @@ public final class FindMeetingQuery {
     //
     // Case 2: |---------|       |---|    - mainSlot
     //            |---|    or |---------| - minorSlot
-    //    =>   |--|   |--|    |--|   |--|
+    //    =>   |--|   |--|    
 
     List<TimeRange> resultingSlots = new ArrayList<TimeRange>();
 
