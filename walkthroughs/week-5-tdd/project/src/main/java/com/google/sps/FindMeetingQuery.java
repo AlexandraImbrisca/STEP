@@ -86,7 +86,7 @@ public final class FindMeetingQuery {
    *     currentEvent.
    * @return The truth value of the condition described.
    */
-  private int checkCommonAttendees(Event currentEvent, Collection<String> targetAttendees) {
+  private int getNumberOfCommonAttendees(Event currentEvent, Collection<String> targetAttendees) {
     // Create a new hashset from the event's set of attendees (since the
     // retainAll function will remove all the attendees that are not common,
     // we can't use a set of a fixed size).
@@ -133,7 +133,7 @@ public final class FindMeetingQuery {
    * @return The filtered list of the resulted slots.
    */
   private List<TimeRange> getDifferenceSlots(
-      TimeRange mainSlot, TimeRange minorSlot, int targetDuration) {
+      TimeRange mainSlot, TimeRange minorSlot, long targetDuration) {
     // Based on how the slots are scheduled we can have one of the following cases:
     //
     // Case 1: |---|          |---|      - mainSlot
@@ -146,27 +146,22 @@ public final class FindMeetingQuery {
 
     List<TimeRange> resultingSlots = new ArrayList<TimeRange>();
 
-    // Determine the common interval that should be removed from the
-    // mainSlot (intersection slot).
+    // Determine the common interval that should be removed.
     TimeRange intersectionSlot = getIntersectionSlot(mainSlot, minorSlot);
 
-    // Determine the remaining left slot after extracting the intersection
     int remainingLeftSlotStart = mainSlot.start();
     int remainingLeftSlotEnd = intersectionSlot.start();
     int remainingLeftSlotDuration = remainingLeftSlotEnd - remainingLeftSlotStart;
 
-    // Ignore slots too short
     if (remainingLeftSlotDuration >= targetDuration) {
       resultingSlots.add(
           TimeRange.fromStartEnd(remainingLeftSlotStart, remainingLeftSlotEnd, false));
     }
 
-    // Determine the remaining right slot after extracting the intersection
     int remainingRightSlotStart = intersectionSlot.end();
     int remainingRightSlotEnd = mainSlot.end();
     int remainingRightSlotDuration = remainingRightSlotEnd - remainingRightSlotStart;
 
-    // Ignore slots too short
     if (remainingRightSlotDuration >= targetDuration) {
       resultingSlots.add(
           TimeRange.fromStartEnd(remainingRightSlotStart, remainingRightSlotEnd, false));
@@ -185,36 +180,25 @@ public final class FindMeetingQuery {
    * @return The slots available for scheduling the meeting.
    */
   public List<TimeRange> getSlotsAvailable(
-      Collection<Event> currentEvents, Collection<String> mandatoryAttendees, int targetDuration) {
-    // Initialise the list of available slots
+      Collection<Event> currentEvents, Collection<String> mandatoryAttendees, long targetDuration) {
     List<TimeRange> availableSlots = new ArrayList<TimeRange>();
-    // Initially, the whole day is available for scheduling the event.
     availableSlots.add(TimeRange.WHOLE_DAY);
 
-    // For each of the events already scheduled.
     for (Event currentEvent : currentEvents) {
-      // Check if the event is attended by at least one of the mandatory
-      // participants.
-      if (checkCommonAttendees(currentEvent, mandatoryAttendees) > 0) {
+      if (!Collections.disjoint(currentEvent.getAttendees(), mandatoryAttendees)) {
         List<TimeRange> newAvailableSlots = new ArrayList<TimeRange>();
         TimeRange currentEventSlot = currentEvent.getWhen();
 
-        // Iterate through all the currently available slots.
         Iterator iterator = availableSlots.iterator();
         while (iterator.hasNext()) {
           TimeRange currentSlot = (TimeRange) iterator.next();
 
-          // If they overlaps
           if (currentSlot.overlaps(currentEventSlot)) {
-            // Remove the current slot
             iterator.remove();
-            // And add any subslots that might be available.
             newAvailableSlots.addAll(
                 getDifferenceSlots(currentSlot, currentEventSlot, targetDuration));
           }
         }
-
-        // Add the new slots to the list.
         availableSlots.addAll(newAvailableSlots);
       }
     }
@@ -228,7 +212,6 @@ public final class FindMeetingQuery {
    * @return A list consisting of the time slots with the biggest attendance.
    */
   public List<TimeRange> getTheBestAttendanceSlots(List<SlotAttendance> slotsAttendance) {
-    // Sort the slots by their attendance.
     Collections.sort(slotsAttendance);
 
     List<TimeRange> chosenSlots = new ArrayList<TimeRange>();
@@ -258,7 +241,7 @@ public final class FindMeetingQuery {
       Collection<Event> currentEvents,
       Collection<String> optionalAttendees,
       List<TimeRange> availableSlots,
-      int targetDuration) {
+      long targetDuration) {
     if (optionalAttendees.size() == 0 || availableSlots.size() == 0) {
       return availableSlots;
     }
@@ -268,27 +251,20 @@ public final class FindMeetingQuery {
     List<SlotAttendance> slotsAttendance =
         initSlotsAttendance(availableSlots, optionalAttendees.size());
 
-    // For each of the events already scheduled.
     for (Event currentEvent : currentEvents) {
-      // Get the number of optional attendees that participate to this event.
-      int commonAttendees = checkCommonAttendees(currentEvent, optionalAttendees);
+      int commonAttendees = getNumberOfCommonAttendees(currentEvent, optionalAttendees);
       if (commonAttendees > 0) {
         List<SlotAttendance> newSlotsAttendance = new ArrayList<SlotAttendance>();
         TimeRange currentEventSlot = currentEvent.getWhen();
 
-        // Iterate through all the currently available slots.
         Iterator iterator = slotsAttendance.iterator();
         while (iterator.hasNext()) {
           SlotAttendance slotAttendance = (SlotAttendance) iterator.next();
           TimeRange currentSlot = slotAttendance.getTimeSlot();
           int currentAttendance = slotAttendance.getAttendance();
 
-          // If they overlaps
           if (currentSlot.overlaps(currentEventSlot)) {
-            // Remove the current slot
             iterator.remove();
-
-            // Get the intersection slot.
             TimeRange intersectionSlot = getIntersectionSlot(currentSlot, currentEventSlot);
 
             // If the intersection slot is long enough to hold the meeting,
@@ -299,7 +275,6 @@ public final class FindMeetingQuery {
                   new SlotAttendance(intersectionSlot, currentAttendance - commonAttendees));
             }
 
-            // Get and add the "difference" slots that are not affected.
             List<TimeRange> differenceSlots =
                 getDifferenceSlots(currentSlot, currentEventSlot, targetDuration);
 
@@ -308,7 +283,6 @@ public final class FindMeetingQuery {
             }
           }
         }
-        // Add the new slots to the list.
         slotsAttendance.addAll(newSlotsAttendance);
       }
     }
@@ -318,9 +292,8 @@ public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     Collection<String> mandatoryAttendees = request.getAttendees();
     Collection<String> optionalAttendees = request.getOptionalAttendees();
-    int duration = (int) request.getDuration();
+    long duration = request.getDuration();
 
-    // Impossible to schedule an event longer than a day
     if (duration > TimeRange.WHOLE_DAY.duration()) {
       return Arrays.asList();
     }
