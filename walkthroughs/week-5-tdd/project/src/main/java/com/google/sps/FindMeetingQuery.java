@@ -18,10 +18,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * Class used to comparing the slots based on the number of optional attendees that can participate
@@ -181,27 +184,51 @@ public final class FindMeetingQuery {
    */
   public List<TimeRange> getSlotsAvailable(
       Collection<Event> currentEvents, Collection<String> mandatoryAttendees, long targetDuration) {
-    List<TimeRange> availableSlots = new ArrayList<TimeRange>();
-    availableSlots.add(TimeRange.WHOLE_DAY);
+    // The hashmap will store pairs such as (startTime, endTime), where endTime
+    // is the latest end of all the events that start at the same startTime.
+    HashMap<Integer, Integer> unavailableSlots = new HashMap<Integer, Integer>();
 
     for (Event currentEvent : currentEvents) {
       if (!Collections.disjoint(currentEvent.getAttendees(), mandatoryAttendees)) {
-        List<TimeRange> newAvailableSlots = new ArrayList<TimeRange>();
         TimeRange currentEventSlot = currentEvent.getWhen();
+        int currentEventStart = currentEventSlot.start();
+        int currentEventEnd = currentEventSlot.end();
 
-        Iterator iterator = availableSlots.iterator();
-        while (iterator.hasNext()) {
-          TimeRange currentSlot = (TimeRange) iterator.next();
-
-          if (currentSlot.overlaps(currentEventSlot)) {
-            iterator.remove();
-            newAvailableSlots.addAll(
-                getDifferenceSlots(currentSlot, currentEventSlot, targetDuration));
-          }
+        if (unavailableSlots.containsKey(currentEventStart)) {
+          unavailableSlots.put(currentEventStart, Math.max(unavailableSlots.get(currentEventStart), currentEventEnd));
+        } else {
+          unavailableSlots.put(currentEventStart, currentEventEnd);
         }
-        availableSlots.addAll(newAvailableSlots);
       }
     }
+    
+    TreeMap<Integer, Integer> sortedUnavailableSlots = new TreeMap<Integer, Integer> (unavailableSlots);
+    List<TimeRange> availableSlots = new ArrayList<TimeRange>();
+
+    int currentSlotStart = TimeRange.START_OF_DAY;
+    int currentSlotEnd;
+
+    for (Map.Entry<Integer, Integer> unavailableSlot : sortedUnavailableSlots.entrySet()) {
+      int unavailableSlotStart = unavailableSlot.getKey();
+      int unavailableSlotEnd = unavailableSlot.getValue();
+
+      // Pass over the unavailable slots that started earlier but might not
+      // be over yet.
+      if (unavailableSlotStart < currentSlotStart) {
+        currentSlotStart = Math.max(currentSlotStart, unavailableSlotEnd);
+        continue;
+      }
+      currentSlotEnd = unavailableSlotStart;
+      if (currentSlotEnd - currentSlotStart >= targetDuration) {
+        availableSlots.add(TimeRange.fromStartEnd(currentSlotStart, currentSlotEnd, false));
+      }
+      currentSlotStart = unavailableSlotEnd;
+    }
+
+    if (TimeRange.END_OF_DAY - currentSlotStart >= targetDuration) {
+      availableSlots.add(TimeRange.fromStartEnd(currentSlotStart, TimeRange.END_OF_DAY, true));
+    }
+
     return availableSlots;
   }
 
