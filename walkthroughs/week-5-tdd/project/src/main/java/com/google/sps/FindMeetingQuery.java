@@ -71,7 +71,8 @@ public final class FindMeetingQuery {
    * @param slots The given list of time slots.
    * @param numberOfOptionalAttendees The initial attendance of each time slot.
    */
-  public List<SlotAttendance> initSlotsAttendance(List<TimeRange> slots, int numberOfOptionalAttendees) {
+  public List<SlotAttendance> initSlotsAttendance(
+      List<TimeRange> slots, int numberOfOptionalAttendees) {
     List<SlotAttendance> slotsAttendance = new ArrayList<SlotAttendance>();
 
     for (TimeRange slot : slots) {
@@ -145,7 +146,7 @@ public final class FindMeetingQuery {
     //
     // Case 2: |---------|       |---|    - mainSlot
     //            |---|    or |---------| - minorSlot
-    //    =>   |--|   |--|    
+    //    =>   |--|   |--|
 
     List<TimeRange> resultingSlots = new ArrayList<TimeRange>();
 
