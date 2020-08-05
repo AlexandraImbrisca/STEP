@@ -203,7 +203,7 @@ public final class FindMeetingQuery {
         }
       }
     }
-    
+
     TreeMap<Integer, Integer> sortedUnavailableSlots =
         new TreeMap<Integer, Integer>(unavailableSlots);
     List<TimeRange> availableSlots = new ArrayList<TimeRange>();
