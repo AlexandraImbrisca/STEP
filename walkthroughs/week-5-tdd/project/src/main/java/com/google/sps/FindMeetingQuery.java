@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -110,20 +111,29 @@ public final class FindMeetingQuery {
    * @param secondSlot The second slot.
    * @return The intersection slot.
    */
-  private TimeRange getIntersectionSlot(TimeRange firstSlot, TimeRange secondSlot) {
+  private Optional<TimeRange> getIntersectionSlot(TimeRange firstSlot, TimeRange secondSlot) {
     // Based on how the slots are scheduled we can have one of the following cases:
     //
-    // Case 1: |---|        |---|      - firstSlot
-    //           |---| or |---|        - secondSlot
-    //    =>     |-|        |-|
+    // Case 1: |---|                |---|      - firstSlot
+    //           |---|     or     |---|        - secondSlot
+    //    =>     |-|                |-|
     //
-    // Case 2: |---------|       |---|    - firstSlot
-    //            |---|    or |---------| - secondSlot
-    //    =>      |---|          |---|
+    // Case 2: |---------|          |---|    - firstSlot
+    //            |---|    or    |---------| - secondSlot
+    //    =>      |---|             |---|
+    //
+    // Case 3: |--|                   |--| - firstSlot
+    //              |--|   or    |--|      - secondSlot
+    //    =>
+
+    if (!firstSlot.overlaps(secondSlot)) {
+      return Optional.empty();
+    }
+
     int slotStart = Math.max(firstSlot.start(), secondSlot.start());
     int slotEnd = Math.min(firstSlot.end(), secondSlot.end());
 
-    return TimeRange.fromStartEnd(slotStart, slotEnd, false);
+    return Optional.of(TimeRange.fromStartEnd(slotStart, slotEnd, false));
   }
 
   /**
@@ -140,18 +150,31 @@ public final class FindMeetingQuery {
       TimeRange mainSlot, TimeRange minorSlot, long targetDuration) {
     // Based on how the slots are scheduled we can have one of the following cases:
     //
-    // Case 1: |---|          |---|      - mainSlot
-    //            |---| or |---|         - minorSlot
-    //    =>   |--|            |--|
+    // Case 1: |---|             |---|      - mainSlot
+    //            |---|    or |---|         - minorSlot
+    //    =>   |--|               |--|
     //
     // Case 2: |---------|       |---|    - mainSlot
     //            |---|    or |---------| - minorSlot
     //    =>   |--|   |--|
+    //
+    // Case 3: |--|                  |--| - mainSlot
+    //              |--|   or   |--|      - minorSlot
+    //    =>   |--|                  |--|
+
+    if (!mainSlot.overlaps(minorSlot)) {
+      return Arrays.asList(mainSlot);
+    }
 
     List<TimeRange> resultingSlots = new ArrayList<TimeRange>();
 
     // Determine the common interval that should be removed.
-    TimeRange intersectionSlot = getIntersectionSlot(mainSlot, minorSlot);
+    Optional<TimeRange> optionalIntersectionSlot = getIntersectionSlot(mainSlot, minorSlot);
+    if (!optionalIntersectionSlot.isPresent()) {
+      return Arrays.asList(mainSlot);
+    }
+
+    TimeRange intersectionSlot = optionalIntersectionSlot.get();
 
     int remainingLeftSlotStart = mainSlot.start();
     int remainingLeftSlotEnd = intersectionSlot.start();
@@ -296,7 +319,14 @@ public final class FindMeetingQuery {
 
           if (currentSlot.overlaps(currentEventSlot)) {
             iterator.remove();
-            TimeRange intersectionSlot = getIntersectionSlot(currentSlot, currentEventSlot);
+
+            Optional<TimeRange> optionalIntersectionSlot =
+                getIntersectionSlot(currentSlot, currentEventSlot);
+            if (!optionalIntersectionSlot.isPresent()) {
+              break;
+            }
+
+            TimeRange intersectionSlot = optionalIntersectionSlot.get();
 
             // If the intersection slot is long enough to hold the meeting,
             // update the slot by ignoring the optional attendees that are
