@@ -66,6 +66,8 @@ const GALLERY_SIZE_PERCENT = 75;
 function applyTheme(theme) {
   const commentsContainer = document.getElementById('comments-container');
   const commentsSection = document.getElementById('comments-section');
+  const mapComntainer = document.getElementById('map-container');
+  const mapIntro = document.getElementById('map-intro');
   const menuButtons = document.getElementsByClassName('menu-button');
   const themeButton = document.getElementById('switch-theme-button');
 
@@ -75,6 +77,9 @@ function applyTheme(theme) {
 
   commentsContainer.style.borderTopColor = theme.borderColor;
   commentsSection.style.borderLeftColor = theme.borderColor;
+
+  mapComntainer.style.borderTopColor = theme.borderColor;
+  mapIntro.style.backgroundColor = theme.backgroundColor;
 
   for (let i = 0; i < menuButtons.length; i++) {
     menuButtons[i].style.color = theme.menuButtonTextColor;
