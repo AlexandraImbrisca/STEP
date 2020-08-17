@@ -92,7 +92,6 @@ body::-webkit-scrollbar {
 #comments-container,
 #map-container {
   border-top: 6px solid black;
-  height: 60vh;
   width: 100%;
 }
 
@@ -103,7 +102,7 @@ body::-webkit-scrollbar {
 #comments-section {
   border-left: 6px solid black;
   font-size: 25px;
-  height: 60vh;
+  max-height: 60vh;
   overflow-x: hidden;
   overflow-y: auto;
   width: 65%;
@@ -208,6 +207,10 @@ textarea:focus {
   font-weight: bold;
 }
 
+#map-container {
+  height: 60vh;
+}
+
 #map-intro {
   background-color: white;
   bottom: 0;
@@ -252,7 +255,8 @@ textarea:focus {
 }
 
 .new-comment-sidebar {
-  height: 60vh;
+  max-height: 60vh;
+  min-height: 40vh;
   overflow: hidden;
   position: relative;
   width: 35%;
